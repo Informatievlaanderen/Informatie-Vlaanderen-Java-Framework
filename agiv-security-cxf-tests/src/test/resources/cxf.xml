@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:p="http://cxf.apache.org/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+	<cxf:bus>
+		<cxf:features>
+			<p:policies enabled="false" />
+		</cxf:features>
+	</cxf:bus>
+
+	<!-- next doesn't work -->
+	<jaxws:client id="Service" name="{http://www.agiv.be}IService"
+		serviceClass="org.tempuri.Service" createdFromAPI="false">
+		<jaxws:features>
+			<p:policies enabled="false" />
+		</jaxws:features>
+	</jaxws:client>
+</beans>

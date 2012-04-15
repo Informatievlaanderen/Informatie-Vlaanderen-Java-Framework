@@ -1,0 +1,3 @@
+#!/bin/bash
+echo Using default JAX-WS runtime...
+java -jar agiv-security-demo-${project.version}.jar

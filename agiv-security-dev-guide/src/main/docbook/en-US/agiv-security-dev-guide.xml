@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC 
+	"-//OASIS//DTD DocBook XML V4.5//EN"
+	"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
+<article lang="en">
+	<articleinfo>
+		<title>AGIV Java Security Developer's Guide</title>
+		<subtitle>
+			Integrating the AGIV web services in your Java applications.
+		</subtitle>
+		<copyright>
+			<year>2011-2012</year>
+			<holder>AGIV</holder>
+		</copyright>
+		<releaseinfo>14 April 2012</releaseinfo>
+		<authorgroup>
+			<author>
+				<firstname>Frank</firstname>
+				<surname>Cornelis</surname>
+				<email>info@e-contract.be</email>
+			</author>
+		</authorgroup>
+		<abstract>
+			<para>
+				The AGIV web services use Windows Communication Foundation to
+				setup the security constraints and requirements. Connecting to WCF
+				secured web services from within Java can be a challenge because the
+				support for WS-* within JAX-WS web service stacks has not yet been
+				standardized through the JCP. Most of the time it is also not so
+				trivial to switch to JAX-WS web service stack implementations that
+				do support WS-* (and that work) for connecting clients. Via the AGIV
+				Java Security framework we provide an alternative solution to turn a
+				vanilla JAX-WS client into an AGIV Security enabled client.
+			</para>
+		</abstract>
+	</articleinfo>
+
+	<section>
+		<title>Introduction</title>
+		<para>
+			The AGIV security architecture is based on a quite modern
+			WS-Trust based system. This system allows for a very flexible IAM
+			solution. The architecture includes the following services:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					A WS-Trust based IP-STS service (IP = Identity Provider) that
+					issues security tokens based on username/password or certificate
+					credentials.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					A WS-Trust based R-STS service (R = Relaying/Resource) that
+					issues security tokens based on the IP-STS security tokens. The
+					R-STS security tokens always apply to a certain AGIV web service.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Each AGIV web service requires either the setup of a
+					WS-SecureConversation based secure conversation or directly use the
+					SAML token as retrieved from the R-STS.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<para>
+			The AGIV web services are secured via WS-SecureConversation or
+			directly via a SAML token. The security policy is defined via
+			WS-Policy and WS-SecurityPolicy and can be found within the WSDLs of
+			the different web services. For using such secured web services from
+			within a Java application different options are available:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					One can simply use the WS-* features of your WS-* enabled web
+					service stack. This requires a proprietary configuration that is
+					specific to the used web service stack. It is important to
+					understand that this developer's guide does not describe how to
+					configure each and every WS-* enabled web service stack.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					One can disable the WS-* features of your WS-* enabled web
+					service stack and use the AGIV Security framework. Not all web
+					service stacks allow you to disable the WS-* functionality. Most
+					will automatically kick in the WS-* features once a WS-Policy
+					enabled binding is found in the WSDL.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Use a vanilla web service stack that has no notion of WS-* and
+					use the AGIV Security framework.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Remove the WS-Policy entries from the WSDL and use the AGIV
+					Security framework. This is probably the easiest solution and works
+					for all JAX-WS web service stacks.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>JAX-WS runtime</title>
+		<para>
+			The AGIV Security framework does not use WS-* functionality of any
+			JAX-WS runtime. The AGIV Security framework also does not require a
+			specific JAX-WS runtime to be available. The AGIV Security framework
+			strictly uses the plain vanilla JAX-WS API to be able to run on as
+			many JAX-WS runtimes as possible. The
+			<xref linkend="table-jaxws-runtimes" />
+			summarizes the JAX-WS runtimes and their versions on which the AGIV
+			Security framework has been tested.
+		</para>
+		<table id="table-jaxws-runtimes">
+			<title>Tested JAX-WS runtimes</title>
+			<tgroup cols="4">
+				<colspec />
+				<colspec colname="javaBegin" />
+				<colspec />
+				<colspec colname="javaEnd" />
+				<thead>
+					<row>
+						<entry morerows="1" valign="middle">JAX-WS runtime</entry>
+						<entry namest="javaBegin" nameend="javaEnd" align="center">
+							Java
+							runtime
+						</entry>
+					</row>
+					<row>
+						<entry>Java 1.5.0_22</entry>
+						<entry>Java 1.6.0_31</entry>
+						<entry>Java 1.7.0_03</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Default JAX-WS</entry>
+						<entry>
+							<footnote>
+								<para>
+									Not applicable.
+								</para>
+							</footnote>
+						</entry>
+						<entry>&or;</entry>
+						<entry>&or;</entry>
+					</row>
+					<row>
+						<entry>JAX-WS RI</entry>
+						<entry>
+							2.1.7, 2.2.5
+							<footnote>
+								<para>
+									JAX-WS RI 2.2.6 no longer runs on Java 1.5.
+								</para>
+							</footnote>
+						</entry>
+						<entry>2.1.7, 2.2.6</entry>
+						<entry>2.1.7, 2.2.6</entry>
+					</row>
+					<row>
+						<entry>Apache CXF</entry>
+						<entry>2.3.9, 2.4.6, 2.5.2</entry>
+						<entry>2.3.9, 2.4.6, 2.5.2</entry>
+						<entry>2.3.9, 2.4.6, 2.5.2</entry>
+					</row>
+					<row>
+						<entry>Axis2</entry>
+						<entry>1.6.1</entry>
+						<entry>
+							<footnote>
+								<para>
+									Conflicts with the default JAX-WS 2.1 API if you use the
+									JAX-WS WS-Addressing feature.
+								</para>
+							</footnote>
+						</entry>
+						<entry>1.6.1</entry>
+					</row>
+					<row>
+						<entry>Metro</entry>
+						<entry>
+							2.1.1
+							<footnote id="footnote-metro">
+								<para>
+									Need to use WSDLs without WS-Policy.
+								</para>
+							</footnote>
+							<footnote>
+								<para>
+									Metro 2.2 does not run on Java 1.5.
+								</para>
+							</footnote>
+						</entry>
+						<entry>
+							2.1.1
+							<footnoteref linkend="footnote-metro" />
+							,
+							2.2
+							<footnoteref linkend="footnote-metro" />
+						</entry>
+						<entry>
+							2.1.1
+							<footnoteref linkend="footnote-metro" />
+							,
+							2.2
+							<footnoteref linkend="footnote-metro" />
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+
+	<section>
+		<title>Usage</title>
+		<para>
+			First of all you need to generate JAX-WS stubs out of the WSDL of the
+			service that you want to use. To make sure that your JAX-WS web
+			service stack does not start to interpret the WS-Policy section of
+			the WSDL, you can simply remove the
+			<code>&lt;wsp:PolicyReference&gt;</code>
+			element from the
+			<code>&lt;wsdl:Binding&gt;</code>
+			element within the WSDL.
+		</para>
+		<para>
+			Basically you decorate a vanilla JAX-WS stub to enable the AGIV
+			security on it.
+		</para>
+		<programlisting language="java"><![CDATA[import javax.xml.ws.soap.AddressingFeature;
+import be.agiv.security.AGIVSecurity;
+import javax.xml.ws.BindingProvider;
+
+// create your JAX-WS stub (generated out of a WSDL)
+YourService yourJaxWsClientStub = ...;
+YourServicePort yourJaxWsClientPort = yourJaxWsClientStub.getYourPort(
+	new AddressingFeature());
+
+// create an AGIV security component
+AGIVSecurity agivSecurity = new AGIVSecurity(
+	"https://the.location.of.the.agiv.ipsts.service",
+	"https://the.location.of.the.agiv.rsts.service",
+	"realm",
+	"yourUsername", "yourPassword");
+
+// enabled the AGIV security framework on your JAX-WS stub
+BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
+agivSecurity.enable(bindingProvider, "https://the.location.of.the.agiv.service");
+
+// ready for usage
+yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
+		<para>
+			Make sure to enable the JAX-WS WS-Addressing feature and to use the
+			SOAP 1.2 binding. The SOAP 1.2 binding can be enabled by compiling
+			the WSDL via
+			<code>wsimport</code>
+			with the
+			<code>extension</code>
+			attribute set to
+			<code>true</code>
+			.
+			<tip>
+				<title>AGIV Beta STS Locations</title>
+				<para>
+					The location of the AGIV Beta IP-STS service for
+					username/password credentials is:
+				</para>
+				<para>
+					<code>
+						https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13
+					</code>
+				</para>
+				<para>
+					The location of the AGIV Beta IP-STS service for certificate
+					credentials is:
+				</para>
+				<para>
+					<code>
+						https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage
+					</code>
+				</para>
+				<para>
+					The location of the AGIV Beta R-STS service is:
+				</para>
+				<para>
+					<code>
+						https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13
+					</code>
+				</para>
+			</tip>
+			<tip>
+				<title>AGIV Realms</title>
+				<para>
+					The AGIV Beta realm is
+				</para>
+				<para>
+					<code>urn:agiv.be/salvador</code>
+				</para>
+				<para>
+					You can use the
+					<code>AGIVSecurity.BETA_REALM</code>
+					constant for this.
+				</para>
+				<para>
+					The AGIV production realm is
+				</para>
+				<para>
+					<code>urn:agiv.be/sts</code>
+				</para>
+				<para>
+					You can use the
+					<code>AGIVSecurity.PRODUCTION_REALM</code>
+					constant for this.
+				</para>
+			</tip>
+		</para>
+		<section>
+			<title>Dependencies</title>
+			<para>
+				The
+				<code>AGIVSecurity</code>
+				component can be found within the
+				<code>agiv-security-client</code>
+				JAR artifact. Also make sure to include all required dependencies,
+				which are located under the
+				<code>lib/</code>
+				directory within the SDK package.
+			</para>
+			<para>
+				In case you use Maven as build system, you can add the
+				following dependency to your project:
+			</para>
+			<programlisting language="XML"><![CDATA[<dependency>
+	<groupId>be.agiv.security</groupId>
+	<artifactId>agiv-security-client</artifactId>
+	<version>0.4.0</version>
+</dependency>]]></programlisting>
+			<para>
+				The AGIV Java Security framework artifacts are available in the
+				public e-contract.be Maven repository. Add the folowing repository
+				configuration to the
+				<code>repositories</code>
+				element of your
+				<code>pom.xml</code>
+				Maven POM file:
+			</para>
+			<programlisting language="XML"><![CDATA[<repository>
+	<id>e-contract.be</id>
+	<url>http://www.e-contract.be/maven2/</url>
+	<releases>
+		<enabled>true</enabled>
+	</releases>
+	<snapshots>
+		<enabled>false</enabled>
+	</snapshots>
+</repository>]]></programlisting>
+		</section>
+		<section>
+			<title>WS-SecureConversation</title>
+			<para>
+				Per default the
+				<code>AGIVSecurity</code>
+				component will not use WS-SecureConversation on the JAX-WS stubs.
+				For AGIV web services that support WS-SecureConversation you can
+				enable the usage of WS-SecureConversation on the JAX-WS stubs by
+				using the different variants of the
+				<code>enable</code>
+				method.
+			</para>
+			<programlisting language="java"><![CDATA[BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
+boolean useWsSecureConversation = true;
+agivSecurity.enable(bindingProvider, "https://the.location.of.the.agiv.service",
+	useWsSecureConversation);]]></programlisting>
+		</section>
+		<section>
+			<title>Certificate credential</title>
+			<para>
+				The
+				<code>AGIVSecurity</code>
+				component also supports X509 certificates as user credential. The
+				X509 certificate and corresponding private key are most likely
+				stored within a PKCS#12 keystore. The
+				<code>AGIVSecurity</code>
+				component can load the key material from the keystore file as
+				follows:
+			</para>
+			<programlisting language="java"><![CDATA[import java.io.File;
+import be.agiv.security.AGIVSecurity;
+
+File pkcs12File = new File("/the/location/of/the/pkcs12/keystore");
+AGIVSecurity agivSecurity = new AGIVSecurity(
+	"https://the.location.of.the.agiv.ipsts.service",
+	"https://the.location.of.the.agiv.rsts.service",
+	"realm",
+	pkcs12File, "pkcs12Password");]]></programlisting>
+			<para>
+				In case that the X509 certificate and corresponding private key
+				is stored on some other medium (like for example an HSM or a smart
+				card) you can use the following constructor.
+			</para>
+			<programlisting language="java"><![CDATA[import java.security.cert.X509Certificate;
+import java.security.PrivateKey;
+import be.agiv.security.AGIVSecurity;
+
+X509Certificate certificate = ...;
+PrivateKey privateKey = ...;
+AGIVSecurity agivSecurity = new AGIVSecurity(
+	"https://the.location.of.the.agiv.ipsts.service",
+	"https://the.location.of.the.agiv.rsts.service",
+	"realm",
+	certificate, privateKey);]]></programlisting>
+			<para>
+				Java comes with different security providers for loading key
+				material like for example the
+				<code>SunPKCS11</code>
+				security provider for loading key material via native PKCS#11
+				modules.
+			</para>
+		</section>
+		<section>
+			<title>Token caching</title>
+			<para>
+				The
+				<code>AGIVSecurity</code>
+				component will cache the different security tokens from the IP-STS,
+				R-STS, and (if applicable) the secure conversation tokens. When the
+				security tokens are about to expire, the
+				<code>AGIVSecurity</code>
+				component will automatically retrieve new security tokens.
+			</para>
+			<para>
+				Although JAX-WS stubs themselves are not multi-threaded, the
+				<code>AGIVSecurity</code>
+				component can be shared between multiple threads. Doing so all
+				JAX-WS stubs will use the same security tokens when accessing the
+				AGIV web services.
+			</para>
+			<para>
+				To improve user experience you can let the
+				<code>AGIVSecurity</code>
+				component prefetch the required security tokens for a certain AGIV
+				web service via:
+			</para>
+			<programlisting language="java"><![CDATA[agivSecurity.prefetchTokens("https://the.location.of.the.agiv.service");]]></programlisting>
+			<para>
+				To reduce the load on the AGIV web services you can cancel the
+				secure conversation tokens after usage via:
+			</para>
+			<programlisting language="java"><![CDATA[agivSecurity.cancelSecureConversationTokens();]]></programlisting>
+		</section>
+		<section>
+			<title>Web Proxies</title>
+			<para>
+				The
+				<code>AGIVSecurity</code>
+				component supports both HTTP and SOCKS based web proxies. The proxy
+				settings can be configured as follows:
+			</para>
+			<programlisting language="java"><![CDATA[import java.net.Proxy.Type;
+
+agivSecurity.setProxy("localhost", 3128, Type.SOCKS);]]></programlisting>
+			<para>
+				The proxy settings apply to both the different WS-Trust clients
+				that are internally used, as well as to the AGIV Security enabled
+				JAX-WS stubs.
+			</para>
+		</section>
+		<section>
+			<title>External IP-STS</title>
+			<para>
+				The
+				<code>AGIVSecurity</code>
+				component also offers support for external IP-STS services that do
+				not behave exactly like the AGIV IP-STS service. The
+				<code>AGIVSecurity</code>
+				component can be configured to use an external IP-STS client as
+				follows:
+			</para>
+			<programlisting language="java"><![CDATA[import be.agiv.security.AGIVSecurity;
+
+AGIVSecurity agivSecurity = new AGIVSecurity(
+	externalIpStsClient, "https://the.location.of.the.agiv.rsts.service");]]></programlisting>
+			<para>
+				Where
+				<code>externalIpStsClient</code>
+				is your own custom IP-STS client object that implements the
+				<code>ExternalIPSTSClient</code>
+				interface. The external IP-STS client should be thread-safe.
+			</para>
+		</section>
+		<section>
+			<title>Activity listener</title>
+			<para>
+				When the
+				<code>AGIVSecurity</code>
+				cache is empty, or the cached tokens are expires, it can take a
+				while to acquire new tokens due to the number of STS calls and
+				cryptographic operations that need to be performed. Especially when
+				using the
+				<code>AGIVSecurity</code>
+				component within a desktop Java (Swing) application this could
+				impact the end user experience dramatically.
+			</para>
+			<para>
+				To be able to give the end user an indication of what is taking so
+				long, the application can register an
+				<code>STSListener</code>
+				on the
+				<code>AGIVSecurity</code>
+				component. Via the registered
+				<code>STSListener</code>
+				the application will receive a callback whenever the
+				<code>AGIVSecurity</code>
+				component in requesting a new token.
+			</para>
+		</section>
+		<section>
+			<title>Javadoc</title>
+			<para>
+				The javadoc API documentation can be found within the
+				<code>agiv-security-client-javadoc</code>
+				directory within the SDK package.
+			</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Java EE 6</title>
+		<para>
+			Enabling the AGIV Java Security framework within a full-blown Java EE
+			6 application server can be a challenge. Not only because JAX-WS is
+			part of Java EE 6, but also because the embedded JAX-WS runtime stack
+			comes with its own WS-* capabilities. The trick here is to have a
+			<emphasis>perfect alignment</emphasis>
+			of the WSS4J bundled within your enterprise application against the
+			version of WSS4J provided by the application server. Hence it might
+			be required to override the version of WSS4J that the AGIV Java
+			Security framework will be using at run-time.
+		</para>
+		<para>
+			For example, for the JBoss AS 7.1.1.Final application server you
+			have to change the WSS4J within your enterprise application to
+			version 1.6.5. This can easily be done in Maven as follows.
+		</para>
+		<programlisting language="XML"><![CDATA[<dependency>
+	<groupId>org.apache.ws.security</groupId>
+	<artifactId>wss4j</artifactId>
+	<version>1.6.5</version>
+</dependency>]]></programlisting>
+		<para>
+			Once you have the WSS4J run-time aligned with the one provided by the
+			Java EE 6 application server, you can use the
+			<code>@WebServiceRef</code>
+			annotation to have the generated JAX-WS service instances injected
+			into you EJB3 session beans.
+		</para>
+	</section>
+
+	<appendix>
+		<title>AGIV Java Security Developer's Guide License</title>
+		<para>
+			<mediaobject>
+				<imageobject>
+					<imagedata format="PNG" fileref="cc-30-by-nc-nd.png"
+						scale="100" />
+				</imageobject>
+			</mediaobject>
+			This document has been released under the
+			<ulink url="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons 3.0</ulink>
+			license.
+		</para>
+	</appendix>
+
+	<appendix>
+		<title>AGIV Java Security License</title>
+		<para>
+			The AGIV Java Security source code has been released under the
+			GNU LGPL version 3.0.
+		</para>
+		<para>
+			<code>
+				This is free software; you can redistribute it and/or modify it
+				under the terms of the GNU Lesser General Public License version 3.0
+				as published by the Free Software Foundation.
+			</code>
+		</para>
+		<para>
+			<code>
+				This software is distributed in the hope that it will be
+				useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+				of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+				Lesser General Public License for more details.
+			</code>
+		</para>
+		<para>
+			<code>
+				You should have received a copy of the GNU Lesser General
+				Public License along with this software; if not, see
+				http://www.gnu.org/licenses/.
+			</code>
+		</para>
+	</appendix>
+
+	<appendix>
+		<title>Revision history</title>
+		<table>
+			<title>Revision history</title>
+			<tgroup cols="3">
+				<colspec colwidth="1*" />
+				<colspec colwidth="1*" />
+				<colspec colwidth="2*" />
+				<thead>
+					<row>
+						<entry>Date</entry>
+						<entry>Author</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>31 Dec 2011</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Initial version.</entry>
+					</row>
+					<row>
+						<entry>11 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>STSListener.</entry>
+					</row>
+					<row>
+						<entry>19 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>JAX-WS runtimes.</entry>
+					</row>
+					<row>
+						<entry>29 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>X509 credentials.</entry>
+					</row>
+					<row>
+						<entry>31 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Apache CXF 2.5.2.</entry>
+					</row>
+					<row>
+						<entry>3 Feb 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Realms.</entry>
+					</row>
+					<row>
+						<entry>24 Mar 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Optional WS-SecureConversation.</entry>
+					</row>
+					<row>
+						<entry>14 Apr 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Java EE 6.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</appendix>
+</article>

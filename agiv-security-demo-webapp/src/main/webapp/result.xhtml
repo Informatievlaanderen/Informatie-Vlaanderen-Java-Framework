@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+<body>
+	<h1>AGIV Security Demo Web Application</h1>
+	<h2>Result</h2>
+	<h:messages globalOnly="true" />
+	<h:panelGrid columns="2">
+		<h:outputText value="AGIV Security Username:" />
+		<h:outputText value="#{demoCredentials.name}" />
+	</h:panelGrid>
+	<h:form>
+		<h:commandButton value="Back" action="/index" />
+	</h:form>
+	<h:dataTable value="#{demoGipod.landenList}" var="item">
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="Name" />
+			</f:facet>
+			<h:outputText value="#{item.naam}" />
+		</h:column>
+		<h:column>
+			<f:facet name="header">
+				<h:outputText value="Code" />
+			</f:facet>
+			<h:outputText value="#{item.code}" />
+		</h:column>
+	</h:dataTable>
+</body>
+</html>

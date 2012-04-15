@@ -1,0 +1,45 @@
+<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+  <s:Header>
+    <a:Action s:mustUnderstand="1">http://docs.oasis-open.org/ws-sx/ws-trust/200512/RSTR/SCT</a:Action>
+    <a:RelatesTo>urn:uuid:12615205-fccf-47c3-b2ac-aec6103c1eb9</a:RelatesTo>
+    <o:Security s:mustUnderstand="1" xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <u:Timestamp u:Id="_0">
+        <u:Created>2011-12-19T08:43:14.022Z</u:Created>
+        <u:Expires>2011-12-19T08:48:14.022Z</u:Expires>
+      </u:Timestamp>
+    </o:Security>
+  </s:Header>
+  <s:Body>
+    <trust:RequestSecurityTokenResponseCollection xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
+      <trust:RequestSecurityTokenResponse>
+        <trust:TokenType>http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512/sct</trust:TokenType>
+        <trust:RequestedSecurityToken>
+          <SecurityContextToken u:Id="uuid-3650465b-543a-48cc-b0c2-bad58e051e07-4" xmlns="http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512">
+            <Identifier>urn:uuid:c75d9758-b247-4031-8fe5-cf13ff847b02</Identifier>
+          </SecurityContextToken>
+        </trust:RequestedSecurityToken>
+        <trust:RequestedAttachedReference>
+          <o:SecurityTokenReference xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <o:Reference URI="#uuid-3650465b-543a-48cc-b0c2-bad58e051e07-4"></o:Reference>
+          </o:SecurityTokenReference>
+        </trust:RequestedAttachedReference>
+        <trust:RequestedUnattachedReference>
+          <o:SecurityTokenReference xmlns:o="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <o:Reference URI="urn:uuid:c75d9758-b247-4031-8fe5-cf13ff847b02" ValueType="http://docs.oasis-open.org/ws-sx/ws-secureconversation/200512/sct"></o:Reference>
+          </o:SecurityTokenReference>
+        </trust:RequestedUnattachedReference>
+        <trust:RequestedProofToken>
+          <trust:ComputedKey>http://docs.oasis-open.org/ws-sx/ws-trust/200512/CK/PSHA1</trust:ComputedKey>
+        </trust:RequestedProofToken>
+        <trust:Entropy>
+          <trust:BinarySecret u:Id="uuid-3650465b-543a-48cc-b0c2-bad58e051e07-5" Type="http://docs.oasis-open.org/ws-sx/ws-trust/200512/Nonce">efHoFG3DEz+1muFKXotiOqBQkr9zrk2023Z5fRQMzqM=</trust:BinarySecret>
+        </trust:Entropy>
+        <trust:Lifetime>
+          <u:Created>2011-12-19T08:43:13.928Z</u:Created>
+          <u:Expires>2011-12-19T23:43:13.928Z</u:Expires>
+        </trust:Lifetime>
+        <trust:KeySize>256</trust:KeySize>
+      </trust:RequestSecurityTokenResponse>
+    </trust:RequestSecurityTokenResponseCollection>
+  </s:Body>
+</s:Envelope>
