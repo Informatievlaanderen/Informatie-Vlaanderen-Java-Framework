@@ -55,14 +55,17 @@ function CXF_ {
 
 function CXF_23 {
 	CXF_ "2.3.9" $1 $2 $3 $4
+	CXF_ "2.3.10" $1 $2 $3 $4
 }
 
 function CXF_24 {
 	CXF_ "2.4.6" $1 $2 $3 $4
+	CXF_ "2.4.7" $1 $2 $3 $4
 }
 
 function CXF_25 {
 	CXF_ "2.5.2" $1 $2 $3 $4
+	CXF_ "2.5.3" $1 $2 $3 $4
 }
 
 function METRO_ {

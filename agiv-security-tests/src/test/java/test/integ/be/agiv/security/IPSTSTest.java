@@ -93,6 +93,7 @@ import be.agiv.security.SecurityToken;
 import be.agiv.security.client.IPSTSClient;
 import be.agiv.security.client.RSTSClient;
 import be.agiv.security.client.SecureConversationClient;
+import be.agiv.security.demo.ClaimsAwareServiceFactory;
 
 /**
  * Integration tests for the AGIV IP-STS.
@@ -183,7 +184,7 @@ public class IPSTSTest {
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
 				ipStsSecurityToken,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		// verify
 		assertNotNull(rStsSecurityToken);
@@ -222,11 +223,11 @@ public class IPSTSTest {
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
 				ipStsSecurityToken,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		LOG.debug("Secure Conversation...");
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_SC_LOCATION);
 		SecurityToken secConvToken = secureConversationClient
 				.getSecureConversationToken(rStsSecurityToken);
 

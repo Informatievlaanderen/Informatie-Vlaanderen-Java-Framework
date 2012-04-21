@@ -249,7 +249,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(urlLabel);
 
 		JTextField urlTextField = new JTextField(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc", 60);
+				ClaimsAwareServiceFactory.SERVICE_SC_LOCATION, 60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);
 		contentPanel.add(urlTextField);
@@ -297,7 +297,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(urlLabel);
 
 		JTextField urlTextField = new JTextField(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc", 60);
+				ClaimsAwareServiceFactory.SERVICE_SC_LOCATION, 60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);
 		contentPanel.add(urlTextField);
@@ -360,7 +360,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(appliesToLabel);
 
 		JTextField appliesToTextField = new JTextField(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc", 60);
+				ClaimsAwareServiceFactory.SERVICE_REALM, 60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(appliesToTextField, gridBagConstraints);
 		contentPanel.add(appliesToTextField);
@@ -567,14 +567,26 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		gridBagLayout.setConstraints(rStsTextField, gridBagConstraints);
 		contentPanel.add(rStsTextField);
 
-		JLabel urlLabel = new JLabel("URL:");
+		JLabel serviceRealmLabel = new JLabel("Service realm:");
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy++;
+		gridBagLayout.setConstraints(serviceRealmLabel, gridBagConstraints);
+		contentPanel.add(serviceRealmLabel);
+
+		JTextField serviceRealmTextField = new JTextField(
+				ClaimsAwareServiceFactory.SERVICE_REALM, 60);
+		gridBagConstraints.gridx++;
+		gridBagLayout.setConstraints(serviceRealmTextField, gridBagConstraints);
+		contentPanel.add(serviceRealmTextField);
+
+		JLabel urlLabel = new JLabel("Service URL:");
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy++;
 		gridBagLayout.setConstraints(urlLabel, gridBagConstraints);
 		contentPanel.add(urlLabel);
 
 		JTextField urlTextField = new JTextField(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc", 60);
+				ClaimsAwareServiceFactory.SERVICE_LOCATION, 60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);
 		contentPanel.add(urlTextField);
@@ -663,6 +675,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		}
 
 		final String location = urlTextField.getText();
+		final String serviceRealm = serviceRealmTextField.getText();
 		final String ipStsLocation = ipStsTextField.getText();
 		final String rStsLocation = rStsTextField.getText();
 		final String username = credentialPanel.getUsername();
@@ -685,9 +698,6 @@ public class Main extends JFrame implements ActionListener, STSListener {
 						IService iservice = service
 								.getWS2007FederationHttpBindingIService(new AddressingFeature());
 						BindingProvider bindingProvider = (BindingProvider) iservice;
-						bindingProvider.getRequestContext().put(
-								BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-								location);
 
 						if (false == usePreviousSecurityCheckBox.isSelected()) {
 							if (null != username) {
@@ -711,7 +721,9 @@ public class Main extends JFrame implements ActionListener, STSListener {
 									.cancelSecureConversationTokens();
 						}
 						Main.this.agivSecurity.enable(bindingProvider,
-								useWsSecureConversationCheckBox.isSelected());
+								location,
+								useWsSecureConversationCheckBox.isSelected(),
+								serviceRealm);
 
 						ArrayOfClaimInfo result = iservice.getData(0);
 						return result;

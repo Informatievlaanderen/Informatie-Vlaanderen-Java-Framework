@@ -61,8 +61,9 @@ import be.agiv.security.handler.WSSecurityHandler;
 /**
  * The main AGIV security framework component.
  * <p/>
- * Basically you use the {@link AGIVSecurity#enable(BindingProvider)} method to
- * enable the AGIV Security framework on the JAX-WS stubs.
+ * Basically you use the {@link AGIVSecurity#enable(BindingProvider)} method (or
+ * one of its variants) to enable the AGIV Security framework on the JAX-WS
+ * stubs.
  * <p/>
  * An AGIV security component holds all information to be able to connect to
  * AGIV secured web services. Although JAX-WS itself is not multi-threaded, this
@@ -310,7 +311,9 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	 *            the JAX-WS binding provider on which to enable the AGIV
 	 *            security framework.
 	 * @see AGIVSecurity#enable(BindingProvider, String)
+	 * @see AGIVSecurity#enable(BindingProvider, String, String)
 	 * @see AGIVSecurity#enable(BindingProvider, String, boolean)
+	 * @see AGIVSecurity#enable(BindingProvider, String, boolean, String)
 	 * @see AGIVSecurity#enable(BindingProvider, boolean)
 	 * @see AGIVSecurity#disable(BindingProvider)
 	 */

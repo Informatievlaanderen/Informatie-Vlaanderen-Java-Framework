@@ -1,7 +1,7 @@
 #!/bin/bash
 echo Using Apache CXF...
 
-CXF_HOME=$HOME/apache-cxf-2.5.2
+CXF_HOME=$HOME/apache-cxf-2.5.3
 if [ ! -d $CXF_HOME ]; then
 	echo "Apache CXF home not present: $CXF_HOME"
 	exit 1

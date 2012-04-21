@@ -8,11 +8,14 @@
 		<subtitle>
 			Integrating the AGIV web services in your Java applications.
 		</subtitle>
+		<subtitle>
+			Version &project.version;
+		</subtitle>
 		<copyright>
 			<year>2011-2012</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>14 April 2012</releaseinfo>
+		<releaseinfo>21 April 2012</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -168,9 +171,9 @@
 					</row>
 					<row>
 						<entry>Apache CXF</entry>
-						<entry>2.3.9, 2.4.6, 2.5.2</entry>
-						<entry>2.3.9, 2.4.6, 2.5.2</entry>
-						<entry>2.3.9, 2.4.6, 2.5.2</entry>
+						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3</entry>
+						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3</entry>
+						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3</entry>
 					</row>
 					<row>
 						<entry>Axis2</entry>
@@ -230,7 +233,12 @@
 			<code>&lt;wsp:PolicyReference&gt;</code>
 			element from the
 			<code>&lt;wsdl:Binding&gt;</code>
-			element within the WSDL.
+			element(s) within the WSDL. As some JAX-WS stacks even start to
+			interpret the WS-Policy section after removal of the
+			<code>&lt;wsp:PolicyReference&gt;</code>
+			elements, it might be required to even remove the
+			<code>&lt;wsp:Policy&gt;</code>
+			elements altogether.
 		</para>
 		<para>
 			Basically you decorate a vanilla JAX-WS stub to enable the AGIV
@@ -254,7 +262,8 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 
 // enabled the AGIV security framework on your JAX-WS stub
 BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
-agivSecurity.enable(bindingProvider, "https://the.location.of.the.agiv.service");
+agivSecurity.enable(bindingProvider, "https://the.location.of.the.agiv.service",
+	"serviceRealm");
 
 // ready for usage
 yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
@@ -339,11 +348,11 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 				In case you use Maven as build system, you can add the
 				following dependency to your project:
 			</para>
-			<programlisting language="XML"><![CDATA[<dependency>
-	<groupId>be.agiv.security</groupId>
-	<artifactId>agiv-security-client</artifactId>
-	<version>0.4.0</version>
-</dependency>]]></programlisting>
+			<programlisting language="XML">&lt;dependency&gt;
+	&lt;groupId&gt;be.agiv.security&lt;/groupId&gt;
+	&lt;artifactId&gt;agiv-security-client&lt;/artifactId&gt;
+	&lt;version&gt;&project.version;&lt;/version&gt;
+&lt;/dependency&gt;</programlisting>
 			<para>
 				The AGIV Java Security framework artifacts are available in the
 				public e-contract.be Maven repository. Add the folowing repository
@@ -379,7 +388,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 			<programlisting language="java"><![CDATA[BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
 boolean useWsSecureConversation = true;
 agivSecurity.enable(bindingProvider, "https://the.location.of.the.agiv.service",
-	useWsSecureConversation);]]></programlisting>
+	useWsSecureConversation, "serviceRealm");]]></programlisting>
 		</section>
 		<section>
 			<title>Certificate credential</title>
@@ -450,7 +459,8 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 				component prefetch the required security tokens for a certain AGIV
 				web service via:
 			</para>
-			<programlisting language="java"><![CDATA[agivSecurity.prefetchTokens("https://the.location.of.the.agiv.service");]]></programlisting>
+			<programlisting language="java"><![CDATA[agivSecurity.prefetchTokens("https://the.location.of.the.agiv.service",
+	"serviceRealm");]]></programlisting>
 			<para>
 				To reduce the load on the AGIV web services you can cancel the
 				secure conversation tokens after usage via:
@@ -665,6 +675,11 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 						<entry>14 Apr 2012</entry>
 						<entry>Frank Cornelis</entry>
 						<entry>Java EE 6.</entry>
+					</row>
+					<row>
+						<entry>21 Apr 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Tested new Apache CXF releases.</entry>
 					</row>
 				</tbody>
 			</tgroup>

@@ -32,8 +32,10 @@ public class CLIMain {
 
 	private static final String RSTS_LOCATION = "https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13";
 	private static final String IPSTS_LOCATION = "https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13";
-	private static final String SERVICE_LOCATION = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc";
+	private static final String SERVICE_LOCATION = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfed";
+	private static final String SC_SERVICE_LOCATION = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfedsc";
 	private static final String IPSTS_CERT_LOCATION = "https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage";
+	private static final String SERVICE_REALM = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc";
 
 	public static void main(String[] args) {
 		if (args.length != 4) {
@@ -51,7 +53,14 @@ public class CLIMain {
 		AGIVSecurity agivSecurity = new AGIVSecurity(IPSTS_LOCATION,
 				RSTS_LOCATION, AGIVSecurity.BETA_REALM, username, password);
 		BindingProvider bindingProvider = (BindingProvider) iservice;
-		agivSecurity.enable(bindingProvider, SERVICE_LOCATION);
+		agivSecurity.enable(bindingProvider, SERVICE_LOCATION, SERVICE_REALM);
+
+		iservice.getData(0);
+
+		agivSecurity.disable(bindingProvider);
+
+		agivSecurity.enable(bindingProvider, SC_SERVICE_LOCATION, true,
+				SERVICE_REALM);
 
 		iservice.getData(0);
 
@@ -60,7 +69,7 @@ public class CLIMain {
 		agivSecurity = new AGIVSecurity(IPSTS_CERT_LOCATION, RSTS_LOCATION,
 				AGIVSecurity.BETA_REALM, pkcs12File, pkcs12Password);
 
-		agivSecurity.enable(bindingProvider, SERVICE_LOCATION);
+		agivSecurity.enable(bindingProvider, SERVICE_LOCATION, SERVICE_REALM);
 
 		iservice.getData(0);
 	}

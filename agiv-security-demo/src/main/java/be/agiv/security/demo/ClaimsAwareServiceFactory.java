@@ -36,6 +36,10 @@ public class ClaimsAwareServiceFactory {
 
 	public static final String WSDL_NO_WS_POLICY_RESOURCE = "/ClaimsAwareService-no-ws-policy.wsdl";
 
+	public static final String SERVICE_LOCATION = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfed";
+	public static final String SERVICE_SC_LOCATION = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfedsc";
+	public static final String SERVICE_REALM = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc";
+
 	private ClaimsAwareServiceFactory() {
 		super();
 	}

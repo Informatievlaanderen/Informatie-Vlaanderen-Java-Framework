@@ -9,6 +9,9 @@
 			Highlights the architecture and design of the AGIV Java
 			Security framework.
 		</subtitle>
+		<subtitle>
+			Version &project.version;
+		</subtitle>
 		<copyright>
 			<year>2011-2012</year>
 			<holder>AGIV</holder>

@@ -45,7 +45,6 @@ import be.agiv.gipod._2010._06.Land;
 import be.agiv.gipod._2010._06.service.GipodService;
 import be.agiv.gipod._2010._06.service.IGipodService;
 import be.agiv.security.AGIVSecurity;
-import be.agiv.security.STSListener;
 import be.agiv.security.SecurityToken;
 import be.agiv.security.client.IPSTSClient;
 import be.agiv.security.client.RSTSClient;
@@ -124,7 +123,7 @@ public class GipodTest {
 		RSTSClient rstsClient = new RSTSClient(
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		SecurityToken rStsSecurityToken = rstsClient.getSecurityToken(
-				ipStsSecurityToken, "urn:agiv.be/crab/beta");
+				ipStsSecurityToken, "urn:agiv.be/gipodbeta");
 		// "https://wsgipod.beta.agiv.be/SOAP/GipodService.svc");
 
 		WSSecurityHandler wsSecurityHandler = new WSSecurityHandler();

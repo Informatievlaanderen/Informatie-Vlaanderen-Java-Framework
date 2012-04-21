@@ -100,7 +100,7 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		IPSTSClient ipStsClient = new IPSTSClient(
 				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
@@ -111,8 +111,7 @@ public class ClaimsAwareServiceTest {
 		RSTSClient rStsClient = new RSTSClient(
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		Binding binding = bindingProvider.getBinding();
 		List<Handler> handlerChain = binding.getHandlerChain();
@@ -125,7 +124,7 @@ public class ClaimsAwareServiceTest {
 
 		wsAddressingHandler.setAddressing(
 				"http://www.agiv.be/IService/GetData",
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 		wsSecurityHandler.setKey(rStsSecurityToken.getKey(),
 				rStsSecurityToken.getAttachedReference(),
 				rStsSecurityToken.getToken(), true);
@@ -152,7 +151,7 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		InputStream wsdlInputStream = CrabReadTest.class
 				.getResourceAsStream("/ClaimsAwareService.wsdl");
@@ -174,7 +173,7 @@ public class ClaimsAwareServiceTest {
 				.item(0);
 		NodeList secondaryParametersNodeList = requestSecurityTokenTemplateElement
 				.getChildNodes();
-		
+
 		IPSTSClient ipStsClient = new IPSTSClient(
 				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, secondaryParametersNodeList);
@@ -184,8 +183,7 @@ public class ClaimsAwareServiceTest {
 		RSTSClient rStsClient = new RSTSClient(
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		Binding binding = bindingProvider.getBinding();
 		List<Handler> handlerChain = binding.getHandlerChain();
@@ -198,7 +196,7 @@ public class ClaimsAwareServiceTest {
 
 		wsAddressingHandler.setAddressing(
 				"http://www.agiv.be/IService/GetData",
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 		wsSecurityHandler.setKey(rStsSecurityToken.getKey(),
 				rStsSecurityToken.getAttachedReference(),
 				rStsSecurityToken.getToken(), true);
@@ -217,7 +215,6 @@ public class ClaimsAwareServiceTest {
 		assertTrue(myName);
 	}
 
-	
 	@Test
 	public void testSecurityFramework() {
 		Service service = ClaimsAwareServiceFactory.getInstance();
@@ -233,13 +230,12 @@ public class ClaimsAwareServiceTest {
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc",
-				false);
+				ClaimsAwareServiceFactory.SERVICE_LOCATION, false,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 		agivSecurity.enable(bindingProvider, false);
 
-		agivSecurity.prefetchTokens(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc",
-				false);
+		agivSecurity.prefetchTokens(ClaimsAwareServiceFactory.SERVICE_LOCATION,
+				ClaimsAwareServiceFactory.SERVICE_REALM, false);
 
 		LOG.debug("calling getData");
 		iservice.getData(0);
@@ -248,17 +244,17 @@ public class ClaimsAwareServiceTest {
 		LOG.debug("calling getData");
 		iservice.getData(0);
 
-		//SecurityToken secureConversationToken = agivSecurity
-		//		.getSecureConversationTokens().values().iterator().next();
+		// SecurityToken secureConversationToken = agivSecurity
+		// .getSecureConversationTokens().values().iterator().next();
 
 		agivSecurity.cancelSecureConversationTokens();
 
 		iservice.getData(0);
-		//SecurityToken secureConversationToken2 = agivSecurity
-		//		.getSecureConversationTokens().values().iterator().next();
-		//assertFalse(secureConversationToken.getAttachedReference().equals(
-		//		secureConversationToken2.getAttachedReference()));
-		
+		// SecurityToken secureConversationToken2 = agivSecurity
+		// .getSecureConversationTokens().values().iterator().next();
+		// assertFalse(secureConversationToken.getAttachedReference().equals(
+		// secureConversationToken2.getAttachedReference()));
+
 		ArrayOfClaimInfo result = iservice.getData(0);
 
 		List<ClaimInfo> claims = result.getClaimInfo();
@@ -271,6 +267,42 @@ public class ClaimsAwareServiceTest {
 			}
 		}
 		assertTrue(myName);
+	}
+
+	@Test
+	public void testSecureConversation() {
+		Service service = ClaimsAwareServiceFactory.getInstance();
+		// WS-Addressing via JAX-WS
+		IService iservice = service
+				.getWS2007FederationHttpBindingIService(new AddressingFeature());
+
+		BindingProvider bindingProvider = (BindingProvider) iservice;
+
+		AGIVSecurity agivSecurity = new AGIVSecurity(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
+						.getPassword());
+		agivSecurity.enable(bindingProvider,
+				ClaimsAwareServiceFactory.SERVICE_SC_LOCATION, true,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
+		STSTestListener testListener = new STSTestListener();
+		agivSecurity.addSTSListener(testListener);
+
+		LOG.debug("calling getData");
+		iservice.getData(0);
+
+		assertTrue(testListener.isCalledIpSts());
+		assertTrue(testListener.isCalledRSts());
+		assertTrue(testListener.isCalledSCT());
+
+		agivSecurity.cancelSecureConversationTokens();
+
+		testListener.reset();
+		iservice.getData(0);
+		assertFalse(testListener.isCalledIpSts());
+		assertFalse(testListener.isCalledRSts());
+		assertTrue(testListener.isCalledSCT());
 	}
 
 	@Test
@@ -288,8 +320,8 @@ public class ClaimsAwareServiceTest {
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc",
-				false);
+				ClaimsAwareServiceFactory.SERVICE_LOCATION, false,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		iservice.getData(0);
 
@@ -302,7 +334,8 @@ public class ClaimsAwareServiceTest {
 			// expected
 		}
 
-		agivSecurity.enable(bindingProvider, false);
+		agivSecurity.enable(bindingProvider, false,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		iservice.getData(0);
 	}
@@ -322,7 +355,8 @@ public class ClaimsAwareServiceTest {
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
 		agivSecurity.enable(bindingProvider,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		ArrayOfClaimInfo result = iservice.getData(0);
 
@@ -387,14 +421,15 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
 				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
-		agivSecurity.enable(bindingProvider, false);
+		agivSecurity.enable(bindingProvider, false,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		STSTestListener testListener = new STSTestListener();
 		agivSecurity.addSTSListener(testListener);
@@ -462,13 +497,14 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		ExternalTestIPSTSClient externalIpStsClient = new ExternalTestIPSTSClient();
 		AGIVSecurity agivSecurity = new AGIVSecurity(
 				externalIpStsClient,
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
-		agivSecurity.enable(bindingProvider, false);
+		agivSecurity.enable(bindingProvider, false,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		iservice.getData(0);
 
@@ -486,7 +522,7 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
 				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
@@ -494,7 +530,8 @@ public class ClaimsAwareServiceTest {
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.setProxy("localhost", 3128, Type.SOCKS);
-		agivSecurity.enable(bindingProvider, false);
+		agivSecurity.enable(bindingProvider, false,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		LOG.debug("calling getData");
 		iservice.getData(0);
