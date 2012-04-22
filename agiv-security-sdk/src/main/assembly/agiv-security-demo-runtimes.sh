@@ -68,6 +68,10 @@ function CXF_25 {
 	CXF_ "2.5.3" $1 $2 $3 $4
 }
 
+function CXF_26 {
+	CXF_ "2.6.0" $1 $2 $3 $4
+}
+
 function METRO_ {
 	echo "	Metro $1 test"
 	METRO_HOME=$HOME/metro-$1
@@ -112,6 +116,7 @@ function JAXWS_TESTS {
 	CXF_23 $1 $2 $3 $4
 	CXF_24 $1 $2 $3 $4
 	CXF_25 $1 $2 $3 $4
+	CXF_26 $1 $2 $3 $4
 	METRO_21 $1 $2 $3 $4
 	METRO_22 $1 $2 $3 $4
 	AXIS2 $1 $2 $3 $4

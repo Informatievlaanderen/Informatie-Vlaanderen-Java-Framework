@@ -170,10 +170,22 @@
 						<entry>2.1.7, 2.2.6</entry>
 					</row>
 					<row>
-						<entry>Apache CXF</entry>
-						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3</entry>
-						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3</entry>
-						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3</entry>
+						<entry>
+							Apache CXF
+							<footnote>
+								<para>
+									Need to use WSDLs without WS-Policy or disable WS-Policy
+									feature. Disabling WS-Policy feature does not work for version
+									2.6.0. Version 2.6.0 also requires removal of the
+									<code>&lt;wsp:Policy&gt;</code>
+									elements, else the WS-Policy parser kicks in.
+									https://issues.apache.org/jira/browse/CXF-4258
+								</para>
+							</footnote>
+						</entry>
+						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3, 2.6.0</entry>
+						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3, 2.6.0</entry>
+						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3, 2.6.0</entry>
 					</row>
 					<row>
 						<entry>Axis2</entry>

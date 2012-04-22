@@ -5,9 +5,12 @@
 	xsi:schemaLocation="http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
 http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<!--
+	https://issues.apache.org/jira/browse/CXF-4258 
 	<cxf:bus>
 		<cxf:features>
 			<p:policies enabled="false" />
 		</cxf:features>
 	</cxf:bus>
+	-->
 </beans>

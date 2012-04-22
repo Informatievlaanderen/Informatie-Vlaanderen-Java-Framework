@@ -8,15 +8,17 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<cxf:bus>
 		<cxf:features>
-			<p:policies enabled="false" />
+			<p:policies enabled="true" />
 		</cxf:features>
 	</cxf:bus>
+	
+	<cxf:logging/>
 
 	<!-- next doesn't work -->
 	<jaxws:client id="Service" name="{http://www.agiv.be}IService"
 		serviceClass="org.tempuri.Service" createdFromAPI="false">
 		<jaxws:features>
-			<p:policies enabled="false" />
+			<p:policies enabled="true" />
 		</jaxws:features>
 	</jaxws:client>
 </beans>

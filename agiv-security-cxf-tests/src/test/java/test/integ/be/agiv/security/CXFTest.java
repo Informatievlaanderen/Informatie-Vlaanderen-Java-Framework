@@ -93,6 +93,16 @@ public class CXFTest {
 	}
 
 	@Test
+	public void testIPSTS() throws Exception {
+		IPSTSClient ipStsClient = new IPSTSClient(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM);
+
+		ipStsClient.getSecurityToken(this.config.getUsername(),
+				this.config.getPassword());
+	}
+
+	@Test
 	public void testSecureConversation() throws Exception {
 		// setup
 		IPSTSClient ipStsClient = new IPSTSClient(
@@ -114,7 +124,7 @@ public class CXFTest {
 
 		LOG.debug("Secure Conversation...");
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfedsc");
 		SecurityToken secConvToken = secureConversationClient
 				.getSecureConversationToken(rStsSecurityToken);
 
