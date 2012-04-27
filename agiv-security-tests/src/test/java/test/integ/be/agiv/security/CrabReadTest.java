@@ -48,7 +48,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import be.agiv.security.AGIVSecurity;
-import be.agiv.security.STSListener;
 import be.agiv.security.SecurityToken;
 import be.agiv.security.client.IPSTSClient;
 import be.agiv.security.client.RSTSClient;
@@ -57,6 +56,9 @@ import be.agiv.security.client.WSConstants;
 import be.agiv.security.handler.SecureConversationHandler;
 import be.agiv.security.handler.SecurityTokenProvider;
 import be.agiv.security.handler.WSSecurityHandler;
+
+import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfstring;
+
 import crabread.crabdecentraal.gisvl.CrabReadService;
 import crabread.crabdecentraal.gisvl.ICrabRead;
 
@@ -76,7 +78,7 @@ public class CrabReadTest {
 		CrabReadService crabReadService = new CrabReadService();
 
 		ICrabRead iCrabRead = crabReadService
-				.getWS2007FederationHttpBindingICrabRead();
+				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
 				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
@@ -84,30 +86,42 @@ public class CrabReadTest {
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
 
-		agivSecurity.addSTSListener(new STSListener() {
+		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
+		agivSecurity.enable(bindingProvider,
+				"https://crab.beta.agiv.be/read/crabreadservice.svc/wsfed",
+				false, "urn:agiv.be/crab/beta");
 
-			@Override
-			public void requestingSecureConversationToken() {
-				LOG.debug("requesting secure conversation token...");
-			}
+		ArrayOfstring gemeentes = iCrabRead.listGemeente();
+		List<String> gemeenteList = gemeentes.getString();
+		for (String gemeente : gemeenteList) {
+			LOG.debug("gemeente: " + gemeente);
+		}
+	}
 
-			@Override
-			public void requestingRSTSToken() {
-				LOG.debug("requesting R-STS token...");
-			}
+	@Test
+	public void testServiceSecureConversation() throws Exception {
+		CrabReadService crabReadService = new CrabReadService();
 
-			@Override
-			public void requestingIPSTSToken() {
-				LOG.debug("requesting IP-STS token...");
-			}
-		});
+		ICrabRead iCrabRead = crabReadService
+				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
+
+		AGIVSecurity agivSecurity = new AGIVSecurity(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
+						.getPassword());
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
 
 		agivSecurity.enable(bindingProvider,
-				"http://crab.beta.agiv.be/Read/CrabReadService.svc", false);
+				"https://crab.beta.agiv.be/read/crabreadservice.svc/wsfedsc",
+				true, "urn:agiv.be/crab/beta");
 
-		iCrabRead.findStraat("Vilvoorde", "Blaesenbergstraat");
+		ArrayOfstring gemeentes = iCrabRead.listGemeente();
+		List<String> gemeenteList = gemeentes.getString();
+		for (String gemeente : gemeenteList) {
+			LOG.debug("gemeente: " + gemeente);
+		}
 	}
 
 	@Test
@@ -152,7 +166,7 @@ public class CrabReadTest {
 		LOG.debug("R-STS token received");
 
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
-				"http://crab.beta.agiv.be/Read/CrabReadService.svc");
+				"http://crab.beta.agiv.be/Read/CrabReadService.svc/wsfedsc");
 		SecurityToken secureConversationToken = secureConversationClient
 				.getSecureConversationToken(rStsSecurityToken);
 
@@ -163,7 +177,7 @@ public class CrabReadTest {
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"http://crab.beta.agiv.be/Read/CrabReadService.svc");
+				"http://crab.beta.agiv.be/Read/CrabReadService.svc/wsfedsc");
 
 		Binding binding = bindingProvider.getBinding();
 		List<Handler> handlerChain = binding.getHandlerChain();
