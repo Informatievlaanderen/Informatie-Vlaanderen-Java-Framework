@@ -129,13 +129,13 @@ export PATH=$JAVA_HOME/bin:$PATH
 JAXWS_TESTS $1 $2 $3 $4
 
 echo "Java 1.6 tests"
-export JAVA_HOME=$HOME/jdk1.6.0_31
+export JAVA_HOME=$HOME/jdk1.6.0_32
 export PATH=$JAVA_HOME/bin:$PATH
 
 JAXWS_TESTS $1 $2 $3 $4
 
 echo "Java 1.7 tests"
-export JAVA_HOME=$HOME/jdk1.7.0_03
+export JAVA_HOME=$HOME/jdk1.7.0_04
 export PATH=$JAVA_HOME/bin:$PATH
 
 JAXWS_TESTS $1 $2 $3 $4

@@ -15,7 +15,7 @@
 			<year>2011-2012</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>21 April 2012</releaseinfo>
+		<releaseinfo>30 April 2012</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -139,8 +139,8 @@
 					</row>
 					<row>
 						<entry>Java 1.5.0_22</entry>
-						<entry>Java 1.6.0_31</entry>
-						<entry>Java 1.7.0_03</entry>
+						<entry>Java 1.6.0_32</entry>
+						<entry>Java 1.7.0_04</entry>
 					</row>
 				</thead>
 				<tbody>
@@ -692,6 +692,11 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 						<entry>21 Apr 2012</entry>
 						<entry>Frank Cornelis</entry>
 						<entry>Tested new Apache CXF releases.</entry>
+					</row>
+					<row>
+						<entry>30 Apr 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Tested new Java releases.</entry>
 					</row>
 				</tbody>
 			</tgroup>
