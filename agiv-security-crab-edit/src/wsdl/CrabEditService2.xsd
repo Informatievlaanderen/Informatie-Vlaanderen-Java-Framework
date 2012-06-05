@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.agiv.be/ErrorHandling/2010/04" elementFormDefault="qualified" targetNamespace="http://www.agiv.be/ErrorHandling/2010/04">
+  <xs:complexType name="FaultDetail">
+    <xs:sequence>
+      <xs:element name="Messages" nillable="true" type="tns:ArrayOfFaultMessage"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FaultDetail" nillable="true" type="tns:FaultDetail"/>
+  <xs:complexType name="ArrayOfFaultMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="FaultMessage" nillable="true" type="tns:FaultMessage"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfFaultMessage" nillable="true" type="tns:ArrayOfFaultMessage"/>
+  <xs:complexType name="FaultMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Source" nillable="true" type="xs:string"/>
+      <xs:element name="Tag" nillable="true" type="xs:string"/>
+      <xs:element name="Translations" nillable="true" type="tns:ArrayOfMessageText"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="FaultMessage" nillable="true" type="tns:FaultMessage"/>
+  <xs:complexType name="ArrayOfMessageText">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="MessageText" nillable="true" type="tns:MessageText"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfMessageText" nillable="true" type="tns:ArrayOfMessageText"/>
+  <xs:complexType name="MessageText">
+    <xs:sequence>
+      <xs:element name="Culture" nillable="true" type="xs:string"/>
+      <xs:element name="Text" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MessageText" nillable="true" type="tns:MessageText"/>
+</xs:schema>

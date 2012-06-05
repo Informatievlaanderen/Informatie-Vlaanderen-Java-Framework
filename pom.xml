@@ -47,6 +47,7 @@
 		<module>agiv-security-metro-tests</module>
 		<module>agiv-security-axis2-tests</module>
 		<module>agiv-security-crab-read</module>
+		<module>agiv-security-crab-edit</module>
 		<module>agiv-security-gipod</module>
 		<module>agiv-security-demo-webapp</module>
 	</modules>

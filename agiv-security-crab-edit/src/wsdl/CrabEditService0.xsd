@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://Gisvl.CrabDecentraal.CrabEdit" elementFormDefault="qualified" targetNamespace="http://Gisvl.CrabDecentraal.CrabEdit">
+  <xs:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+  <xs:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+  <xs:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Gisvl.CrabDecentraal.EditContract.Dto"/>
+  <xs:element name="GetGemeenteOmtrek">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gemeente" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetGemeenteOmtrekResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetGemeenteOmtrekResult" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddStraat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:AddStraatRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AddStraatRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Gemeente" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="RrStraten" nillable="true" type="tns:ArrayOfRrStraat"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Straatnaam" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Straatnaam2" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Wegkanten" nillable="true" type="tns:ArrayOfWegkant"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddStraatRequest" nillable="true" type="tns:AddStraatRequest"/>
+  <xs:complexType name="ArrayOfRrStraat">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RrStraat" nillable="true" type="tns:RrStraat"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRrStraat" nillable="true" type="tns:ArrayOfRrStraat"/>
+  <xs:complexType name="RrStraat">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RrStraatcode" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Subkantoncode" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RrStraat" nillable="true" type="tns:RrStraat"/>
+  <xs:complexType name="ArrayOfWegkant">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Wegkant" nillable="true" type="tns:Wegkant"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfWegkant" nillable="true" type="tns:ArrayOfWegkant"/>
+  <xs:complexType name="Wegkant">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="EersteHuisnummerLinks" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="EersteHuisnummerRechts" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="LaatsteHuisnummerLinks" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="LaatsteHuisnummerRechts" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Links" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="PariteitLinks" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="PariteitRechts" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Rechts" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="Wegverbinding" nillable="true" type="tns:Wegverbinding"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Wegkant" nillable="true" type="tns:Wegkant"/>
+  <xs:complexType name="Wegverbinding">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:element name="Wegverbinding" nillable="true" type="tns:Wegverbinding"/>
+  <xs:complexType name="NieuweWegverbinding">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Wegverbinding">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+          <xs:element minOccurs="0" name="Geometriemethode" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="Morfologie" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="Verharding" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="Wkt" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="NieuweWegverbinding" nillable="true" type="tns:NieuweWegverbinding"/>
+  <xs:complexType name="BestaandeWegverbinding">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:Wegverbinding">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="Identificator" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BestaandeWegverbinding" nillable="true" type="tns:BestaandeWegverbinding"/>
+  <xs:element name="AddStraatResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddStraatResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddAdres">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:AddAdresRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AddAdresRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="BestaandeGebouwen" nillable="true" type="tns:ArrayOfBestaandGebouw"/>
+      <xs:element minOccurs="0" name="BestaandePercelen" nillable="true" type="tns:ArrayOfBestaandPerceel"/>
+      <xs:element minOccurs="0" name="Gemeente" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Huisnummer" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="NieuweGebouwen" nillable="true" type="tns:ArrayOfNieuwGebouw"/>
+      <xs:element minOccurs="0" name="Posities" nillable="true" type="tns:ArrayOfAdrespositie"/>
+      <xs:element minOccurs="0" name="Postcode" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="RrAdres" nillable="true" type="tns:RrAdres"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Straatnaam" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Subadressen" nillable="true" type="tns:ArrayOfSubadres"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddAdresRequest" nillable="true" type="tns:AddAdresRequest"/>
+  <xs:complexType name="ArrayOfBestaandGebouw">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BestaandGebouw" nillable="true" type="tns:BestaandGebouw"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBestaandGebouw" nillable="true" type="tns:ArrayOfBestaandGebouw"/>
+  <xs:complexType name="BestaandGebouw">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Identificator" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BestaandGebouw" nillable="true" type="tns:BestaandGebouw"/>
+  <xs:complexType name="ArrayOfBestaandPerceel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BestaandPerceel" nillable="true" type="tns:BestaandPerceel"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBestaandPerceel" nillable="true" type="tns:ArrayOfBestaandPerceel"/>
+  <xs:complexType name="BestaandPerceel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Capakey" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BestaandPerceel" nillable="true" type="tns:BestaandPerceel"/>
+  <xs:complexType name="ArrayOfNieuwGebouw">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NieuwGebouw" nillable="true" type="tns:NieuwGebouw"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNieuwGebouw" nillable="true" type="tns:ArrayOfNieuwGebouw"/>
+  <xs:complexType name="NieuwGebouw">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AardGebouw" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Geometriemethode" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Wkt" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NieuwGebouw" nillable="true" type="tns:NieuwGebouw"/>
+  <xs:complexType name="ArrayOfAdrespositie">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Adrespositie" nillable="true" type="tns:Adrespositie"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAdrespositie" nillable="true" type="tns:ArrayOfAdrespositie"/>
+  <xs:complexType name="Adrespositie">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Herkomst" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Wkt" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Adrespositie" nillable="true" type="tns:Adrespositie"/>
+  <xs:complexType name="RrAdres">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RrHuisnummer" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="RrIndex" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="RrStraatcode" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RrAdres" nillable="true" type="tns:RrAdres"/>
+  <xs:complexType name="ArrayOfSubadres">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Subadres" nillable="true" type="tns:Subadres"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSubadres" nillable="true" type="tns:ArrayOfSubadres"/>
+  <xs:complexType name="Subadres">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Appnummer" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Busnummer" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Positie" nillable="true" type="tns:Adrespositie"/>
+      <xs:element minOccurs="0" name="RrIndex" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Subadres" nillable="true" type="tns:Subadres"/>
+  <xs:element name="AddAdresResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddAdresResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddGebouw">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:AddGebouwRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AddGebouwRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Gebouw" nillable="true" type="tns:NieuwGebouw"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddGebouwRequest" nillable="true" type="tns:AddGebouwRequest"/>
+  <xs:element name="AddGebouwResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddGebouwResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddWegverbinding">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:AddWegverbindingRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AddWegverbindingRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Wegverbinding" nillable="true" type="tns:NieuweWegverbinding"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AddWegverbindingRequest" nillable="true" type="tns:AddWegverbindingRequest"/>
+  <xs:element name="AddWegverbindingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AddWegverbindingResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateStraat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:UpdateStraatRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="UpdateStraatRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Id" type="xs:int"/>
+      <xs:element minOccurs="0" name="IsCorrectie" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="RrStraten" nillable="true" type="tns:ArrayOfRrStraat"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Straatnaam" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Straatnaam2" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Wegkanten" nillable="true" type="tns:ArrayOfWegkant"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateStraatRequest" nillable="true" type="tns:UpdateStraatRequest"/>
+  <xs:element name="UpdateStraatResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateStraatResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateAdres">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:UpdateAdresRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="UpdateAdresRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="BestaandeGebouwen" nillable="true" type="tns:ArrayOfBestaandGebouw"/>
+      <xs:element minOccurs="0" name="BestaandePercelen" nillable="true" type="tns:ArrayOfBestaandPerceel"/>
+      <xs:element minOccurs="0" name="Huisnummer" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Id" type="xs:int"/>
+      <xs:element minOccurs="0" name="IsCorrectie" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="NieuweGebouwen" nillable="true" type="tns:ArrayOfNieuwGebouw"/>
+      <xs:element minOccurs="0" name="Posities" nillable="true" type="tns:ArrayOfAdrespositie"/>
+      <xs:element minOccurs="0" name="Postcode" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="RrAdres" nillable="true" type="tns:RrAdres"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Subadressen" nillable="true" type="tns:ArrayOfSubadres"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateAdresRequest" nillable="true" type="tns:UpdateAdresRequest"/>
+  <xs:element name="UpdateAdresResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateAdresResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateGebouw">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:UpdateGebouwRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="UpdateGebouwRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AardGebouw" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Geometriemethode" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Id" type="xs:int"/>
+      <xs:element minOccurs="0" name="IsCorrectie" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="WijzigAdresStatussen" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="Wkt" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateGebouwRequest" nillable="true" type="tns:UpdateGebouwRequest"/>
+  <xs:element name="UpdateGebouwResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateGebouwResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateWegverbinding">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:UpdateWegverbindingRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="UpdateWegverbindingRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Begindatum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="Geometriemethode" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Id" type="xs:int"/>
+      <xs:element minOccurs="0" name="IsCorrectie" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="Morfologie" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Verharding" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Wkt" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="UpdateWegverbindingRequest" nillable="true" type="tns:UpdateWegverbindingRequest"/>
+  <xs:element name="UpdateWegverbindingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="UpdateWegverbindingResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteStraat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteStraatResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteAdres">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteAdresResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGebouw">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteGebouwResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteWegverbinding">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteWegverbindingResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndStraat">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndStraatResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndAdres">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndAdresResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndGebouw">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndGebouwResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndWegverbinding">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="id" type="xs:int"/>
+        <xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndWegverbindingResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PerformRenumbering">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:RenumberingRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="RenumberingRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Datum" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="EndOldAddresses" type="xs:boolean"/>
+      <xs:element minOccurs="0" name="RenumberingLines" nillable="true" type="tns:ArrayOfRenumberingLine"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RenumberingRequest" nillable="true" type="tns:RenumberingRequest"/>
+  <xs:complexType name="ArrayOfRenumberingLine">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="RenumberingLine" nillable="true" type="tns:RenumberingLine"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfRenumberingLine" nillable="true" type="tns:ArrayOfRenumberingLine"/>
+  <xs:complexType name="RenumberingLine">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AdresId" type="xs:int"/>
+      <xs:element minOccurs="0" name="Huisnummer" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Straatnaam" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RenumberingLine" nillable="true" type="tns:RenumberingLine"/>
+  <xs:element name="PerformRenumberingResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListVerdachteGevallenQueries">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListVerdachteGevallenQueriesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ListVerdachteGevallenQueriesResult" nillable="true" type="tns:ArrayOfVerdachtGevalQuery"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ArrayOfVerdachtGevalQuery">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VerdachtGevalQuery" nillable="true" type="tns:VerdachtGevalQuery"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVerdachtGevalQuery" nillable="true" type="tns:ArrayOfVerdachtGevalQuery"/>
+  <xs:complexType name="VerdachtGevalQuery">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="EntiteitType" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Instructie" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="LabelHoofding" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Omschrijving" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="QueryId" type="xs:int"/>
+      <xs:element minOccurs="0" name="ValidatieType" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VerdachtGevalQuery" nillable="true" type="tns:VerdachtGevalQuery"/>
+  <xs:element name="CountVerdachteGevallenByQueryId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="queryId" type="xs:int"/>
+        <xs:element minOccurs="0" name="gemeente" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CountVerdachteGevallenByQueryIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CountVerdachteGevallenByQueryIdResult" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListVerdachteGevallenByQueryId">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="queryId" type="xs:int"/>
+        <xs:element minOccurs="0" name="gemeente" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListVerdachteGevallenByQueryIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ListVerdachteGevallenByQueryIdResult" nillable="true" type="tns:ArrayOfVerdachtGeval"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ArrayOfVerdachtGeval">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="VerdachtGeval" nillable="true" type="tns:VerdachtGeval"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfVerdachtGeval" nillable="true" type="tns:ArrayOfVerdachtGeval"/>
+  <xs:complexType name="VerdachtGeval">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="EntiteitId" type="xs:int"/>
+      <xs:element minOccurs="0" name="Label" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="VolgNummer" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="VerdachtGeval" nillable="true" type="tns:VerdachtGeval"/>
+  <xs:element name="ListVerdachteGevallenByQueryIdPaged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="queryId" type="xs:int"/>
+        <xs:element minOccurs="0" name="pageSize" type="xs:int"/>
+        <xs:element minOccurs="0" name="pageIndex" type="xs:int"/>
+        <xs:element minOccurs="0" name="gemeente" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListVerdachteGevallenByQueryIdPagedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ListVerdachteGevallenByQueryIdPagedResult" nillable="true" type="tns:PagedListVerdachteGevallen"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="PagedListVerdachteGevallen">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="TotaalAantalGevallen" type="xs:int"/>
+      <xs:element minOccurs="0" name="VerdachteGevallen" nillable="true" type="tns:ArrayOfVerdachtGeval"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PagedListVerdachteGevallen" nillable="true" type="tns:PagedListVerdachteGevallen"/>
+  <xs:element name="MaskVerdachteGevallen">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="request" nillable="true" type="tns:MaskRequest"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="MaskRequest">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="EntiteitIds" nillable="true" type="q1:ArrayOfint"/>
+      <xs:element minOccurs="0" name="QueryId" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MaskRequest" nillable="true" type="tns:MaskRequest"/>
+  <xs:element name="MaskVerdachteGevallenResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListTransacties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gemeente" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="beheerder" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="tijdstip1" type="xs:dateTime"/>
+        <xs:element minOccurs="0" name="tijdstip2" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListTransactiesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ListTransactiesResult" nillable="true" type="tns:ArrayOfTransactie"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="ArrayOfTransactie">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Transactie" nillable="true" type="tns:Transactie"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTransactie" nillable="true" type="tns:ArrayOfTransactie"/>
+  <xs:complexType name="Transactie">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Beheerder" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="Beschrijving" nillable="true" type="xs:string"/>
+      <xs:element minOccurs="0" name="CrabEntiteitType" type="tns:CrabEntityType"/>
+      <xs:element minOccurs="0" name="EntiteitId" type="xs:int"/>
+      <xs:element minOccurs="0" name="Tijdstip" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="TransactieType" type="tns:TransactionType"/>
+      <xs:element minOccurs="0" name="Volgnummer" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Transactie" nillable="true" type="tns:Transactie"/>
+  <xs:simpleType name="CrabEntityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Adres">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Gebouw">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Perceel">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Straat">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Wegverbinding">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="CrabEntityType" nillable="true" type="tns:CrabEntityType"/>
+  <xs:simpleType name="TransactionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Invoer">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Correctie">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Historering"/>
+      <xs:enumeration value="Verwijdering">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="TransactionType" nillable="true" type="tns:TransactionType"/>
+  <xs:element name="ListTransactiesPaged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gemeente" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="beheerder" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="tijdstip1" type="xs:dateTime"/>
+        <xs:element minOccurs="0" name="tijdstip2" type="xs:dateTime"/>
+        <xs:element minOccurs="0" name="pageSize" type="xs:int"/>
+        <xs:element minOccurs="0" name="pageIndex" type="xs:int"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListTransactiesPagedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="ListTransactiesPagedResult" nillable="true" type="tns:ArrayOfTransactie"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListTransactieAggregaten">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="gemeente" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="beheerder" nillable="true" type="xs:string"/>
+        <xs:element minOccurs="0" name="tijdstip1" type="xs:dateTime"/>
+        <xs:element minOccurs="0" name="tijdstip2" type="xs:dateTime"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ListTransactieAggregatenResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Gisvl.CrabDecentraal.EditContract.Dto" minOccurs="0" name="ListTransactieAggregatenResult" nillable="true" type="q2:ArrayOfTransactieAggregaat"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

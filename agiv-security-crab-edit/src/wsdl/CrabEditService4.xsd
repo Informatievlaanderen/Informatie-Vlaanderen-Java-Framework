@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/Gisvl.CrabDecentraal.EditContract.Dto" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Gisvl.CrabDecentraal.EditContract.Dto">
+  <xs:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd0" namespace="http://Gisvl.CrabDecentraal.CrabEdit"/>
+  <xs:complexType name="ArrayOfTransactieAggregaat">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="TransactieAggregaat" nillable="true" type="tns:TransactieAggregaat"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfTransactieAggregaat" nillable="true" type="tns:ArrayOfTransactieAggregaat"/>
+  <xs:complexType name="TransactieAggregaat">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Aantal" type="xs:int"/>
+      <xs:element xmlns:q1="http://Gisvl.CrabDecentraal.CrabEdit" minOccurs="0" name="CrabEntiteitType" type="q1:CrabEntityType"/>
+      <xs:element xmlns:q2="http://Gisvl.CrabDecentraal.CrabEdit" minOccurs="0" name="TransactieType" type="q2:TransactionType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="TransactieAggregaat" nillable="true" type="tns:TransactieAggregaat"/>
+</xs:schema>

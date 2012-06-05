@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
+	prefer="system">
+	<system systemId="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd0"
+		uri="CrabEditService0.xsd" />
+	<system systemId="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd1"
+		uri="CrabEditService1.xsd" />
+	<system systemId="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd2"
+		uri="CrabEditService2.xsd" />
+	<system systemId="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd3"
+		uri="CrabEditService3.xsd" />
+	<system systemId="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd4"
+		uri="CrabEditService4.xsd" />
+</catalog>

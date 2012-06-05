@@ -1,0 +1,1350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://Gisvl.CrabDecentraal.CrabEdit" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" name="CrabEditService" targetNamespace="http://Gisvl.CrabDecentraal.CrabEdit">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://Gisvl.CrabDecentraal.CrabEdit/Imports">
+      <xsd:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd0" namespace="http://Gisvl.CrabDecentraal.CrabEdit"/>
+      <xsd:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd2" namespace="http://www.agiv.be/ErrorHandling/2010/04"/>
+      <xsd:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+      <xsd:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+      <xsd:import schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Gisvl.CrabDecentraal.EditContract.Dto"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICrabEdit_GetGemeenteOmtrek_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetGemeenteOmtrek"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_GetGemeenteOmtrek_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetGemeenteOmtrekResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_GetGemeenteOmtrek_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q1:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddStraat_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddStraat"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddStraat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddStraatResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddStraat_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q2:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddAdres_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddAdres"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddAdres_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddAdresResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddAdres_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q3:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddGebouw_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddGebouw"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddGebouw_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddGebouwResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddGebouw_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q4:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddWegverbinding_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddWegverbinding"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddWegverbinding_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddWegverbindingResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_AddWegverbinding_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q5:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateStraat_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStraat"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateStraat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateStraatResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateStraat_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q6:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateAdres_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateAdres"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateAdres_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateAdresResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateAdres_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q7:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateGebouw_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGebouw"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateGebouw_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateGebouwResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateGebouw_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q8:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateWegverbinding_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateWegverbinding"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateWegverbinding_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateWegverbindingResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_UpdateWegverbinding_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q9="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q9:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteStraat_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteStraat"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteStraat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteStraatResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteStraat_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q10:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteAdres_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAdres"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteAdres_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteAdresResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteAdres_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q11="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q11:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteGebouw_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGebouw"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteGebouw_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteGebouwResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteGebouw_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q12="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q12:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteWegverbinding_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteWegverbinding"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteWegverbinding_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteWegverbindingResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_DeleteWegverbinding_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q13="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q13:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndStraat_InputMessage">
+    <wsdl:part name="parameters" element="tns:EndStraat"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndStraat_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EndStraatResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndStraat_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q14="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q14:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndAdres_InputMessage">
+    <wsdl:part name="parameters" element="tns:EndAdres"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndAdres_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EndAdresResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndAdres_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q15="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q15:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndGebouw_InputMessage">
+    <wsdl:part name="parameters" element="tns:EndGebouw"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndGebouw_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EndGebouwResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndGebouw_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q16="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q16:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndWegverbinding_InputMessage">
+    <wsdl:part name="parameters" element="tns:EndWegverbinding"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndWegverbinding_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EndWegverbindingResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_EndWegverbinding_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q17="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q17:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_PerformRenumbering_InputMessage">
+    <wsdl:part name="parameters" element="tns:PerformRenumbering"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_PerformRenumbering_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PerformRenumberingResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_PerformRenumbering_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q18="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q18:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenQueries_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListVerdachteGevallenQueries"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenQueries_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListVerdachteGevallenQueriesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenQueries_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q19="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q19:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_CountVerdachteGevallenByQueryId_InputMessage">
+    <wsdl:part name="parameters" element="tns:CountVerdachteGevallenByQueryId"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_CountVerdachteGevallenByQueryId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CountVerdachteGevallenByQueryIdResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_CountVerdachteGevallenByQueryId_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q20="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q20:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenByQueryId_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListVerdachteGevallenByQueryId"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenByQueryId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListVerdachteGevallenByQueryIdResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenByQueryId_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q21="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q21:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenByQueryIdPaged_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListVerdachteGevallenByQueryIdPaged"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenByQueryIdPaged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListVerdachteGevallenByQueryIdPagedResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListVerdachteGevallenByQueryIdPaged_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q22="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q22:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_MaskVerdachteGevallen_InputMessage">
+    <wsdl:part name="parameters" element="tns:MaskVerdachteGevallen"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_MaskVerdachteGevallen_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MaskVerdachteGevallenResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_MaskVerdachteGevallen_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q23="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q23:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransacties_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListTransacties"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransacties_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListTransactiesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransacties_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q24="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q24:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransactiesPaged_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListTransactiesPaged"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransactiesPaged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListTransactiesPagedResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransactiesPaged_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q25="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q25:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransactieAggregaten_InputMessage">
+    <wsdl:part name="parameters" element="tns:ListTransactieAggregaten"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransactieAggregaten_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ListTransactieAggregatenResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ICrabEdit_ListTransactieAggregaten_FaultDetailFault_FaultMessage">
+    <wsdl:part xmlns:q26="http://www.agiv.be/ErrorHandling/2010/04" name="detail" element="q26:FaultDetail"/>
+  </wsdl:message>
+  <wsdl:portType name="ICrabEdit">
+    <wsdl:operation name="GetGemeenteOmtrek">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/GetGemeenteOmtrek" message="tns:ICrabEdit_GetGemeenteOmtrek_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/GetGemeenteOmtrekResponse" message="tns:ICrabEdit_GetGemeenteOmtrek_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/GetGemeenteOmtrekFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_GetGemeenteOmtrek_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="AddStraat">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddStraat" message="tns:ICrabEdit_AddStraat_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddStraatResponse" message="tns:ICrabEdit_AddStraat_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddStraatFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_AddStraat_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="AddAdres">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddAdres" message="tns:ICrabEdit_AddAdres_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddAdresResponse" message="tns:ICrabEdit_AddAdres_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddAdresFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_AddAdres_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="AddGebouw">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddGebouw" message="tns:ICrabEdit_AddGebouw_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddGebouwResponse" message="tns:ICrabEdit_AddGebouw_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddGebouwFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_AddGebouw_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="AddWegverbinding">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddWegverbinding" message="tns:ICrabEdit_AddWegverbinding_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddWegverbindingResponse" message="tns:ICrabEdit_AddWegverbinding_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddWegverbindingFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_AddWegverbinding_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStraat">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateStraat" message="tns:ICrabEdit_UpdateStraat_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateStraatResponse" message="tns:ICrabEdit_UpdateStraat_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateStraatFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_UpdateStraat_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAdres">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateAdres" message="tns:ICrabEdit_UpdateAdres_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateAdresResponse" message="tns:ICrabEdit_UpdateAdres_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateAdresFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_UpdateAdres_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGebouw">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateGebouw" message="tns:ICrabEdit_UpdateGebouw_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateGebouwResponse" message="tns:ICrabEdit_UpdateGebouw_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateGebouwFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_UpdateGebouw_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateWegverbinding">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateWegverbinding" message="tns:ICrabEdit_UpdateWegverbinding_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateWegverbindingResponse" message="tns:ICrabEdit_UpdateWegverbinding_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateWegverbindingFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_UpdateWegverbinding_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStraat">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteStraat" message="tns:ICrabEdit_DeleteStraat_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteStraatResponse" message="tns:ICrabEdit_DeleteStraat_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteStraatFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_DeleteStraat_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdres">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteAdres" message="tns:ICrabEdit_DeleteAdres_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteAdresResponse" message="tns:ICrabEdit_DeleteAdres_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteAdresFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_DeleteAdres_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGebouw">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteGebouw" message="tns:ICrabEdit_DeleteGebouw_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteGebouwResponse" message="tns:ICrabEdit_DeleteGebouw_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteGebouwFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_DeleteGebouw_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWegverbinding">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteWegverbinding" message="tns:ICrabEdit_DeleteWegverbinding_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteWegverbindingResponse" message="tns:ICrabEdit_DeleteWegverbinding_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteWegverbindingFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_DeleteWegverbinding_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="EndStraat">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndStraat" message="tns:ICrabEdit_EndStraat_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndStraatResponse" message="tns:ICrabEdit_EndStraat_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndStraatFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_EndStraat_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="EndAdres">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndAdres" message="tns:ICrabEdit_EndAdres_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndAdresResponse" message="tns:ICrabEdit_EndAdres_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndAdresFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_EndAdres_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="EndGebouw">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndGebouw" message="tns:ICrabEdit_EndGebouw_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndGebouwResponse" message="tns:ICrabEdit_EndGebouw_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndGebouwFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_EndGebouw_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="EndWegverbinding">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndWegverbinding" message="tns:ICrabEdit_EndWegverbinding_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndWegverbindingResponse" message="tns:ICrabEdit_EndWegverbinding_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndWegverbindingFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_EndWegverbinding_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="PerformRenumbering">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/PerformRenumbering" message="tns:ICrabEdit_PerformRenumbering_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/PerformRenumberingResponse" message="tns:ICrabEdit_PerformRenumbering_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/PerformRenumberingFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_PerformRenumbering_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenQueries">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenQueries" message="tns:ICrabEdit_ListVerdachteGevallenQueries_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenQueriesResponse" message="tns:ICrabEdit_ListVerdachteGevallenQueries_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenQueriesFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_ListVerdachteGevallenQueries_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="CountVerdachteGevallenByQueryId">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/CountVerdachteGevallenByQueryId" message="tns:ICrabEdit_CountVerdachteGevallenByQueryId_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/CountVerdachteGevallenByQueryIdResponse" message="tns:ICrabEdit_CountVerdachteGevallenByQueryId_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/CountVerdachteGevallenByQueryIdFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_CountVerdachteGevallenByQueryId_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryId">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryId" message="tns:ICrabEdit_ListVerdachteGevallenByQueryId_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdResponse" message="tns:ICrabEdit_ListVerdachteGevallenByQueryId_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_ListVerdachteGevallenByQueryId_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryIdPaged">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdPaged" message="tns:ICrabEdit_ListVerdachteGevallenByQueryIdPaged_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdPagedResponse" message="tns:ICrabEdit_ListVerdachteGevallenByQueryIdPaged_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdPagedFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_ListVerdachteGevallenByQueryIdPaged_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="MaskVerdachteGevallen">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/MaskVerdachteGevallen" message="tns:ICrabEdit_MaskVerdachteGevallen_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/MaskVerdachteGevallenResponse" message="tns:ICrabEdit_MaskVerdachteGevallen_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/MaskVerdachteGevallenFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_MaskVerdachteGevallen_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransacties">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransacties" message="tns:ICrabEdit_ListTransacties_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesResponse" message="tns:ICrabEdit_ListTransacties_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_ListTransacties_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactiesPaged">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesPaged" message="tns:ICrabEdit_ListTransactiesPaged_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesPagedResponse" message="tns:ICrabEdit_ListTransactiesPaged_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesPagedFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_ListTransactiesPaged_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactieAggregaten">
+      <wsdl:input wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactieAggregaten" message="tns:ICrabEdit_ListTransactieAggregaten_InputMessage"/>
+      <wsdl:output wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactieAggregatenResponse" message="tns:ICrabEdit_ListTransactieAggregaten_OutputMessage"/>
+      <wsdl:fault wsaw:Action="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactieAggregatenFaultDetailFault" name="FaultDetailFault" message="tns:ICrabEdit_ListTransactieAggregaten_FaultDetailFault_FaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WS2007FederationHttpBinding_ICrabEdit" type="tns:ICrabEdit">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetGemeenteOmtrek">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/GetGemeenteOmtrek" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="PerformRenumbering">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/PerformRenumbering" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenQueries">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenQueries" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CountVerdachteGevallenByQueryId">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/CountVerdachteGevallenByQueryId" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryId">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryId" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryIdPaged">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdPaged" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MaskVerdachteGevallen">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/MaskVerdachteGevallen" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransacties">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransacties" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactiesPaged">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesPaged" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactieAggregaten">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactieAggregaten" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WS2007FederationHttpBinding_ICrabEdit1" type="tns:ICrabEdit">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetGemeenteOmtrek">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/GetGemeenteOmtrek" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="PerformRenumbering">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/PerformRenumbering" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenQueries">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenQueries" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CountVerdachteGevallenByQueryId">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/CountVerdachteGevallenByQueryId" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryId">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryId" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryIdPaged">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdPaged" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MaskVerdachteGevallen">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/MaskVerdachteGevallen" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransacties">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransacties" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactiesPaged">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesPaged" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactieAggregaten">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactieAggregaten" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WS2007FederationHttpBinding_ICrabEdit2" type="tns:ICrabEdit">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetGemeenteOmtrek">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/GetGemeenteOmtrek" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AddWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/AddWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/UpdateWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/DeleteWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndStraat">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndStraat" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndAdres">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndAdres" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndGebouw">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndGebouw" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="EndWegverbinding">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/EndWegverbinding" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="PerformRenumbering">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/PerformRenumbering" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenQueries">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenQueries" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CountVerdachteGevallenByQueryId">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/CountVerdachteGevallenByQueryId" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryId">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryId" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListVerdachteGevallenByQueryIdPaged">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListVerdachteGevallenByQueryIdPaged" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="MaskVerdachteGevallen">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/MaskVerdachteGevallen" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransacties">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransacties" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactiesPaged">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactiesPaged" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ListTransactieAggregaten">
+      <soap12:operation soapAction="http://Gisvl.CrabDecentraal.CrabEdit/ICrabEdit/ListTransactieAggregaten" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="FaultDetailFault">
+        <soap12:fault name="FaultDetailFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CrabEditService">
+    <wsdl:port name="WS2007FederationHttpBinding_ICrabEdit" binding="tns:WS2007FederationHttpBinding_ICrabEdit">
+      <soap12:address location="http://crab.beta.agiv.be/Edit/CrabEditService.svc"/>
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://crab.beta.agiv.be/Edit/CrabEditService.svc</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
+            <X509Data>
+              <X509Certificate>MIIFMzCCBBugAwIBAgIQMENZbxdEeNCb9b83TtC6kjANBgkqhkiG9w0BAQUFADCBiTELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEaMBgGA1UEChMRQ09NT0RPIENBIExpbWl0ZWQxLzAtBgNVBAMTJkNPTU9ETyBIaWdoIEFzc3VyYW5jZSBTZWN1cmUgU2VydmVyIENBMB4XDTA5MDYxOTAwMDAwMFoXDTEyMDYxODIzNTk1OVowgcYxCzAJBgNVBAYTAkJFMQ8wDQYDVQQREwZCLTEwNjAxGDAWBgNVBAgTD0JydXNzZWxzIEdld2VzdDEQMA4GA1UEBxMHQnJ1c3NlbDEcMBoGA1UECRMTR3VsZGVuLVZsaWVzbGFhbiA3MjEkMCIGA1UEChMbVmxhYW1zZSBMYW5kbWFhdHNjaGFwcGlqIE5WMR0wGwYDVQQLExRQbGF0aW51bVNTTCBXaWxkY2FyZDEXMBUGA1UEAxQOKi5iZXRhLmFnaXYuYmUwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAJId2cO6hH/y+Inu6vKguuvHKsYc7Q2z2jqCm6TyPVn91SNBI7938a5MNvCwTApI+BhdSAinqr5NRxiDNB2EkltJKPMXaa8P62xeGIMfcDg0jHj0a22XKF0gMFEjGsTN9+HTTCKTyadB2VSDxXZfyxk7rYM69wu6Jr1l7CuNGQu9AgMBAAGjggHaMIIB1jAfBgNVHSMEGDAWgBRgWc2Ax8Xjq4wv/GvlWwr1D95L/zAdBgNVHQ4EFgQUVoEC7lAjHgdEoZb1gJyw0eN2ATYwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwNAYDVR0lBC0wKwYIKwYBBQUHAwEGCCsGAQUFBwMCBgorBgEEAYI3CgMDBglghkgBhvhCBAEwRgYDVR0gBD8wPTA7BgwrBgEEAbIxAQIBAwQwKzApBggrBgEFBQcCARYdaHR0cHM6Ly9zZWN1cmUuY29tb2RvLm5ldC9DUFMwTgYDVR0fBEcwRTBDoEGgP4Y9aHR0cDovL2NybC5jb21vZG9jYS5jb20vQ29tb2RvSGlnaEFzc3VyYW5jZVNlY3VyZVNlcnZlckNBLmNybDB/BggrBgEFBQcBAQRzMHEwSQYIKwYBBQUHMAKGPWh0dHA6Ly9jcnQuY29tb2RvY2EuY29tL0NvbW9kb0hpZ2hBc3N1cmFuY2VTZWN1cmVTZXJ2ZXJDQS5jcnQwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmNvbW9kb2NhLmNvbTAnBgNVHREEIDAegg4qLmJldGEuYWdpdi5iZYIMYmV0YS5hZ2l2LmJlMA0GCSqGSIb3DQEBBQUAA4IBAQAcP6ua8vxqR+dMlRjhJnE8YzaTbqdU9c/22H6cpR7rRsfWYZElmnBYviZr0nmcQiQ3QGBqRtQf+97J53JpCs/Dp8OjeH7fWFSAQ9FAigKY2VZ1iLGgYiupIcmI9QRNAT8uMAHu42m3z9ivQEswFOvI1cD4RferIjGwzUE9gGZA18RzJL6NlgsE72TMKa6Oy3b78Gc8maKmMtDHXs7piG6DNq/a/i452kKKKy7h2RQt26JDSDH0ThEyVUUBTuMwa4LzpSlAbzuP+GZCE1JF67DMqD9iRgAiRbrcQ/FvkEF8D2JDiwMD5XkdglOJKGlfzIa7iOlf0N03QDzImPlO1MKr</X509Certificate>
+            </X509Data>
+          </KeyInfo>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="WS2007FederationHttpBinding_ICrabEdit1" binding="tns:WS2007FederationHttpBinding_ICrabEdit1">
+      <soap12:address location="https://crab.beta.agiv.be/edit/crabeditservice.svc/wsfed"/>
+      <wsa10:EndpointReference>
+        <wsa10:Address>https://crab.beta.agiv.be/edit/crabeditservice.svc/wsfed</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="WS2007FederationHttpBinding_ICrabEdit2" binding="tns:WS2007FederationHttpBinding_ICrabEdit2">
+      <soap12:address location="https://crab.beta.agiv.be/edit/crabeditservice.svc/wsfedsc"/>
+      <wsa10:EndpointReference>
+        <wsa10:Address>https://crab.beta.agiv.be/edit/crabeditservice.svc/wsfedsc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
