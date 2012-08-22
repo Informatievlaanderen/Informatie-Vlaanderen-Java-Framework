@@ -68,27 +68,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
-				<artifactId>launch4j-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>launch4j</goal>
-						</goals>
-						<configuration>
-							<headerType>gui</headerType>
-							<jre>
-								<minVersion>1.5.0</minVersion>
-							</jre>
-							<jar>agiv-security-demo-${project.version}.jar</jar>
-							<dontWrapJar>true</dontWrapJar>
-							<outfile>target/agiv-security-demo-${project.version}.exe</outfile>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
