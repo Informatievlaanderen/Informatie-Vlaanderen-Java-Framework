@@ -177,16 +177,25 @@
 								<para>
 									Need to use WSDLs without WS-Policy or disable WS-Policy
 									feature. Disabling WS-Policy feature does not work for version
-									2.6.0. Version 2.6.0 also requires removal of the
+									2.6.0+. Version 2.6.0+ also requires removal of the
 									<code>&lt;wsp:Policy&gt;</code>
 									elements, else the WS-Policy parser kicks in.
 									https://issues.apache.org/jira/browse/CXF-4258
 								</para>
 							</footnote>
 						</entry>
-						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3, 2.6.0</entry>
-						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3, 2.6.0</entry>
-						<entry>2.3.9, 2.3.10, 2.4.6, 2.4.7, 2.5.2, 2.5.3, 2.6.0</entry>
+						<entry>
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.5.2,
+							2.5.3, 2.5.4, 2.5.5, 2.6.0, 2.6.1, 2.6.2
+						</entry>
+						<entry>
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.5.2,
+							2.5.3, 2.5.4, 2.5.5, 2.6.0, 2.6.1, 2.6.2
+						</entry>
+						<entry>
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.5.2,
+							2.5.3, 2.5.4, 2.5.5, 2.6.0, 2.6.1, 2.6.2
+						</entry>
 					</row>
 					<row>
 						<entry>Axis2</entry>
@@ -714,7 +723,9 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 					<row>
 						<entry>25 Aug 2012</entry>
 						<entry>Frank Cornelis</entry>
-						<entry>Tested new Java releases, JAX-WS RI, Metro.</entry>
+						<entry>
+							Tested new Java releases, JAX-WS RI, Metro, Apache CXF.
+						</entry>
 					</row>
 				</tbody>
 			</tgroup>
