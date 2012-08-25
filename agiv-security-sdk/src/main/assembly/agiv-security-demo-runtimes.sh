@@ -107,17 +107,22 @@ function METRO_22 {
 	METRO_ "2.2.1" $1 $2 $3 $4
 }
 
-function AXIS2 {
-	echo "	Axis2 1.6.1 test"
-	AXIS2_HOME=$HOME/axis2-1.6.1
+function AXIS2_ {
+	echo "	Axis2 $1 test"
+	AXIS2_HOME=$HOME/axis2-$1
 	CLASSPATH=../agiv-security-client-${project.version}.jar:agiv-security-demo-${project.version}.jar
 	for JARFILE in ../lib/*
 	do
 	    CLASSPATH=$CLASSPATH:$JARFILE
 	done
 
-	$AXIS2_HOME/bin/axis2.sh -cp $CLASSPATH be.agiv.security.demo.CLIMain $1 $2 $3 $4 > /dev/null 2>&1
+	$AXIS2_HOME/bin/axis2.sh -cp $CLASSPATH be.agiv.security.demo.CLIMain $2 $3 $4 $5 > /dev/null 2>&1
 	echo "		$?"
+}
+
+function AXIS2 {
+	AXIS2_ "1.6.1" $1 $2 $3 $4
+	AXIS2_ "1.6.2" $1 $2 $3 $4
 }
 
 function JAXWS_TESTS {

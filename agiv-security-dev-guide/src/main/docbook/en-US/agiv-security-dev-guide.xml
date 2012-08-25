@@ -199,7 +199,7 @@
 					</row>
 					<row>
 						<entry>Axis2</entry>
-						<entry>1.6.1</entry>
+						<entry>1.6.1, 1.6.2</entry>
 						<entry>
 							<footnote>
 								<para>
@@ -208,7 +208,7 @@
 								</para>
 							</footnote>
 						</entry>
-						<entry>1.6.1</entry>
+						<entry>1.6.1, 1.6.2</entry>
 					</row>
 					<row>
 						<entry>Metro</entry>
@@ -724,7 +724,8 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 						<entry>25 Aug 2012</entry>
 						<entry>Frank Cornelis</entry>
 						<entry>
-							Tested new Java releases, JAX-WS RI, Metro, Apache CXF.
+							Tested new Java releases, JAX-WS RI, Metro, Apache CXF,
+							Axis2.
 						</entry>
 					</row>
 				</tbody>
