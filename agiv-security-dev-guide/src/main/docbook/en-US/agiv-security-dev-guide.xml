@@ -15,7 +15,7 @@
 			<year>2011-2012</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>30 April 2012</releaseinfo>
+		<releaseinfo>25 August 2012</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -139,8 +139,8 @@
 					</row>
 					<row>
 						<entry>Java 1.5.0_22</entry>
-						<entry>Java 1.6.0_32</entry>
-						<entry>Java 1.7.0_04</entry>
+						<entry>Java 1.6.0_34</entry>
+						<entry>Java 1.7.0_06</entry>
 					</row>
 				</thead>
 				<tbody>
@@ -162,12 +162,13 @@
 							2.1.7, 2.2.5
 							<footnote>
 								<para>
-									JAX-WS RI 2.2.6 no longer runs on Java 1.5.
+									JAX-WS RI versions 2.2.6, 2.2.6-2, 2.2.7 no longer run on
+									Java 1.5.
 								</para>
 							</footnote>
 						</entry>
-						<entry>2.1.7, 2.2.6</entry>
-						<entry>2.1.7, 2.2.6</entry>
+						<entry>2.1.7, 2.2.6, 2.2.6-2, 2.2.7</entry>
+						<entry>2.1.7, 2.2.6, 2.2.6-2, 2.2.7</entry>
 					</row>
 					<row>
 						<entry>
@@ -211,7 +212,7 @@
 							</footnote>
 							<footnote>
 								<para>
-									Metro 2.2 does not run on Java 1.5.
+									Metro versions 2.2, 2.2.0-1, 2.2.1 do not run on Java 1.5.
 								</para>
 							</footnote>
 						</entry>
@@ -221,12 +222,24 @@
 							,
 							2.2
 							<footnoteref linkend="footnote-metro" />
+							,
+							2.2.0-1
+							<footnoteref linkend="footnote-metro" />
+							,
+							2.2.1
+							<footnoteref linkend="footnote-metro" />
 						</entry>
 						<entry>
 							2.1.1
 							<footnoteref linkend="footnote-metro" />
 							,
 							2.2
+							<footnoteref linkend="footnote-metro" />
+							,
+							2.2.0-1
+							<footnoteref linkend="footnote-metro" />
+							,
+							2.2.1
 							<footnoteref linkend="footnote-metro" />
 						</entry>
 					</row>
@@ -697,6 +710,11 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 						<entry>30 Apr 2012</entry>
 						<entry>Frank Cornelis</entry>
 						<entry>Tested new Java releases.</entry>
+					</row>
+					<row>
+						<entry>25 Aug 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Tested new Java releases, JAX-WS RI, Metro.</entry>
 					</row>
 				</tbody>
 			</tgroup>

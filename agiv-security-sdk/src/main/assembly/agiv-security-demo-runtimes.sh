@@ -24,6 +24,8 @@ function JAXWS_RI_21 {
 function JAXWS_RI_22 {
 	JAXWS_RI_ "2.2.5" $1 $2 $3 $4
 	JAXWS_RI_ "2.2.6" $1 $2 $3 $4
+	JAXWS_RI_ "2.2.6-2" $1 $2 $3 $4
+	JAXWS_RI_ "2.2.7" $1 $2 $3 $4
 }
 
 function JAXWS_DEFAULT {
@@ -94,6 +96,8 @@ function METRO_21 {
 
 function METRO_22 {
 	METRO_ "2.2" $1 $2 $3 $4
+	METRO_ "2.2.0-1" $1 $2 $3 $4
+	METRO_ "2.2.1" $1 $2 $3 $4
 }
 
 function AXIS2 {
@@ -125,18 +129,21 @@ function JAXWS_TESTS {
 echo "Java 1.5 tests"
 export JAVA_HOME=$HOME/jdk1.5.0_22
 export PATH=$JAVA_HOME/bin:$PATH
+java -version
 
 JAXWS_TESTS $1 $2 $3 $4
 
 echo "Java 1.6 tests"
-export JAVA_HOME=$HOME/jdk1.6.0_32
+export JAVA_HOME=$HOME/jdk1.6.0_34
 export PATH=$JAVA_HOME/bin:$PATH
+java -version
 
 JAXWS_TESTS $1 $2 $3 $4
 
 echo "Java 1.7 tests"
-export JAVA_HOME=$HOME/jdk1.7.0_04
+export JAVA_HOME=$HOME/jdk1.7.0_06
 export PATH=$JAVA_HOME/bin:$PATH
+java -version
 
 JAXWS_TESTS $1 $2 $3 $4
 
