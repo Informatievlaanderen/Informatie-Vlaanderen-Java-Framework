@@ -64,6 +64,9 @@ public class CLIMain {
 
 		iservice.getData(0);
 
+		// the number of WS-SecureConversation tokens is limited
+		agivSecurity.cancelSecureConversationTokens();
+
 		agivSecurity.disable(bindingProvider);
 
 		agivSecurity = new AGIVSecurity(IPSTS_CERT_LOCATION, RSTS_LOCATION,
