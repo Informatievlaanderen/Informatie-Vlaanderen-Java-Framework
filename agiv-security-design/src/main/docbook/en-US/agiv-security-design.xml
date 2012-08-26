@@ -16,7 +16,7 @@
 			<year>2011-2012</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>24 March 2012</releaseinfo>
+		<releaseinfo>26 August 2012</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -68,11 +68,11 @@
 				For logging we use Apache Commons Logging.
 			</para>
 			<para>
-				The AGIV Java Security framework has been tested under both
-				Apache WSS4J version 1.6.4 and 1.6.5. Apache WSS4J version 1.6.5 is
-				using Apache XML Security 1.5.1 which has a much stricter Id
-				resolution policy. This might conflict at run-time with other
-				libraries that use Apache XML Security to create/verify XML
+				The AGIV Java Security framework has been tested under Apache
+				WSS4J version 1.6.4, 1.6.5, 1.6.6, and 1.6.7. Apache WSS4J version
+				1.6.5 and higher is using Apache XML Security 1.5.1 which has a much
+				stricter Id resolution policy. This might conflict at run-time with
+				other libraries that use Apache XML Security to create/verify XML
 				signatures. For this reason we bundle the AGIV Java Security
 				framework with Apache WSS4J version 1.6.4.
 			</para>
@@ -739,6 +739,11 @@
 						<entry>24 Mar 2012</entry>
 						<entry>Frank Cornelis</entry>
 						<entry>Optional WS-SecureConversation.</entry>
+					</row>
+					<row>
+						<entry>26 Aug 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Apache WSS4J tests.</entry>
 					</row>
 				</tbody>
 			</tgroup>
