@@ -393,6 +393,8 @@ public class IPSTSClient {
 		Element requestedSecurityToken = this.wsTrustHandler
 				.getRequestedSecurityToken();
 		securityToken.setToken(requestedSecurityToken);
+		securityToken.setRealm(this.realm);
+		securityToken.setStsLocation(this.location);
 
 		return securityToken;
 	}

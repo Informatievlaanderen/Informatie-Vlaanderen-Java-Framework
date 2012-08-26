@@ -303,6 +303,8 @@ public class ClaimsAwareServiceTest {
 		assertFalse(testListener.isCalledIpSts());
 		assertFalse(testListener.isCalledRSts());
 		assertTrue(testListener.isCalledSCT());
+		
+		agivSecurity.cancelSecureConversationTokens();
 	}
 
 	@Test

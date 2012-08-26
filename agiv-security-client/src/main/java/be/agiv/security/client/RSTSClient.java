@@ -248,6 +248,9 @@ public class RSTSClient {
 		Element requestedSecurityToken = this.wsTrustHandler
 				.getRequestedSecurityToken();
 		securityToken.setToken(requestedSecurityToken);
+		securityToken.setRealm(appliesTo);
+		securityToken.setStsLocation(this.location);
+		securityToken.setParentSecurityToken(ipStsSecurityToken);
 
 		return securityToken;
 	}

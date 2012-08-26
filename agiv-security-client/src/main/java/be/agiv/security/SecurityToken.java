@@ -44,6 +44,12 @@ public class SecurityToken {
 
 	private String unattachedReference;
 
+	private String realm;
+
+	private String stsLocation;
+
+	private SecurityToken parentSecurityToken;
+
 	/**
 	 * Sets the security token proof of possession key. This is most likely a
 	 * symmetric key or secret.
@@ -157,5 +163,64 @@ public class SecurityToken {
 	 */
 	public String getUnattachedReference() {
 		return this.unattachedReference;
+	}
+
+	/**
+	 * Sets the realm of this security token.
+	 * 
+	 * @param realm
+	 */
+	public void setRealm(String realm) {
+		this.realm = realm;
+	}
+
+	/**
+	 * Gives back the realm of this security token. The realm has been used to
+	 * acquire this token via its STS.
+	 * 
+	 * @return
+	 */
+	public String getRealm() {
+		return this.realm;
+	}
+
+	/**
+	 * Sets the location of the STS from which this security token as been
+	 * acquired.
+	 * 
+	 * @param stsLocation
+	 */
+	public void setStsLocation(String stsLocation) {
+		this.stsLocation = stsLocation;
+	}
+
+	/**
+	 * Gives back the location of the STS from which this security token as been
+	 * acquired.
+	 * 
+	 * @return
+	 */
+	public String getStsLocation() {
+		return this.stsLocation;
+	}
+
+	/**
+	 * Sets the parent security token. The parent security token has been used
+	 * to acquire this security token.
+	 * 
+	 * @param parentSecurityToken
+	 */
+	public void setParentSecurityToken(SecurityToken parentSecurityToken) {
+		this.parentSecurityToken = parentSecurityToken;
+	}
+
+	/**
+	 * Gives back the parent security token. The parent security token has been
+	 * used to acquire this security token.
+	 * 
+	 * @return
+	 */
+	public SecurityToken getParentSecurityToken() {
+		return this.parentSecurityToken;
 	}
 }

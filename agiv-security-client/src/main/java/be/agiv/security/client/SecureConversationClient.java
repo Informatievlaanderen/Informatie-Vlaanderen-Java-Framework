@@ -290,6 +290,9 @@ public class SecureConversationClient {
 		Element requestedSecurityToken = this.wsTrustHandler
 				.getRequestedSecurityToken();
 		securityToken.setToken(requestedSecurityToken);
+		securityToken.setStsLocation(this.location);
+		securityToken.setRealm(this.location); // what else?
+		securityToken.setParentSecurityToken(rStsSecurityToken);
 
 		return securityToken;
 	}

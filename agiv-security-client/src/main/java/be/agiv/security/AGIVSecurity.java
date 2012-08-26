@@ -99,10 +99,12 @@ public class AGIVSecurity implements SecurityTokenProvider {
 
 	private final PrivateKey privateKey;
 
+	// key = service location
 	private final Map<String, SecurityToken> secureConversationTokens;
 
 	private SecurityToken ipStsSecurityToken;
 
+	// key = service realm
 	private final Map<String, SecurityToken> rStsSecurityTokens;
 
 	private static ClientProxySelector clientProxySelector;
@@ -637,24 +639,14 @@ public class AGIVSecurity implements SecurityTokenProvider {
 			return rStsSecurityToken;
 		}
 		if (requireNewToken(this.ipStsSecurityToken)) {
-			notifyIPSTSListeners();
-			if (null != this.externalIpStsClient) {
-				this.ipStsSecurityToken = this.externalIpStsClient
-						.getSecurityToken();
-			} else {
-				AGIVSecurity.clientProxySelector.setProxy(this.ipStsLocation,
-						this.proxyHost, this.proxyPort, this.proxyType);
-				IPSTSClient ipStsClient = new IPSTSClient(this.ipStsLocation,
-						this.rStsRealm);
-				if (null != this.certificate) {
-					this.ipStsSecurityToken = ipStsClient.getSecuritytoken(
-							this.certificate, this.privateKey);
-				} else {
-					this.ipStsSecurityToken = ipStsClient.getSecurityToken(
-							this.username, this.password);
-				}
-			}
+			refreshIPSTSSecurityToken();
 		}
+		rStsSecurityToken = refreshRSTSSecurityToken(serviceRealm);
+		return rStsSecurityToken;
+	}
+
+	private SecurityToken refreshRSTSSecurityToken(String serviceRealm) {
+		SecurityToken rStsSecurityToken;
 		notifyRSTSListeners();
 		AGIVSecurity.clientProxySelector.setProxy(this.rStsLocation,
 				this.proxyHost, this.proxyPort, this.proxyType);
@@ -665,17 +657,37 @@ public class AGIVSecurity implements SecurityTokenProvider {
 		return rStsSecurityToken;
 	}
 
-	private boolean requireNewToken(SecurityToken secureConversationToken) {
-		if (null == secureConversationToken) {
+	private void refreshIPSTSSecurityToken() {
+		notifyIPSTSListeners();
+		if (null != this.externalIpStsClient) {
+			this.ipStsSecurityToken = this.externalIpStsClient
+					.getSecurityToken();
+		} else {
+			AGIVSecurity.clientProxySelector.setProxy(this.ipStsLocation,
+					this.proxyHost, this.proxyPort, this.proxyType);
+			IPSTSClient ipStsClient = new IPSTSClient(this.ipStsLocation,
+					this.rStsRealm);
+			if (null != this.certificate) {
+				this.ipStsSecurityToken = ipStsClient.getSecuritytoken(
+						this.certificate, this.privateKey);
+			} else {
+				this.ipStsSecurityToken = ipStsClient.getSecurityToken(
+						this.username, this.password);
+			}
+		}
+	}
+
+	private boolean requireNewToken(SecurityToken securityToken) {
+		if (null == securityToken) {
 			return true;
 		}
 		DateTime now = new DateTime();
-		DateTime expires = new DateTime(secureConversationToken.getExpires());
+		DateTime expires = new DateTime(securityToken.getExpires());
 		Duration duration = new Duration(now, expires);
 		LOG.debug("token validity: " + duration);
 		if (duration.isLongerThan(new Duration(this.tokenRetirementDuration))) {
-			LOG.debug("reusing secure conversation token: "
-					+ secureConversationToken.getAttachedReference());
+			LOG.debug("reusing security token: "
+					+ securityToken.getAttachedReference());
 			return false;
 		}
 		return true;

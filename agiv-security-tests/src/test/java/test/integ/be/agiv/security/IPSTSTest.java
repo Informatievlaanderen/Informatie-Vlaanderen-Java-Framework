@@ -20,6 +20,7 @@ package test.integ.be.agiv.security;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
@@ -183,8 +184,7 @@ public class IPSTSTest {
 
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken,
-				ClaimsAwareServiceFactory.SERVICE_REALM);
+				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		// verify
 		assertNotNull(rStsSecurityToken);
@@ -197,6 +197,12 @@ public class IPSTSTest {
 		LOG.debug("token identifier: "
 				+ rStsSecurityToken.getAttachedReference());
 		assertNotNull(rStsSecurityToken.getAttachedReference());
+		assertNotNull(rStsSecurityToken.getRealm());
+		LOG.debug("realm: " + rStsSecurityToken.getRealm());
+		assertNotNull(rStsSecurityToken.getStsLocation());
+		LOG.debug("STS location: " + rStsSecurityToken.getStsLocation());
+		assertEquals(rStsSecurityToken.getParentSecurityToken(),
+				ipStsSecurityToken);
 	}
 
 	/**
@@ -222,8 +228,7 @@ public class IPSTSTest {
 
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken,
-				ClaimsAwareServiceFactory.SERVICE_REALM);
+				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		LOG.debug("Secure Conversation...");
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
@@ -243,6 +248,11 @@ public class IPSTSTest {
 				+ secConvToken.getUnattachedReference());
 		assertNotNull(secConvToken.getAttachedReference());
 		assertNotNull(secConvToken.getToken());
+		assertNotNull(secConvToken.getRealm());
+		LOG.debug("SCT realm: " + secConvToken.getRealm());
+		assertNotNull(secConvToken.getStsLocation());
+		LOG.debug("SCT STS location: " + secConvToken.getStsLocation());
+		assertEquals(secConvToken.getParentSecurityToken(), rStsSecurityToken);
 
 		LOG.debug("cancelling secure conversation token...");
 		secureConversationClient.cancelSecureConversationToken(secConvToken);
@@ -285,6 +295,11 @@ public class IPSTSTest {
 		assertEquals("EncryptedData", securityToken.getToken().getLocalName());
 		LOG.debug("token identifier: " + securityToken.getAttachedReference());
 		assertNotNull(securityToken.getAttachedReference());
+		assertNotNull(securityToken.getRealm());
+		LOG.debug("realm: " + securityToken.getRealm());
+		assertNotNull(securityToken.getStsLocation());
+		LOG.debug("STS location: " + securityToken.getStsLocation());
+		assertNull(securityToken.getParentSecurityToken());
 	}
 
 	@Test
