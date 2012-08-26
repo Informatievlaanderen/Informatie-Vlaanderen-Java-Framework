@@ -10,7 +10,7 @@ The source code is hosted at: http://code.google.com/p/agiv-security/
 === 2. Requirements
 
 The following is required for compiling the AGIV Java Security Framework.
-* Oracle Java 1.7.0_03
+* Oracle Java 1.7.0_06
 * Apache Maven 3.0.4
 
 
@@ -21,7 +21,15 @@ Compile the project via:
 This will generate the SDK ZIP package.
 
 
-=== 4. License
+=== 4. Integration tests
+
+The integration tests are located under the agiv-security-tests directory.
+The integration tests require different AGIV credentials.
+These credentials can be configured via:
+	agiv-security-tests/src/main/resources/agiv.properties
+
+
+=== 5. License
 
 The source code of the AGIV Java Security Framework is licensed under the GNU
 LGPL version 3.0. For more information, check out the LICENSE.txt file.
