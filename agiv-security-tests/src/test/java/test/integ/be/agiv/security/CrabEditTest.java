@@ -52,10 +52,10 @@ public class CrabEditTest {
 				.getWS2007FederationHttpBindingICrabEdit1(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
+				this.config.getPrivateKey());
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabEdit;
 		agivSecurity.enable(bindingProvider,

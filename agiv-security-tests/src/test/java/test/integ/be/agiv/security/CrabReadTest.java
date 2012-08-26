@@ -20,6 +20,7 @@ package test.integ.be.agiv.security;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -96,6 +97,9 @@ public class CrabReadTest {
 		for (String gemeente : gemeenteList) {
 			LOG.debug("gemeente: " + gemeente);
 		}
+		assertTrue(gemeenteList.contains("Vilvoorde"));
+
+		agivSecurity.refreshSecurityTokens();
 	}
 
 	@Test
@@ -106,10 +110,10 @@ public class CrabReadTest {
 				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
+				this.config.getPrivateKey());
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
 
@@ -122,6 +126,11 @@ public class CrabReadTest {
 		for (String gemeente : gemeenteList) {
 			LOG.debug("gemeente: " + gemeente);
 		}
+		assertTrue(gemeenteList.contains("Vilvoorde"));
+
+		agivSecurity.refreshSecurityTokens();
+
+		agivSecurity.cancelSecureConversationTokens();
 	}
 
 	@Test

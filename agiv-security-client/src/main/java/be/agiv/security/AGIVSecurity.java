@@ -29,10 +29,12 @@ import java.security.PrivateKey;
 import java.security.Provider;
 import java.security.Security;
 import java.security.cert.X509Certificate;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -613,22 +615,28 @@ public class AGIVSecurity implements SecurityTokenProvider {
 		SecurityToken secureConversationToken = this.secureConversationTokens
 				.get(location);
 		if (requireNewToken(secureConversationToken)) {
-			AGIVSecurity.clientProxySelector.setProxy(location, this.proxyHost,
-					this.proxyPort, this.proxyType);
-			/*
-			 * New clients here since JAX-WS is not thread safe.
-			 */
-			SecurityToken rStsSecurityToken = getSecurityToken(serviceRealm);
-
-			notifySecureConversationListeners();
-			SecureConversationClient secureConversationClient = new SecureConversationClient(
-					location);
-			secureConversationToken = secureConversationClient
-					.getSecureConversationToken(rStsSecurityToken);
-
-			this.secureConversationTokens
-					.put(location, secureConversationToken);
+			secureConversationToken = refreshSecureConversationToken(location,
+					serviceRealm);
 		}
+		return secureConversationToken;
+	}
+
+	private SecurityToken refreshSecureConversationToken(String location,
+			String serviceRealm) {
+		AGIVSecurity.clientProxySelector.setProxy(location, this.proxyHost,
+				this.proxyPort, this.proxyType);
+		/*
+		 * New clients here since JAX-WS is not thread safe.
+		 */
+		SecurityToken rStsSecurityToken = getSecurityToken(serviceRealm);
+
+		notifySecureConversationListeners();
+		SecureConversationClient secureConversationClient = new SecureConversationClient(
+				location);
+		SecurityToken secureConversationToken = secureConversationClient
+				.getSecureConversationToken(rStsSecurityToken);
+
+		this.secureConversationTokens.put(location, secureConversationToken);
 		return secureConversationToken;
 	}
 
@@ -643,6 +651,49 @@ public class AGIVSecurity implements SecurityTokenProvider {
 		}
 		rStsSecurityToken = refreshRSTSSecurityToken(serviceRealm);
 		return rStsSecurityToken;
+	}
+
+	/**
+	 * Refreshes all cached security tokens. Can be used by a background process
+	 * in order to minimize the possible delay on clients because of expired
+	 * security tokens. The returned expiry date can be used to program a timer
+	 * at which the method should be called again. Don't forget to take the
+	 * token retirement duration into account when programming such a timer.
+	 * 
+	 * @return the expiry date of the token that expires next in line.
+	 */
+	public Date refreshSecurityTokens() {
+		refreshIPSTSSecurityToken();
+		Date expiryDate = this.ipStsSecurityToken.getExpires();
+		Set<String> serviceRealms = this.rStsSecurityTokens.keySet();
+		if (serviceRealms.isEmpty()) {
+			return expiryDate;
+		}
+		for (String serviceRealm : serviceRealms) {
+			SecurityToken rStsSecurityToken = refreshRSTSSecurityToken(serviceRealm);
+			Date rStsExpiryDate = rStsSecurityToken.getExpires();
+			if (rStsExpiryDate.before(expiryDate)) {
+				expiryDate = rStsExpiryDate;
+			}
+		}
+		Set<String> serviceLocations = this.secureConversationTokens.keySet();
+		if (serviceLocations.isEmpty()) {
+			return expiryDate;
+		}
+		for (String serviceLocation : serviceLocations) {
+			SecurityToken secureConversationToken = this.secureConversationTokens
+					.get(serviceLocation);
+			SecurityToken rStsSecurityToken = secureConversationToken
+					.getParentSecurityToken();
+			String serviceRealm = rStsSecurityToken.getRealm();
+			secureConversationToken = refreshSecureConversationToken(
+					serviceLocation, serviceRealm);
+			Date sctExpiryDate = secureConversationToken.getExpires();
+			if (sctExpiryDate.before(expiryDate)) {
+				expiryDate = sctExpiryDate;
+			}
+		}
+		return expiryDate;
 	}
 
 	private SecurityToken refreshRSTSSecurityToken(String serviceRealm) {

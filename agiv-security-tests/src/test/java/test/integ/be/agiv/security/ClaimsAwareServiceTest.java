@@ -26,6 +26,7 @@ import static org.junit.Assert.fail;
 
 import java.io.InputStream;
 import java.net.Proxy.Type;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -303,8 +304,23 @@ public class ClaimsAwareServiceTest {
 		assertFalse(testListener.isCalledIpSts());
 		assertFalse(testListener.isCalledRSts());
 		assertTrue(testListener.isCalledSCT());
-		
+
+		testListener.reset();
+		Date expiryDate = agivSecurity.refreshSecurityTokens();
+		assertTrue(testListener.isCalledIpSts());
+		assertTrue(testListener.isCalledRSts());
+		assertTrue(testListener.isCalledSCT());
+
+		testListener.reset();
+		iservice.getData(0);
+		assertFalse(testListener.isCalledIpSts());
+		assertFalse(testListener.isCalledRSts());
+		assertFalse(testListener.isCalledSCT());
+
 		agivSecurity.cancelSecureConversationTokens();
+
+		assertNotNull(expiryDate);
+		LOG.debug("expiry date: " + expiryDate);
 	}
 
 	@Test

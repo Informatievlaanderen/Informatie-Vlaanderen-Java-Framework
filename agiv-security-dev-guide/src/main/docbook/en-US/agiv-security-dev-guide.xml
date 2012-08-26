@@ -15,7 +15,7 @@
 			<year>2011-2012</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>25 August 2012</releaseinfo>
+		<releaseinfo>26 August 2012</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -607,6 +607,25 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 			annotation to have the generated JAX-WS service instances injected
 			into you EJB3 session beans.
 		</para>
+		<para>
+			Clients may experience delays because the framework needs to
+			reacquire security tokens that are about to expire. In order to
+			minimize these possible delays it is possible to explicity trigger
+			the refreshment of all security tokens via:
+		</para>
+		<programlisting language="java"><![CDATA[agivSecurity.refreshSecurityTokens();]]></programlisting>
+		<para>
+			Where the
+			<code>AGIVSecurity</code>
+			instance is a
+			<code>@Singleton</code>
+			within the system. This could be done by some background process on a
+			regular basis. The
+			<code>refreshSecurityTokens</code>
+			method returns the date on which the next security token in line will
+			expire. This date can be used to program from example a Java EE 6
+			Timer Service.
+		</para>
 	</section>
 
 	<appendix>
@@ -726,6 +745,13 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 						<entry>
 							Tested new Java releases, JAX-WS RI, Metro, Apache CXF,
 							Axis2.
+						</entry>
+					</row>
+					<row>
+						<entry>26 Aug 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>
+							Java EE 6 refreshing of security tokens.
 						</entry>
 					</row>
 				</tbody>
