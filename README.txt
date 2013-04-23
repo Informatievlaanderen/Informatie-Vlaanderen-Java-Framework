@@ -20,6 +20,9 @@ Compile the project via:
 	mvn clean install
 This will generate the SDK ZIP package.
 
+You might receive an OutOfMemoryException from Maven. Prevent this via:
+	export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=256m"
+
 
 === 4. Integration tests
 
