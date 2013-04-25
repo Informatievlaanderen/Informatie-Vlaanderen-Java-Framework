@@ -1,6 +1,6 @@
 /*
  * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Copyright (C) 2011-2013 AGIV.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -69,6 +69,31 @@ public class CrabEditTest {
 		for (VerdachtGevalQueryType verdachtGeval : verdachtGevalList) {
 			LOG.debug("verdacht geval: " + verdachtGeval.getQueryId());
 		}
+	}
 
+	@Test
+	public void testWebServiceUsernamePassword() throws Exception {
+		CrabEditService crabEditService = new CrabEditService();
+		ICrabEdit iCrabEdit = crabEditService
+				.getWS2007FederationHttpBindingICrabEdit1(new AddressingFeature());
+
+		AGIVSecurity agivSecurity = new AGIVSecurity(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
+						.getPassword());
+
+		BindingProvider bindingProvider = (BindingProvider) iCrabEdit;
+		agivSecurity.enable(bindingProvider,
+				"https://crab.beta.agiv.be/edit/crabeditservice.svc/wsfed",
+				false, "urn:agiv.be/crab/beta");
+
+		ArrayOfVerdachtGevalQueryType verdachteGevallenQuery = iCrabEdit
+				.listVerdachteGevallenQueries();
+		List<VerdachtGevalQueryType> verdachtGevalList = verdachteGevallenQuery
+				.getVerdachtGevalQuery();
+		for (VerdachtGevalQueryType verdachtGeval : verdachtGevalList) {
+			LOG.debug("verdacht geval: " + verdachtGeval.getQueryId());
+		}
 	}
 }

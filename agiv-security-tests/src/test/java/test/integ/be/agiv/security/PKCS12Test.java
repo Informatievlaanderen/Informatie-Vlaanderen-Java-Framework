@@ -1,6 +1,6 @@
 /*
  * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Copyright (C) 2011-2013 AGIV.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -28,6 +28,7 @@ import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
@@ -60,6 +61,8 @@ public class PKCS12Test {
 					pkcs12Password.toCharArray());
 			LOG.debug("private key algo: " + privateKey.getAlgorithm());
 			assertEquals("RSA", privateKey.getAlgorithm());
+			LOG.debug("certificate fingerprint: "
+					+ DigestUtils.shaHex(certificate.getEncoded()));
 		}
 	}
 }

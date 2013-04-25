@@ -1,6 +1,6 @@
 /*
  * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Copyright (C) 2011-2013 AGIV.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -86,6 +86,34 @@ public class CrabReadTest {
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
+
+		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
+		agivSecurity.enable(bindingProvider,
+				"https://crab.beta.agiv.be/read/crabreadservice.svc/wsfed",
+				false, "urn:agiv.be/crab/beta");
+
+		ArrayOfstring gemeentes = iCrabRead.listGemeente();
+		List<String> gemeenteList = gemeentes.getString();
+		for (String gemeente : gemeenteList) {
+			LOG.debug("gemeente: " + gemeente);
+		}
+		assertTrue(gemeenteList.contains("Vilvoorde"));
+
+		agivSecurity.refreshSecurityTokens();
+	}
+
+	@Test
+	public void testServiceUsernamePassword() throws Exception {
+		CrabReadService crabReadService = new CrabReadService();
+
+		ICrabRead iCrabRead = crabReadService
+				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
+
+		AGIVSecurity agivSecurity = new AGIVSecurity(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
+						.getPassword());
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
 		agivSecurity.enable(bindingProvider,
