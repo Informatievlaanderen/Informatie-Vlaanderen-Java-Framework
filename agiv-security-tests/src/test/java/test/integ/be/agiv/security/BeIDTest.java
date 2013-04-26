@@ -41,9 +41,21 @@ public class BeIDTest {
 		keyStore.load(null);
 		Certificate certificate = keyStore.getCertificate("Authentication");
 		LOG.debug("certificate: " + certificate);
+		Certificate caCert = keyStore.getCertificate("CA");
+		LOG.debug("CA cert: " + caCert);
+		Certificate rootCert = keyStore.getCertificate("Root");
+		LOG.debug("root cert: " + rootCert);
 
 		File tmpFile = File.createTempFile("beid-authn-", ".der");
 		FileUtils.writeByteArrayToFile(tmpFile, certificate.getEncoded());
 		LOG.debug("cert file: " + tmpFile.getAbsolutePath());
+
+		File caTmpFile = File.createTempFile("gov-ca-", ".der");
+		FileUtils.writeByteArrayToFile(caTmpFile, caCert.getEncoded());
+		LOG.debug("ca cert file: " + caTmpFile.getAbsolutePath());
+
+		File rootTmpFile = File.createTempFile("root-ca-", ".der");
+		FileUtils.writeByteArrayToFile(rootTmpFile, rootCert.getEncoded());
+		LOG.debug("root cert file: " + rootTmpFile.getAbsolutePath());
 	}
 }
