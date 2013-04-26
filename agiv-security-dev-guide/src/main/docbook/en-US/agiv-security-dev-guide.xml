@@ -546,7 +546,7 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 			<para>
 				When the
 				<code>AGIVSecurity</code>
-				cache is empty, or the cached tokens are expires, it can take a
+				cache is empty, or the cached tokens are about to expire, it can take a
 				while to acquire new tokens due to the number of STS calls and
 				cryptographic operations that need to be performed. Especially when
 				using the

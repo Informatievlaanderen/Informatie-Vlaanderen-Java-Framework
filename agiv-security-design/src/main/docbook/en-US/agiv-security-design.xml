@@ -635,7 +635,7 @@
 			</para>
 			<para>
 				Besides message freshness, the yielded cryptographic properties
-				of this timestamp are less clear given the reply attack
+				of this timestamp are less clear given the replay attack
 				countermeasure provided by the WS-Addressing and the fact that the
 				security tokens have a limited lifetime anyway.
 			</para>
