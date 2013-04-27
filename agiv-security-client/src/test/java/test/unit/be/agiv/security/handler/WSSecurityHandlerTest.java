@@ -37,6 +37,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
@@ -78,17 +79,18 @@ import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.asn1.x509.X509Extensions;
 import org.bouncycastle.jce.X509Principal;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import test.unit.be.agiv.security.client.TestUtils;
-
 import be.agiv.security.handler.WSAddressingHandler;
 import be.agiv.security.handler.WSSecurityHandler;
 
@@ -100,6 +102,11 @@ public class WSSecurityHandlerTest {
 			.getLog(WSSecurityHandlerTest.class);
 
 	private WSSecurityHandler testedInstance;
+
+	@BeforeClass
+	public static void registerBouncyCastle() throws Exception {
+		Security.addProvider(new BouncyCastleProvider());
+	}
 
 	@Before
 	public void setUp() throws Exception {
