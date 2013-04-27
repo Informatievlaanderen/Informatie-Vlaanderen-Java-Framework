@@ -139,8 +139,8 @@
 					</row>
 					<row>
 						<entry>Java 1.5.0_22</entry>
-						<entry>Java 1.6.0_34</entry>
-						<entry>Java 1.7.0_06</entry>
+						<entry>Java 1.6.0_45</entry>
+						<entry>Java 1.7.0_21</entry>
 					</row>
 				</thead>
 				<tbody>
@@ -159,16 +159,16 @@
 					<row>
 						<entry>JAX-WS RI</entry>
 						<entry>
-							2.1.7, 2.2.5
+							2.1.7, 2.1.9, 2.2.5
 							<footnote>
 								<para>
-									JAX-WS RI versions 2.2.6, 2.2.6-2, 2.2.7 no longer run on
-									Java 1.5.
+									JAX-WS RI versions 2.2.6, 2.2.6-2, 2.2.6-3, 2.2.7 no
+									longer run on Java 1.5.
 								</para>
 							</footnote>
 						</entry>
-						<entry>2.1.7, 2.2.6, 2.2.6-2, 2.2.7</entry>
-						<entry>2.1.7, 2.2.6, 2.2.6-2, 2.2.7</entry>
+						<entry>2.1.7, 2.1.9, 2.2.6, 2.2.6-2, 2.2.7</entry>
+						<entry>2.1.7, 2.1.9, 2.2.6, 2.2.6-2, 2.2.7</entry>
 					</row>
 					<row>
 						<entry>
@@ -185,16 +185,26 @@
 							</footnote>
 						</entry>
 						<entry>
-							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.5.2,
-							2.5.3, 2.5.4, 2.5.5, 2.6.0, 2.6.1, 2.6.2
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10, 2.5.2,
+							2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10, 2.6.0,
+							2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6
+							<footnote>
+								<para>
+									Apache CXF 2.7 no longer runs on Java 1.5.
+								</para>
+							</footnote>
 						</entry>
 						<entry>
-							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.5.2,
-							2.5.3, 2.5.4, 2.5.5, 2.6.0, 2.6.1, 2.6.2
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10,
+							2.5.2, 2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10,
+							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.7.0, 2.7.1,
+							2.7.2, 2.7.3, 2.7.4
 						</entry>
 						<entry>
-							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.5.2,
-							2.5.3, 2.5.4, 2.5.5, 2.6.0, 2.6.1, 2.6.2
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10,
+							2.5.2, 2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10,
+							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.7.0, 2.7.1,
+							2.7.2, 2.7.3, 2.7.4
 						</entry>
 					</row>
 					<row>
@@ -211,45 +221,28 @@
 						<entry>1.6.1, 1.6.2</entry>
 					</row>
 					<row>
-						<entry>Metro</entry>
 						<entry>
-							2.1.1
-							<footnote id="footnote-metro">
+							Metro
+							<footnote>
 								<para>
 									Need to use WSDLs without WS-Policy.
 								</para>
 							</footnote>
+						</entry>
+						<entry>
+							2.1.1
 							<footnote>
 								<para>
-									Metro versions 2.2, 2.2.0-1, 2.2.1 do not run on Java 1.5.
+									Metro versions 2.2, 2.2.0-1, 2.2.0-2, 2.2.1, 2.2.1-1 do
+									not run on Java 1.5.
 								</para>
 							</footnote>
 						</entry>
 						<entry>
-							2.1.1
-							<footnoteref linkend="footnote-metro" />
-							,
-							2.2
-							<footnoteref linkend="footnote-metro" />
-							,
-							2.2.0-1
-							<footnoteref linkend="footnote-metro" />
-							,
-							2.2.1
-							<footnoteref linkend="footnote-metro" />
+							2.1.1, 2.2, 2.2.0-1, 2.2.0-2, 2.2.1, 2.2.1-1
 						</entry>
 						<entry>
-							2.1.1
-							<footnoteref linkend="footnote-metro" />
-							,
-							2.2
-							<footnoteref linkend="footnote-metro" />
-							,
-							2.2.0-1
-							<footnoteref linkend="footnote-metro" />
-							,
-							2.2.1
-							<footnoteref linkend="footnote-metro" />
+							2.1.1, 2.2, 2.2.0-1, 2.2.0-2, 2.2.1, 2.2.1-1
 						</entry>
 					</row>
 				</tbody>
@@ -546,7 +539,8 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 			<para>
 				When the
 				<code>AGIVSecurity</code>
-				cache is empty, or the cached tokens are about to expire, it can take a
+				cache is empty, or the cached tokens are about to expire, it can
+				take a
 				while to acquire new tokens due to the number of STS calls and
 				cryptographic operations that need to be performed. Especially when
 				using the

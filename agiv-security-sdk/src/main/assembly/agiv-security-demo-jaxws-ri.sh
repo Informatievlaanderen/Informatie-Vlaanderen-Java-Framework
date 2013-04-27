@@ -8,7 +8,7 @@ if [ ! -d $JAXWS_RI_HOME ]; then
 fi
 
 CLASSPATH=../agiv-security-client-${project.version}.jar:agiv-security-demo-${project.version}.jar
-for JARFILE in $JAXWS_RI_HOME/lib/*
+for JARFILE in $JAXWS_RI_HOME/lib/*.jar
 do
     CLASSPATH=$CLASSPATH:$JARFILE
 done
