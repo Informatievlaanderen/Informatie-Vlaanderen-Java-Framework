@@ -1,6 +1,6 @@
 /*
  * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Copyright (C) 2011-2013 AGIV.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -26,6 +26,10 @@ import static org.junit.Assert.fail;
 
 import java.io.InputStream;
 import java.net.Proxy.Type;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.Security;
+import java.security.cert.X509Certificate;
 import java.util.Date;
 import java.util.List;
 
@@ -60,6 +64,7 @@ import be.agiv.security.demo.ClaimsAwareServiceFactory;
 import be.agiv.security.handler.LoggingHandler;
 import be.agiv.security.handler.WSAddressingHandler;
 import be.agiv.security.handler.WSSecurityHandler;
+import be.fedict.commons.eid.jca.BeIDProvider;
 
 public class ClaimsAwareServiceTest {
 
@@ -372,6 +377,44 @@ public class ClaimsAwareServiceTest {
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
+		agivSecurity.enable(bindingProvider,
+				ClaimsAwareServiceFactory.SERVICE_LOCATION,
+				ClaimsAwareServiceFactory.SERVICE_REALM);
+
+		ArrayOfClaimInfo result = iservice.getData(0);
+
+		List<ClaimInfo> claims = result.getClaimInfo();
+		for (ClaimInfo claim : claims) {
+			LOG.debug(claim.getName().getValue() + " = "
+					+ claim.getValue().getValue());
+		}
+
+		agivSecurity.cancelSecureConversationTokens();
+	}
+
+	@Test
+	public void testSecurityFrameworkBeIDCertificate() throws Exception {
+		Security.addProvider(new BeIDProvider());
+		KeyStore keyStore = KeyStore.getInstance("BeID");
+		keyStore.load(null);
+		PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication",
+				null);
+		X509Certificate certificate = (X509Certificate) keyStore
+				.getCertificate("Authentication");
+		assertNotNull(privateKey);
+		assertNotNull(certificate);
+
+		Service service = ClaimsAwareServiceFactory.getInstance();
+		// WS-Addressing via JAX-WS
+		IService iservice = service
+				.getWS2007FederationHttpBindingIService(new AddressingFeature());
+
+		BindingProvider bindingProvider = (BindingProvider) iservice;
+
+		AGIVSecurity agivSecurity = new AGIVSecurity(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM, certificate, privateKey);
 		agivSecurity.enable(bindingProvider,
 				ClaimsAwareServiceFactory.SERVICE_LOCATION,
 				ClaimsAwareServiceFactory.SERVICE_REALM);

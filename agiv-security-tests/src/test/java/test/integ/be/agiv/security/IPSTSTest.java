@@ -1,6 +1,6 @@
 /*
  * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Copyright (C) 2011-2013 AGIV.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -95,6 +95,7 @@ import be.agiv.security.client.IPSTSClient;
 import be.agiv.security.client.RSTSClient;
 import be.agiv.security.client.SecureConversationClient;
 import be.agiv.security.demo.ClaimsAwareServiceFactory;
+import be.fedict.commons.eid.jca.BeIDProvider;
 
 /**
  * Integration tests for the AGIV IP-STS.
@@ -312,6 +313,41 @@ public class IPSTSTest {
 		// operate
 		SecurityToken securityToken = client.getSecuritytoken(
 				this.config.getCertificate(), this.config.getPrivateKey());
+
+		// verify
+		assertNotNull(securityToken);
+		assertNotNull(securityToken.getKey());
+		assertEquals(256 / 8, securityToken.getKey().length);
+		LOG.debug("created: " + securityToken.getCreated());
+		LOG.debug("expired: " + securityToken.getExpires());
+		assertNotNull(securityToken.getCreated());
+		assertNotNull(securityToken.getExpires());
+		assertNotNull(securityToken.getToken());
+		assertEquals("EncryptedData", securityToken.getToken().getLocalName());
+		LOG.debug("token identifier: " + securityToken.getAttachedReference());
+		assertNotNull(securityToken.getAttachedReference());
+	}
+
+	@Test
+	public void testIPSTS_BeIDCertificate() throws Exception {
+		Security.addProvider(new BeIDProvider());
+		KeyStore keyStore = KeyStore.getInstance("BeID");
+		keyStore.load(null);
+		PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication",
+				null);
+		X509Certificate certificate = (X509Certificate) keyStore
+				.getCertificate("Authentication");
+		assertNotNull(privateKey);
+		assertNotNull(certificate);
+
+		// setup
+		IPSTSClient client = new IPSTSClient(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				AGIVSecurity.BETA_REALM);
+
+		// operate
+		SecurityToken securityToken = client.getSecuritytoken(certificate,
+				privateKey);
 
 		// verify
 		assertNotNull(securityToken);
