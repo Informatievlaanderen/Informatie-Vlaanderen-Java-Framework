@@ -24,22 +24,15 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.math.BigInteger;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Security;
-import java.security.SignatureException;
-import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.RSAKeyGenParameterSpec;
@@ -71,16 +64,18 @@ import org.apache.ws.security.message.WSSecTimestamp;
 import org.apache.ws.security.util.WSSecurityUtil;
 import org.apache.xml.security.signature.XMLSignature;
 import org.apache.xml.security.utils.Constants;
-import org.bouncycastle.asn1.ASN1InputStream;
-import org.bouncycastle.asn1.ASN1Sequence;
-import org.bouncycastle.asn1.x509.AuthorityKeyIdentifier;
-import org.bouncycastle.asn1.x509.BasicConstraints;
-import org.bouncycastle.asn1.x509.SubjectKeyIdentifier;
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
-import org.bouncycastle.asn1.x509.X509Extensions;
-import org.bouncycastle.jce.X509Principal;
+import org.bouncycastle.cert.X509CertificateHolder;
+import org.bouncycastle.cert.X509v3CertificateBuilder;
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+import org.bouncycastle.crypto.util.PrivateKeyFactory;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.x509.X509V3CertificateGenerator;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.DefaultDigestAlgorithmIdentifierFinder;
+import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
+import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder;
 import org.easymock.EasyMock;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -300,13 +295,10 @@ public class WSSecurityHandlerTest {
 				mockContext.get(WSAddressingHandler.class.getName() + ".toId"))
 				.andStubReturn("toId");
 
-		KeyPair keyPair = createKeyPair();
+		KeyPair keyPair = generateKeyPair();
 		PrivateKey privateKey = keyPair.getPrivate();
 
-		DateTime notBefore = new DateTime();
-		DateTime notAfter = notBefore.plusMonths(1);
-		X509Certificate certificate = createSelfSignedCertificate(keyPair,
-				"CN=Test", notBefore, notAfter);
+		X509Certificate certificate = generateSelfSignedCertificate(keyPair);
 		this.testedInstance.setCredentials(privateKey, certificate);
 
 		// prepare
@@ -414,71 +406,58 @@ public class WSSecurityHandlerTest {
 		return nsElement;
 	}
 
-	private X509Certificate createSelfSignedCertificate(KeyPair keyPair,
-			String subjectDn, DateTime notBefore, DateTime notAfter)
-			throws IOException, InvalidKeyException, IllegalStateException,
-			NoSuchAlgorithmException, SignatureException, CertificateException {
-		PublicKey subjectPublicKey = keyPair.getPublic();
-		PrivateKey issuerPrivateKey = keyPair.getPrivate();
-		String signatureAlgorithm = "SHA1WithRSAEncryption";
-		X509V3CertificateGenerator certificateGenerator = new X509V3CertificateGenerator();
-		certificateGenerator.reset();
-		certificateGenerator.setPublicKey(subjectPublicKey);
-		certificateGenerator.setSignatureAlgorithm(signatureAlgorithm);
-		certificateGenerator.setNotBefore(notBefore.toDate());
-		certificateGenerator.setNotAfter(notAfter.toDate());
-		X509Principal issuerDN = new X509Principal(subjectDn);
-		certificateGenerator.setIssuerDN(issuerDN);
-		certificateGenerator.setSubjectDN(new X509Principal(subjectDn));
-		certificateGenerator.setSerialNumber(new BigInteger(128,
-				new SecureRandom()));
+	private KeyPair generateKeyPair() throws Exception {
+		return generateKeyPair(1024);
+	}
 
-		certificateGenerator.addExtension(X509Extensions.SubjectKeyIdentifier,
-				false, createSubjectKeyId(subjectPublicKey));
-		PublicKey issuerPublicKey;
-		issuerPublicKey = subjectPublicKey;
-		certificateGenerator.addExtension(
-				X509Extensions.AuthorityKeyIdentifier, false,
-				createAuthorityKeyId(issuerPublicKey));
+	private KeyPair generateKeyPair(int keySize) throws Exception {
+		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+		SecureRandom random = new SecureRandom();
+		keyPairGenerator.initialize(new RSAKeyGenParameterSpec(keySize,
+				RSAKeyGenParameterSpec.F4), random);
+		KeyPair keyPair = keyPairGenerator.generateKeyPair();
+		return keyPair;
+	}
 
-		certificateGenerator.addExtension(X509Extensions.BasicConstraints,
-				false, new BasicConstraints(true));
+	private X509Certificate generateSelfSignedCertificate(KeyPair keyPair)
+			throws Exception {
+		X500Name issuer = new X500Name("CN=Test");
+		X500Name subject = issuer;
 
-		X509Certificate certificate;
-		certificate = certificateGenerator.generate(issuerPrivateKey);
+		SecureRandom secureRandom = new SecureRandom();
+		byte[] serialValue = new byte[8];
+		secureRandom.nextBytes(serialValue);
+		BigInteger serial = new BigInteger(serialValue);
 
-		/*
-		 * Next certificate factory trick is needed to make sure that the
-		 * certificate delivered to the caller is provided by the default
-		 * security provider instead of BouncyCastle. If we don't do this trick
-		 * we might run into trouble when trying to use the CertPath validator.
-		 */
+		DateTime notBefore = new DateTime();
+		DateTime notAfter = notBefore.plusMonths(1);
+
+		SubjectPublicKeyInfo publicKeyInfo = SubjectPublicKeyInfo
+				.getInstance(keyPair.getPublic().getEncoded());
+
+		X509v3CertificateBuilder x509v3CertificateBuilder = new X509v3CertificateBuilder(
+				issuer, serial, notBefore.toDate(), notAfter.toDate(), subject,
+				publicKeyInfo);
+
+		AlgorithmIdentifier sigAlgId = new DefaultSignatureAlgorithmIdentifierFinder()
+				.find("SHA1withRSA");
+		AlgorithmIdentifier digAlgId = new DefaultDigestAlgorithmIdentifierFinder()
+				.find(sigAlgId);
+		AsymmetricKeyParameter asymmetricKeyParameter = PrivateKeyFactory
+				.createKey(keyPair.getPrivate().getEncoded());
+		ContentSigner contentSigner = new BcRSAContentSignerBuilder(sigAlgId,
+				digAlgId).build(asymmetricKeyParameter);
+		X509CertificateHolder x509CertificateHolder = x509v3CertificateBuilder
+				.build(contentSigner);
+
+		byte[] encodedCertificate = x509CertificateHolder.getEncoded();
+
 		CertificateFactory certificateFactory = CertificateFactory
 				.getInstance("X.509");
-		certificate = (X509Certificate) certificateFactory
-				.generateCertificate(new ByteArrayInputStream(certificate
-						.getEncoded()));
+		X509Certificate certificate = (X509Certificate) certificateFactory
+				.generateCertificate(new ByteArrayInputStream(
+						encodedCertificate));
 		return certificate;
-	}
-
-	private SubjectKeyIdentifier createSubjectKeyId(PublicKey publicKey)
-			throws IOException {
-		ByteArrayInputStream bais = new ByteArrayInputStream(
-				publicKey.getEncoded());
-		SubjectPublicKeyInfo info = new SubjectPublicKeyInfo(
-				(ASN1Sequence) new ASN1InputStream(bais).readObject());
-		return new SubjectKeyIdentifier(info);
-	}
-
-	private AuthorityKeyIdentifier createAuthorityKeyId(PublicKey publicKey)
-			throws IOException {
-
-		ByteArrayInputStream bais = new ByteArrayInputStream(
-				publicKey.getEncoded());
-		SubjectPublicKeyInfo info = new SubjectPublicKeyInfo(
-				(ASN1Sequence) new ASN1InputStream(bais).readObject());
-
-		return new AuthorityKeyIdentifier(info);
 	}
 
 	@Test
@@ -545,14 +524,5 @@ public class WSSecurityHandlerTest {
 		transformer.setOutputProperties(properties);
 		transformer.transform(new DOMSource(document), streamResult);
 		return stringWriter.toString();
-	}
-
-	private KeyPair createKeyPair() throws NoSuchAlgorithmException,
-			InvalidAlgorithmParameterException {
-		KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-		SecureRandom secureRandom = new SecureRandom();
-		keyPairGenerator.initialize(new RSAKeyGenParameterSpec(1024,
-				RSAKeyGenParameterSpec.F4), secureRandom);
-		return keyPairGenerator.generateKeyPair();
 	}
 }
