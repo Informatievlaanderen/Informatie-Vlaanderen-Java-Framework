@@ -12,10 +12,10 @@
 			Version &project.version;
 		</subtitle>
 		<copyright>
-			<year>2011-2012</year>
+			<year>2011-2013</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>26 August 2012</releaseinfo>
+		<releaseinfo>28 April 2013</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -68,12 +68,12 @@
 			</para>
 			<para>
 				The AGIV Java Security framework has been tested under Apache
-				WSS4J version 1.6.4, 1.6.5, 1.6.6, and 1.6.7. Apache WSS4J version
-				1.6.5 and higher is using Apache XML Security 1.5.1 which has a much
-				stricter Id resolution policy. This might conflict at run-time with
-				other libraries that use Apache XML Security to create/verify XML
-				signatures. For this reason we bundle the AGIV Java Security
-				framework with Apache WSS4J version 1.6.4.
+				WSS4J version 1.6.4, 1.6.5, 1.6.6, 1.6.7, 1.6.8, 1.6.9 and 1.6.10.
+				Apache WSS4J version 1.6.5 and higher is using Apache XML Security
+				1.5.1 which has a much stricter Id resolution policy. This might
+				conflict at run-time with other libraries that use Apache XML
+				Security to create/verify XML signatures. For this reason we bundle
+				the AGIV Java Security framework with Apache WSS4J version 1.6.4.
 			</para>
 		</section>
 		<section>
@@ -192,7 +192,8 @@
 			Principal A sends to principal B a message M:
 		</para>
 		<para>
-			A &rarr; B : M
+			A &#8594;
+			B : M
 		</para>
 		<para>
 			Principal A sends to principal B messages M
@@ -202,7 +203,8 @@
 			:
 		</para>
 		<para>
-			A &rarr; B : M
+			A &#8594;
+			B : M
 			<subscript>1</subscript>
 			, M
 			<subscript>2</subscript>
@@ -212,7 +214,7 @@
 			connection:
 		</para>
 		<para>
-			A &rarr;
+			A &#8594;
 			<subscript>SSL</subscript>
 			B : M
 		</para>
@@ -267,7 +269,7 @@
 				value.
 			</para>
 			<para>
-				RP &rarr;
+				RP &#8594;
 				<subscript>SSL</subscript>
 				IP-STS : username, password, Ent
 				<subscript>RP</subscript>
@@ -278,7 +280,7 @@
 				The IP-STS answers with a token and some entropy value:
 			</para>
 			<para>
-				IP-STS &rarr;
+				IP-STS &#8594;
 				<subscript>SSL</subscript>
 				RP : Ent
 				<subscript>IP-STS</subscript>
@@ -336,7 +338,7 @@
 				a proof-of-possession signature to the R-STS.
 			</para>
 			<para>
-				RP &rarr;
+				RP &#8594;
 				<subscript>SSL</subscript>
 				R-STS : Token
 				<subscript>IP-STS</subscript>
@@ -371,7 +373,7 @@
 				proof key.
 			</para>
 			<para>
-				R-STS &rarr;
+				R-STS &#8594;
 				<subscript>SSL</subscript>
 				RP : Token
 				<subscript>R-STS</subscript>
@@ -393,7 +395,7 @@
 					provider SP:
 				</para>
 				<para>
-					RP &rarr;
+					RP &#8594;
 					<subscript>SSL</subscript>
 					SP :
 					Token
@@ -422,7 +424,7 @@
 					The service provider answers with:
 				</para>
 				<para>
-					SP &rarr;
+					SP &#8594;
 					<subscript>SSL</subscript>
 					RP :
 					Token
@@ -461,7 +463,7 @@
 					secure conversation token.
 				</para>
 				<para>
-					RP &rarr;
+					RP &#8594;
 					<subscript>SSL</subscript>
 					SP : M,
 					Token
@@ -489,7 +491,7 @@
 					M'.
 				</para>
 				<para>
-					SP &rarr;
+					SP &#8594;
 					<subscript>SSL</subscript>
 					RP : M'
 				</para>
@@ -501,7 +503,7 @@
 					cancel the secure conversation token.
 				</para>
 				<para>
-					RP &rarr;
+					RP &#8594;
 					<subscript>SSL</subscript>
 					SP :
 					Token
@@ -527,7 +529,7 @@
 					The service provider acknowledges the operation.
 				</para>
 				<para>
-					SP &rarr;
+					SP &#8594;
 					<subscript>SSL</subscript>
 					RP: ack
 				</para>
@@ -545,7 +547,7 @@
 				provider SP:
 			</para>
 			<para>
-				RP &rarr;
+				RP &#8594;
 				<subscript>SSL</subscript>
 				SP :
 				M, Token
@@ -571,7 +573,7 @@
 				M'.
 			</para>
 			<para>
-				SP &rarr;
+				SP &#8594;
 				<subscript>SSL</subscript>
 				RP : M'
 			</para>
@@ -582,7 +584,7 @@
 				The WS-Addressing adds the following to each request message:
 			</para>
 			<para>
-				RP &rarr;
+				RP &#8594;
 				<subscript>SSL</subscript>
 				SP : N
 				<subscript>RP</subscript>
@@ -609,7 +611,7 @@
 				in the response message.
 			</para>
 			<para>
-				SP &rarr;
+				SP &#8594;
 				<subscript>SSL</subscript>
 				RP: N
 				<subscript>RP</subscript>
@@ -626,7 +628,7 @@
 				The service provider adds a timestamp to each response message.
 			</para>
 			<para>
-				SP &rarr;
+				SP &#8594;
 				<subscript>SSL</subscript>
 				RP: T
 				<subscript>SP</subscript>
@@ -648,7 +650,7 @@
 				using the corresponding private key.
 			</para>
 			<para>
-				RP &rarr;
+				RP &#8594;
 				<subscript>SSL</subscript>
 				IP-STS : Cert
 				<subscript>RP</subscript>
@@ -678,7 +680,7 @@
 				The IP-STS answers with a token and some entropy value:
 			</para>
 			<para>
-				IP-STS &rarr;
+				IP-STS &#8594;
 				<subscript>SSL</subscript>
 				RP : Ent
 				<subscript>IP-STS</subscript>
@@ -741,6 +743,11 @@
 					</row>
 					<row>
 						<entry>26 Aug 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Apache WSS4J tests.</entry>
+					</row>
+					<row>
+						<entry>28 Apr 2013</entry>
 						<entry>Frank Cornelis</entry>
 						<entry>Apache WSS4J tests.</entry>
 					</row>
