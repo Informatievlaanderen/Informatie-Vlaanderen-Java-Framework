@@ -289,7 +289,8 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 
 // enabled the AGIV security framework on your JAX-WS stub
 BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
-agivSecurity.enable(bindingProvider, "https://the.location.of.the.agiv.service",
+agivSecurity.enable(bindingProvider, 
+	"https://the.location.of.the.agiv.service",
 	"serviceRealm");
 
 // ready for usage
@@ -414,7 +415,8 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 			</para>
 			<programlisting language="java"><![CDATA[BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
 boolean useWsSecureConversation = true;
-agivSecurity.enable(bindingProvider, "https://the.location.of.the.agiv.service",
+agivSecurity.enable(bindingProvider, 
+	"https://the.location.of.the.agiv.service",
 	useWsSecureConversation, "serviceRealm");]]></programlisting>
 		</section>
 		<section>
