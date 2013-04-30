@@ -504,7 +504,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		JOptionPane.showMessageDialog(
 				this,
 				"AGIV Java Security Demo " + getVersion() + "\n"
-						+ "Copyright (C) 2011-2012 AGIV.\n"
+						+ "Copyright (C) 2011-2013 AGIV.\n"
 						+ "Licensed under GNU LGPL 3.0.\n\n" + "Java version: "
 						+ System.getProperty("java.version") + "\n"
 						+ "System: " + System.getProperty("os.name") + " "
