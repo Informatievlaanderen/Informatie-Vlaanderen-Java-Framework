@@ -11,10 +11,10 @@
 			Version &project.version;
 		</subtitle>
 		<copyright>
-			<year>2011-2012</year>
+			<year>2011-2013</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>26 August 2012</releaseinfo>
+		<releaseinfo>30 April 2013</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -152,8 +152,10 @@
 								</para>
 							</footnote>
 						</entry>
-						<entry>&or;</entry>
-						<entry>&or;</entry>
+						<entry>&or;
+						</entry>
+						<entry>&or;
+						</entry>
 					</row>
 					<row>
 						<entry>JAX-WS RI</entry>
@@ -304,61 +306,427 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 			attribute set to
 			<code>true</code>
 			.
-			<tip>
-				<title>AGIV Beta STS Locations</title>
-				<para>
-					The location of the AGIV Beta IP-STS service for
-					username/password credentials is:
-				</para>
-				<para>
-					<code>
-						https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13
-					</code>
-				</para>
-				<para>
-					The location of the AGIV Beta IP-STS service for certificate
-					credentials is:
-				</para>
-				<para>
-					<code>
-						https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage
-					</code>
-				</para>
-				<para>
-					The location of the AGIV Beta R-STS service is:
-				</para>
-				<para>
-					<code>
-						https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13
-					</code>
-				</para>
-			</tip>
-			<tip>
-				<title>AGIV Realms</title>
-				<para>
-					The AGIV Beta realm is
-				</para>
-				<para>
-					<code>urn:agiv.be/salvador</code>
-				</para>
-				<para>
-					You can use the
-					<code>AGIVSecurity.BETA_REALM</code>
-					constant for this.
-				</para>
-				<para>
-					The AGIV production realm is
-				</para>
-				<para>
-					<code>urn:agiv.be/sts</code>
-				</para>
-				<para>
-					You can use the
-					<code>AGIVSecurity.PRODUCTION_REALM</code>
-					constant for this.
-				</para>
-			</tip>
 		</para>
+		<section>
+			<title>AGIV STS Locations and Realms</title>
+			<para>
+				The location of the AGIV Beta IP-STS service for
+				username/password credentials is:
+			</para>
+			<para>
+				<code>
+					https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13
+				</code>
+			</para>
+			<para>
+				The location of the AGIV Beta IP-STS service for certificate
+				credentials is:
+			</para>
+			<para>
+				<code>
+					https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage
+				</code>
+			</para>
+			<para>
+				The location of the AGIV Beta R-STS service is:
+			</para>
+			<para>
+				<code>
+					https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13
+				</code>
+			</para>
+			<para>
+				The AGIV Beta realm is
+			</para>
+			<para>
+				<code>urn:agiv.be/salvador</code>
+			</para>
+			<para>
+				You can use the
+				<code>AGIVSecurity.BETA_REALM</code>
+				constant for this.
+			</para>
+			<para>
+				The AGIV production realm is
+			</para>
+			<para>
+				<code>urn:agiv.be/sts</code>
+			</para>
+			<para>
+				You can use the
+				<code>AGIVSecurity.PRODUCTION_REALM</code>
+				constant for this.
+			</para>
+		</section>
+		<section>
+			<title>Service Locations and Realms</title>
+			<para>
+			    The <xref linkend="table-services" /> lists the locations and realms for the different AGIV services.
+			    <table id="table-services">
+					<title>AGIV Service Locations and Realms</title>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            Gipod Service
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry role="rowhead">
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://gipod.beta.agiv.be/WebService/GipodService.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/gipodbeta</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://gipod.agiv.be/WebService/GipodService.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/gipod</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            RVV service
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry>
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://rvv.beta.agiv.be/WebService/RVVService.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/rvv</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://rvv.agiv.be/WebService/RVVService.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/rvv</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            RVV Upload service
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry>
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://rvv.beta.agiv.be/WebService/uploadService.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/rvv</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://rvv.agiv.be/WebService/uploadService.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/rvv</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            Crab WST
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry>
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://crab.beta.agiv.be/WST/CRAB_WST.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/crab/beta</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://crab.agiv.be/WST/CRAB_WST.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/crab</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            Crab Read service
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry>
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://crab.beta.agiv.be/read/crabreadservice.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/crab/beta</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://crab.agiv.be/read/crabreadservice.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/crab</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            Crab Edit service
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry>
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://crab.beta.agiv.be/edit/crabeditservice.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/crab/beta</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://crab.agiv.be/edit/crabeditservice.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/crab</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            Crab Melding service
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry>
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://crab.beta.agiv.be/melding/crabmeldingservice.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/crab/beta</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://crab.agiv.be/melding/crabmeldingservice.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/crab</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*"/>
+						<colspec colname="last" colwidth="3*"/>
+						<thead >
+						    <row>
+						        <entry namest="first" nameend="last" align="center">
+						            Crab OGC service
+						        </entry>
+						    </row>
+						</thead>
+						<tbody>
+						    <row>
+						        <entry>
+						            Beta Endpoint
+						        </entry>
+						        <entry>
+						            <code>https://crab.beta.agiv.be/ogc/service.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Beta Realm
+						        </entry>
+						        <entry>
+						            <code>urn:agiv.be/crab/beta</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Endpoint
+						        </entry>
+						        <entry>
+						           <code>https://crab.agiv.be/ogc/service.svc</code>
+						        </entry>
+						    </row>
+						    <row>
+						        <entry>
+						            Production Realm
+						        </entry>
+						        <entry>
+						        	<code>urn:agiv.be/crab</code>
+						        </entry>
+						    </row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>	    
+		</section>
 		<section>
 			<title>Dependencies</title>
 			<para>
@@ -395,9 +763,6 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 	<releases>
 		<enabled>true</enabled>
 	</releases>
-	<snapshots>
-		<enabled>false</enabled>
-	</snapshots>
 </repository>]]></programlisting>
 		</section>
 		<section>
@@ -747,6 +1112,14 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 						<entry>Frank Cornelis</entry>
 						<entry>
 							Java EE 6 refreshing of security tokens.
+						</entry>
+					</row>
+					<row>
+						<entry>30 Apr 2013</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>
+							Tested new Java and JAX-WS runtime releases.
+							Added service realms and locations.
 						</entry>
 					</row>
 				</tbody>

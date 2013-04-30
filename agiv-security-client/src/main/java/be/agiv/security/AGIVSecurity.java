@@ -83,8 +83,14 @@ public class AGIVSecurity implements SecurityTokenProvider {
 
 	public static final long DEFAULT_TOKEN_RETIREMENT_DURATION = 1000 * 60 * 5;
 
+	/**
+	 * R-STS Beta Realm.
+	 */
 	public static final String BETA_REALM = "urn:agiv.be/salvador";
 
+	/**
+	 * R-STS Production Realm.
+	 */
 	public static final String PRODUCTION_REALM = "urn:agiv.be/sts";
 
 	private final String ipStsLocation;
