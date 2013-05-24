@@ -336,7 +336,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 				</code>
 			</para>
 			<para>
-				The AGIV Beta realm is
+				The AGIV Beta R-STS realm is
 			</para>
 			<para>
 				<code>urn:agiv.be/salvador</code>
@@ -347,7 +347,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 				constant for this.
 			</para>
 			<para>
-				The AGIV production realm is
+				The AGIV production R-STS realm is
 			</para>
 			<para>
 				<code>urn:agiv.be/sts</code>
@@ -361,371 +361,382 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 		<section>
 			<title>Service Locations and Realms</title>
 			<para>
-			    The <xref linkend="table-services" /> lists the locations and realms for the different AGIV services.
-			    <table id="table-services">
+				The
+				<xref linkend="table-services" />
+				lists the locations and realms for the different AGIV services.
+				<table id="table-services">
 					<title>AGIV Service Locations and Realms</title>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            Gipod Service
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Gipod Service
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry role="rowhead">
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://gipod.beta.agiv.be/WebService/GipodService.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/gipodbeta</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://gipod.agiv.be/WebService/GipodService.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/gipod</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry role="rowhead">
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://gipod.beta.agiv.be/WebService/GipodService.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/gipodbeta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://gipod.agiv.be/WebService/GipodService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/gipod</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            RVV service
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									RVV service
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry>
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://rvv.beta.agiv.be/WebService/RVVService.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/rvv</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://rvv.agiv.be/WebService/RVVService.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/rvv</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.beta.agiv.be/WebService/RVVService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.agiv.be/WebService/RVVService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            RVV Upload service
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									RVV Upload
+									service
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry>
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://rvv.beta.agiv.be/WebService/uploadService.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/rvv</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://rvv.agiv.be/WebService/uploadService.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/rvv</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.beta.agiv.be/WebService/uploadService.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.agiv.be/WebService/uploadService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            Crab WST
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab WST
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry>
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://crab.beta.agiv.be/WST/CRAB_WST.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/crab/beta</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://crab.agiv.be/WST/CRAB_WST.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/crab</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/WST/CRAB_WST.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/WST/CRAB_WST.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            Crab Read service
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab Read
+									service
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry>
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://crab.beta.agiv.be/read/crabreadservice.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/crab/beta</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://crab.agiv.be/read/crabreadservice.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/crab</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/read/crabreadservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/read/crabreadservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            Crab Edit service
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab Edit
+									service
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry>
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://crab.beta.agiv.be/edit/crabeditservice.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/crab/beta</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://crab.agiv.be/edit/crabeditservice.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/crab</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/edit/crabeditservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/edit/crabeditservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            Crab Melding service
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab Melding
+									service
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry>
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://crab.beta.agiv.be/melding/crabmeldingservice.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/crab/beta</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://crab.agiv.be/melding/crabmeldingservice.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/crab</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/melding/crabmeldingservice.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/melding/crabmeldingservice.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 					<tgroup cols="2">
-						<colspec colname="first" colwidth="1*"/>
-						<colspec colname="last" colwidth="3*"/>
-						<thead >
-						    <row>
-						        <entry namest="first" nameend="last" align="center">
-						            Crab OGC service
-						        </entry>
-						    </row>
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab OGC
+									service
+								</entry>
+							</row>
 						</thead>
 						<tbody>
-						    <row>
-						        <entry>
-						            Beta Endpoint
-						        </entry>
-						        <entry>
-						            <code>https://crab.beta.agiv.be/ogc/service.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Beta Realm
-						        </entry>
-						        <entry>
-						            <code>urn:agiv.be/crab/beta</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Endpoint
-						        </entry>
-						        <entry>
-						           <code>https://crab.agiv.be/ogc/service.svc</code>
-						        </entry>
-						    </row>
-						    <row>
-						        <entry>
-						            Production Realm
-						        </entry>
-						        <entry>
-						        	<code>urn:agiv.be/crab</code>
-						        </entry>
-						    </row>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/ogc/service.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/ogc/service.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
 						</tbody>
 					</tgroup>
 				</table>
-			</para>	    
+			</para>
 		</section>
 		<section>
 			<title>Dependencies</title>
@@ -743,11 +754,11 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 				In case you use Maven as build system, you can add the
 				following dependency to your project:
 			</para>
-			<programlisting language="XML">&lt;dependency&gt;
-	&lt;groupId&gt;be.agiv.security&lt;/groupId&gt;
-	&lt;artifactId&gt;agiv-security-client&lt;/artifactId&gt;
-	&lt;version&gt;&project.version;&lt;/version&gt;
-&lt;/dependency&gt;</programlisting>
+			<programlisting language="XML"><![CDATA[<dependency>
+	<groupId>be.agiv.security</groupId>
+	<artifactId>agiv-security-client</artifactId>
+	<version>]]>&project.version;<![CDATA[</version>
+</dependency>]]></programlisting>
 			<para>
 				The AGIV Java Security framework artifacts are available in the
 				public e-contract.be Maven repository. Add the folowing repository
@@ -1119,7 +1130,8 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 						<entry>Frank Cornelis</entry>
 						<entry>
 							Tested new Java and JAX-WS runtime releases.
-							Added service realms and locations.
+							Added service
+							realms and locations.
 						</entry>
 					</row>
 				</tbody>

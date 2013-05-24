@@ -24,6 +24,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.Security;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Properties;
 
@@ -57,6 +61,7 @@ import be.agiv.security.client.WSConstants;
 import be.agiv.security.handler.SecureConversationHandler;
 import be.agiv.security.handler.SecurityTokenProvider;
 import be.agiv.security.handler.WSSecurityHandler;
+import be.fedict.commons.eid.jca.BeIDProvider;
 
 import com.microsoft.schemas._2003._10.serialization.arrays.ArrayOfstring;
 
@@ -86,6 +91,41 @@ public class CrabReadTest {
 				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
+
+		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
+		agivSecurity.enable(bindingProvider,
+				"https://crab.beta.agiv.be/read/crabreadservice.svc/wsfed",
+				false, "urn:agiv.be/crab/beta");
+
+		ArrayOfstring gemeentes = iCrabRead.listGemeente();
+		List<String> gemeenteList = gemeentes.getString();
+		for (String gemeente : gemeenteList) {
+			LOG.debug("gemeente: " + gemeente);
+		}
+		assertTrue(gemeenteList.contains("Vilvoorde"));
+
+		agivSecurity.refreshSecurityTokens();
+	}
+
+	@Test
+	public void testServiceBeID() throws Exception {
+		Security.addProvider(new BeIDProvider());
+		KeyStore keyStore = KeyStore.getInstance("BeID");
+		keyStore.load(null);
+		PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication",
+				null);
+		X509Certificate certificate = (X509Certificate) keyStore
+				.getCertificate("Authentication");
+
+		CrabReadService crabReadService = new CrabReadService();
+
+		ICrabRead iCrabRead = crabReadService
+				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
+
+		AGIVSecurity agivSecurity = new AGIVSecurity(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM, certificate, privateKey);
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
 		agivSecurity.enable(bindingProvider,
