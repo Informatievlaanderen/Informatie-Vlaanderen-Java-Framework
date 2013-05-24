@@ -801,7 +801,12 @@ agivSecurity.enable(bindingProvider,
 				<code>AGIVSecurity</code>
 				component also supports X509 certificates as user credential. The
 				X509 certificate and corresponding private key are most likely
-				stored within a PKCS#12 keystore. The
+				stored within a PKCS#12 keystore.
+				Under
+				<xref linkend="manage-certs" />
+				we describe how to load certificate credentials from software key
+				stores or from your eID card.
+				The
 				<code>AGIVSecurity</code>
 				component can load the key material from the keystore file as
 				follows:
@@ -945,6 +950,45 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 				<code>agiv-security-client-javadoc</code>
 				directory within the SDK package.
 			</para>
+		</section>
+	</section>
+
+	<section id="manage-certs">
+		<title>Managing Certificate Credentials</title>
+		<para>
+			In this chapter we describe how to manage either software
+			certificate credentials
+			or eID based certificate credentials.
+		</para>
+		<section>
+			<title>Software Certificates</title>
+			<para>
+				TODO
+			</para>
+		</section>
+		<section>
+			<title>eID Certificates</title>
+			<para>
+				The AGIV IP-STS also supports eID certificate credentials.
+				Loading
+				your eID authentication certificate and corresponding private key
+				can be done using
+				<ulink url="http://code.google.com/p/commons-eid/">Commons eID</ulink>
+				.
+				The following example demonstrates this:
+			</para>
+			<programlisting language="java"><![CDATA[import java.security.Security;
+import be.fedict.commons.eid.jca.BeIDProvider;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+
+Security.addProvider(new BeIDProvider());
+KeyStore keyStore = KeyStore.getInstance("BeID");
+keyStore.load(null);
+PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication", null);
+X509Certificate certificate = (X509Certificate) keyStore
+	.getCertificate("Authentication");]]></programlisting>
 		</section>
 	</section>
 
