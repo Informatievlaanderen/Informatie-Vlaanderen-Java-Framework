@@ -14,7 +14,7 @@
 			<year>2011-2013</year>
 			<holder>AGIV</holder>
 		</copyright>
-		<releaseinfo>30 April 2013</releaseinfo>
+		<releaseinfo>25 May 2013</releaseinfo>
 		<authorgroup>
 			<author>
 				<firstname>Frank</firstname>
@@ -188,7 +188,7 @@
 						<entry>
 							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10, 2.5.2,
 							2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10, 2.6.0,
-							2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6
+							2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.6.7, 2.6.8
 							<footnote>
 								<para>
 									Apache CXF 2.7 no longer runs on Java 1.5.
@@ -198,14 +198,14 @@
 						<entry>
 							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10,
 							2.5.2, 2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10,
-							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.7.0, 2.7.1,
-							2.7.2, 2.7.3, 2.7.4
+							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.6.7, 2.6.8,
+							2.7.0, 2.7.1, 2.7.2, 2.7.3, 2.7.4, 2.7.5
 						</entry>
 						<entry>
 							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10,
 							2.5.2, 2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10,
-							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.7.0, 2.7.1,
-							2.7.2, 2.7.3, 2.7.4
+							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.6.7, 2.6.8,
+							2.7.0, 2.7.1, 2.7.2, 2.7.3, 2.7.4, 2.7.5
 						</entry>
 					</row>
 					<row>
@@ -1249,6 +1249,15 @@ X509Certificate certificate = (X509Certificate) keyStore
 							Tested new Java and JAX-WS runtime releases.
 							Added service
 							realms and locations.
+						</entry>
+					</row>
+					<row>
+						<entry>25 May 2013</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>
+							Tested new Apache CXF releases.
+							Manage certificate
+							credentials section.
 						</entry>
 					</row>
 				</tbody>
