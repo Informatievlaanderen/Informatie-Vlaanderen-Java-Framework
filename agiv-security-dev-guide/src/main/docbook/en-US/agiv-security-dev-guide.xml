@@ -975,7 +975,22 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 				can be done using
 				<ulink url="http://code.google.com/p/commons-eid/">Commons eID</ulink>
 				.
-				The following example demonstrates this:
+			</para>
+			<para>
+				First add the following dependency to your
+				<code>pom.xml</code>
+				under
+				<code>&lt;dependencies&gt;</code>
+				:
+				<programlisting language="xml"><![CDATA[<dependency>
+	<groupId>be.fedict.commons-eid</groupId>
+	<artifactId>commons-eid-jca</artifactId>
+	<version>0.4.0</version>
+</dependency>]]></programlisting>
+			</para>
+			<para>
+				The following example demonstrates how to load your eID
+				authentication certificate and corresponding private key:
 			</para>
 			<programlisting language="java"><![CDATA[import java.security.Security;
 import be.fedict.commons.eid.jca.BeIDProvider;
