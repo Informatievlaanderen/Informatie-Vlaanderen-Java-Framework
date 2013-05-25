@@ -962,9 +962,67 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 		</para>
 		<section>
 			<title>Software Certificates</title>
-			<para>
-				TODO
-			</para>
+			<section>
+				<title>Creating a key store</title>
+				<para>
+					In this section we describe how to create a PKCS#12 key store
+					containing a self-signed certificate using OpenSSL (on Linux).
+				</para>
+				<para>
+					Create a 1024 bit RSA key pair with default public exponent via:
+					<programlisting><![CDATA[openssl genrsa -out key.pem -F4 1024]]></programlisting>
+					From this RSA key pair we next create a new self-signed certificate
+					via:
+					<programlisting><![CDATA[openssl req -config openssl.conf -new -x509 -key key.pem -out cert.pem -verbose -days 365]]></programlisting>
+					with the configuration file
+					<code>openssl.conf</code>
+					containing:
+					<programlisting><![CDATA[[req]
+distinguished_name = req_distinguished_name
+prompt = no
+x509_extensions = req_x509_extensions
+
+[req_distinguished_name]
+commonName=JavaTestAccount
+
+[req_x509_extensions]]]></programlisting>
+					You can view the content of this new certificate via:
+					<programlisting><![CDATA[openssl x509 -noout -text -in cert.pem]]></programlisting>
+					Finally you can create a PKCS#12 key store containing both the
+					certificate and the corresponding private key via:
+					<programlisting><![CDATA[openssl pkcs12 -export -out keystore.p12 -inkey key.pem -in cert.pem]]></programlisting>
+					View the content of the PKCS#12 key store via:
+					<programlisting><![CDATA[openssl pkcs12 -info -in keystore.p12]]></programlisting>
+					When sending over your certificate to the AGIV Security Team, you
+					will most likely have to deliver your certificate in DER format.
+					Convert a certificate from PEM to DER via:
+					<programlisting><![CDATA[openssl x509 -in cert.pem -out cert.der -outform DER]]></programlisting>
+				</para>
+			</section>
+			<section>
+				<title>Loading a key store</title>
+				<para>
+					A PKCS#12 key store can be loaded as follows:
+					<programlisting language="java"><![CDATA[import java.io.InputStream;
+import java.io.FileInputStream;
+import java.security.KeyStore;
+import java.util.Enumeration;
+import java.security.cert.X509Certificate;
+import java.security.PrivateKey;
+
+InputStream pkcs12InputStream =
+	new FileInputStream("/path/to/your/keystore.p12");
+KeyStore keyStore = KeyStore.getInstance("PKCS12", "SunJSSE");
+keyStore.load(pkcs12InputStream, "your_password".toCharArray());
+
+Enumeration<String> aliases = keyStore.aliases();
+String alias = aliases.nextElement();
+
+X509Certificate certificate = (X509Certificate) keyStore.getCertificate(alias);
+PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
+	"your_password".toCharArray());]]></programlisting>
+				</para>
+			</section>
 		</section>
 		<section>
 			<title>eID Certificates</title>
