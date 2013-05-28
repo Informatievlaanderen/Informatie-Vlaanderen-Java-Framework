@@ -1027,10 +1027,15 @@ PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
 		<section>
 			<title>eID Certificates</title>
 			<para>
-				The AGIV IP-STS also supports eID certificate credentials.
+				The AGIV IP-STS also supports eID certificate credentials for
+				testing purposes against the BETA IP-STS.
+				This way you don't have to
+				buy a certificate for testing the AGIV web services.
 				Loading
-				your eID authentication certificate and corresponding private key
-				can be done using
+				your eID
+				authentication certificate and corresponding private key
+				can be done
+				using
 				<ulink url="http://code.google.com/p/commons-eid/">Commons eID</ulink>
 				.
 			</para>
