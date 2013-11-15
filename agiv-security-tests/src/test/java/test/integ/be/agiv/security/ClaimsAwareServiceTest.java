@@ -140,9 +140,9 @@ public class ClaimsAwareServiceTest {
 		List<ClaimInfo> claims = result.getClaimInfo();
 		boolean myName = false;
 		for (ClaimInfo claim : claims) {
-			LOG.debug(claim.getName().getValue() + " = "
-					+ claim.getValue().getValue());
-			if (this.config.getUsername().equals(claim.getValue().getValue())) {
+			LOG.debug(claim.getName() + " = "
+					+ claim.getValue());
+			if (this.config.getUsername().equals(claim.getValue())) {
 				myName = true;
 			}
 		}
@@ -212,9 +212,9 @@ public class ClaimsAwareServiceTest {
 		List<ClaimInfo> claims = result.getClaimInfo();
 		boolean myName = false;
 		for (ClaimInfo claim : claims) {
-			LOG.debug(claim.getName().getValue() + " = "
-					+ claim.getValue().getValue());
-			if (this.config.getUsername().equals(claim.getValue().getValue())) {
+			LOG.debug(claim.getName() + " = "
+					+ claim.getValue());
+			if (this.config.getUsername().equals(claim.getValue())) {
 				myName = true;
 			}
 		}
@@ -266,9 +266,9 @@ public class ClaimsAwareServiceTest {
 		List<ClaimInfo> claims = result.getClaimInfo();
 		boolean myName = false;
 		for (ClaimInfo claim : claims) {
-			LOG.debug(claim.getName().getValue() + " = "
-					+ claim.getValue().getValue());
-			if (this.config.getUsername().equals(claim.getValue().getValue())) {
+			LOG.debug(claim.getName() + " = "
+					+ claim.getValue());
+			if (this.config.getUsername().equals(claim.getValue())) {
 				myName = true;
 			}
 		}
@@ -385,8 +385,8 @@ public class ClaimsAwareServiceTest {
 
 		List<ClaimInfo> claims = result.getClaimInfo();
 		for (ClaimInfo claim : claims) {
-			LOG.debug(claim.getName().getValue() + " = "
-					+ claim.getValue().getValue());
+			LOG.debug(claim.getName() + " = "
+					+ claim.getValue());
 		}
 
 		agivSecurity.cancelSecureConversationTokens();
@@ -423,8 +423,8 @@ public class ClaimsAwareServiceTest {
 
 		List<ClaimInfo> claims = result.getClaimInfo();
 		for (ClaimInfo claim : claims) {
-			LOG.debug(claim.getName().getValue() + " = "
-					+ claim.getValue().getValue());
+			LOG.debug(claim.getName() + " = "
+					+ claim.getValue());
 		}
 
 		agivSecurity.cancelSecureConversationTokens();

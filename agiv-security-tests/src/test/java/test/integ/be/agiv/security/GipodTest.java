@@ -78,7 +78,7 @@ public class GipodTest {
 
 		BindingProvider bindingProvider = (BindingProvider) iGipodService;
 		agivSecurity.enable(bindingProvider,
-				"https://wsgipod.beta.agiv.be/SOAP/GipodService.svc",
+				"https://gipod.beta.agiv.be/WebService/GipodService.svc/wsfed",
 				"urn:agiv.be/gipodbeta");
 
 		LOG.debug("calling GIPOD service");

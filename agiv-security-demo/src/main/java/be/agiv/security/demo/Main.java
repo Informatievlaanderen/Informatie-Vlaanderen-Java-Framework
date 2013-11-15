@@ -737,9 +737,9 @@ public class Main extends JFrame implements ActionListener, STSListener {
 					List<ClaimInfo> claims = result.getClaimInfo();
 					StringBuffer message = new StringBuffer();
 					for (ClaimInfo claim : claims) {
-						message.append(claim.getName().getValue());
+						message.append(claim.getName());
 						message.append(" = ");
-						message.append(claim.getValue().getValue());
+						message.append(claim.getValue());
 						message.append("\n");
 					}
 
