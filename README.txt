@@ -10,8 +10,8 @@ The source code is hosted at: http://code.google.com/p/agiv-security/
 === 2. Requirements
 
 The following is required for compiling the AGIV Java Security Framework.
-* Oracle Java 1.7.0_06
-* Apache Maven 3.0.4
+* Oracle Java 1.7.0_45
+* Apache Maven 3.1.1
 
 
 === 3. Compilation
