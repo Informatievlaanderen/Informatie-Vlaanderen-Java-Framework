@@ -167,6 +167,45 @@ public class IPSTSTest {
 			runtime.exec(new String[] { "firefox", tmpFile.getAbsolutePath() });
 		}
 	}
+	
+	@Test
+	public void testRSTSGIPOD() throws Exception {
+		// setup
+		IPSTSClient ipStsClient = new IPSTSClient(
+				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				AGIVSecurity.BETA_REALM);
+
+		RSTSClient rStsClient = new RSTSClient(
+				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+
+		// operate
+		LOG.debug("IP-STS...");
+		SecurityToken ipStsSecurityToken = ipStsClient.getSecurityToken(
+				this.config.getUsername(), this.config.getPassword());
+
+		LOG.debug("R-STS...");
+		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
+				ipStsSecurityToken, "urn:agiv.be/gipodbeta");
+
+		// verify
+		assertNotNull(rStsSecurityToken);
+		assertNotNull(rStsSecurityToken.getToken());
+		assertNotNull(rStsSecurityToken.getKey());
+		LOG.debug("created: " + rStsSecurityToken.getCreated());
+		LOG.debug("expired: " + rStsSecurityToken.getExpires());
+		assertNotNull(rStsSecurityToken.getCreated());
+		assertNotNull(rStsSecurityToken.getExpires());
+		LOG.debug("token identifier: "
+				+ rStsSecurityToken.getAttachedReference());
+		assertNotNull(rStsSecurityToken.getAttachedReference());
+		assertNotNull(rStsSecurityToken.getRealm());
+		LOG.debug("realm: " + rStsSecurityToken.getRealm());
+		assertNotNull(rStsSecurityToken.getStsLocation());
+		LOG.debug("STS location: " + rStsSecurityToken.getStsLocation());
+		assertEquals(rStsSecurityToken.getParentSecurityToken(),
+				ipStsSecurityToken);
+	}
+
 
 	@Test
 	public void testRSTS() throws Exception {

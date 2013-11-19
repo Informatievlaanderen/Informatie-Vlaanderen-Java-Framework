@@ -36,6 +36,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
+import javax.xml.ws.handler.Handler;
 import javax.xml.ws.soap.AddressingFeature;
 import javax.xml.ws.soap.SOAPFaultException;
 import javax.xml.ws.spi.Provider;
@@ -45,6 +46,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.feature.AbstractFeature;
+import org.apache.cxf.feature.Feature;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.ws.addressing.WSAddressingFeature;
 import org.apache.cxf.ws.policy.WSPolicyFeature;
@@ -62,6 +64,7 @@ import be.agiv.security.client.IPSTSClient;
 import be.agiv.security.client.RSTSClient;
 import be.agiv.security.client.SecureConversationClient;
 import be.agiv.security.demo.ClaimsAwareServiceFactory;
+import be.agiv.security.handler.LoggingHandler;
 
 public class CXFTest {
 
@@ -72,6 +75,32 @@ public class CXFTest {
 	@Before
 	public void setUp() throws Exception {
 		this.config = new Config();
+	}
+
+	@Test
+	public void testCXFWSSecurityPolicy() throws Exception {
+		URL wsdlLocation = new URL(
+				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc?wsdl");
+		QName serviceName = new QName("http://tempuri.org/", "Service");
+		Service service = new Service(wsdlLocation, serviceName);
+		IService iservice = service
+				.getBasicHttpBindingIService(new AddressingFeature());
+
+		BindingProvider bindingProvider = (BindingProvider) iservice;
+		bindingProvider
+				.getRequestContext()
+				.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
+						"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/basic");
+		bindingProvider.getRequestContext().put(
+				SecurityConstants.CALLBACK_HANDLER, new UTCallbackHandler());
+		bindingProvider.getRequestContext().put(SecurityConstants.USERNAME,
+				this.config.getUsername());
+		List<Handler> handlerChain = bindingProvider.getBinding()
+				.getHandlerChain();
+		handlerChain.add(new LoggingHandler());
+		bindingProvider.getBinding().setHandlerChain(handlerChain);
+
+		iservice.getData(0);
 	}
 
 	@Test
@@ -251,7 +280,7 @@ public class CXFTest {
 	@Test
 	public void testClaimsAwareServiceBus() {
 		Bus bus = BusFactory.getDefaultBus();
-		for (AbstractFeature feature : bus.getFeatures()) {
+		for (Feature feature : bus.getFeatures()) {
 			LOG.debug("feature: " + feature);
 			if (feature instanceof WSPolicyFeature) {
 				LOG.debug("WS-Policy feature detected");
@@ -306,10 +335,12 @@ public class CXFTest {
 				UnsupportedCallbackException {
 			LOG.debug("callback handler invoked");
 			for (Callback callback : callbacks) {
+				LOG.debug("callback type: " + callback.getClass().getName());
 				if (callback instanceof WSPasswordCallback) {
 					WSPasswordCallback wsPasswordCallback = (WSPasswordCallback) callback;
 					if (wsPasswordCallback.getIdentifier().equals(
 							CXFTest.this.config.getUsername())) {
+						LOG.debug("setting password");
 						wsPasswordCallback.setPassword(CXFTest.this.config
 								.getPassword());
 					}
@@ -332,7 +363,9 @@ public class CXFTest {
 				UTCallbackHandler.class.getName());
 		stsClient.setProperties(properties);
 
-		// stsClient.setWsdlLocation("ws-trust-1.3.wsdl");
+		stsClient.setWsdlLocation("/ws-trust-1.3.wsdl");
+		stsClient
+				.setLocation("https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		stsClient
 				.setServiceName("{http://docs.oasis-open.org/ws-sx/ws-trust/200512}SecurityTokenService");
 		stsClient.setEndpointQName(new QName(
