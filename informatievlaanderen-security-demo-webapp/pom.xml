@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>be.vlaanderen.informatievlaanderen</groupId>
+		<artifactId>informatievlaanderen-security</artifactId>
+		<version>1.0.2-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<name>Informatie Vlaanderen Security Demo Web Application</name>
+	<groupId>be.vlaanderen.informatievlaanderen.security</groupId>
+	<artifactId>informatievlaanderen-security-demo-webapp</artifactId>
+	<packaging>war</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>be.vlaanderen.informatievlaanderen.security</groupId>
+			<artifactId>informatievlaanderen-security-client</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>be.vlaanderen.informatievlaanderen.security</groupId>
+			<artifactId>informatievlaanderen-security-gipod</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>be.vlaanderen.informatievlaanderen.security</groupId>
+			<artifactId>informatievlaanderen-security-tests</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>be.vlaanderen.informatievlaanderen.security</groupId>
+			<artifactId>informatievlaanderen-security-crab-read</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- needs to be aligned with the JBoss AS 7.1.1.Final JBossWS stack -->
+			<groupId>org.apache.ws.security</groupId>
+			<artifactId>wss4j</artifactId>
+			<version>1.6.5</version>
+		</dependency>
+	</dependencies>
+</project>

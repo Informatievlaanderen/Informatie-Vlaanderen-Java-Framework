@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jxb:bindings version="2.1" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:jaxws="http://java.sun.com/xml/ns/jaxws"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd
+	http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd">
+
+	<jxb:globalBindings underscoreBinding="asCharInWord" />
+
+	<jxb:bindings
+		schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd0"
+		node="/xs:schema">
+		<jxb:schemaBindings>
+			<jxb:package name="be.vlaanderen.informatievlaanderen.security.crab.edit.jaxb" />
+			<jxb:nameXmlTransform>
+				<jxb:typeName suffix="Type" />
+				<jxb:elementName suffix="Element" />
+			</jxb:nameXmlTransform>
+		</jxb:schemaBindings>
+	</jxb:bindings>
+
+	<jxb:bindings
+		schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd1"
+		node="/xs:schema">
+		<jxb:schemaBindings>
+			<jxb:package name="be.vlaanderen.informatievlaanderen.security.crab.edit.jaxb.serialization" />
+			<jxb:nameXmlTransform>
+				<jxb:typeName suffix="Type" />
+				<jxb:elementName suffix="Element" />
+			</jxb:nameXmlTransform>
+		</jxb:schemaBindings>
+	</jxb:bindings>
+
+	<jxb:bindings
+		schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd2"
+		node="/xs:schema">
+		<jxb:schemaBindings>
+			<jxb:package name="be.vlaanderen.informatievlaanderen.security.crab.edit.jaxb.errorhandling" />
+			<jxb:nameXmlTransform>
+				<jxb:typeName suffix="Type" />
+				<jxb:elementName suffix="Element" />
+			</jxb:nameXmlTransform>
+		</jxb:schemaBindings>
+	</jxb:bindings>
+
+	<jxb:bindings
+		schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd3"
+		node="/xs:schema">
+		<jxb:schemaBindings>
+			<jxb:package name="be.vlaanderen.informatievlaanderen.security.crab.edit.jaxb.serialization.arrays" />
+			<jxb:nameXmlTransform>
+				<jxb:typeName suffix="Type" />
+				<jxb:elementName suffix="Element" />
+			</jxb:nameXmlTransform>
+		</jxb:schemaBindings>
+	</jxb:bindings>
+
+	<jxb:bindings
+		schemaLocation="http://crab.beta.agiv.be/Edit/CrabEditService.svc?xsd=xsd4"
+		node="/xs:schema">
+		<jxb:schemaBindings>
+			<jxb:package name="be.vlaanderen.informatievlaanderen.security.crab.edit.jaxb.dto" />
+			<jxb:nameXmlTransform>
+				<jxb:typeName suffix="Type" />
+				<jxb:elementName suffix="Element" />
+			</jxb:nameXmlTransform>
+		</jxb:schemaBindings>
+	</jxb:bindings>
+
+</jxb:bindings>

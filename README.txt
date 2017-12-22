@@ -26,10 +26,10 @@ You might receive an OutOfMemoryException from Maven. Prevent this via:
 
 === 4. Integration tests
 
-The integration tests are located under the agiv-security-tests directory.
-The integration tests require different AGIV credentials.
+The integration tests are located under the informatievlaanderen-security-tests directory.
+The integration tests require different Informatie Vlaanderen credentials.
 These credentials can be configured via:
-	agiv-security-tests/src/main/resources/agiv.properties
+	informatievlaanderen-security-tests/src/main/resources/informatievlaanderen.properties
 
 
 === 5. License

@@ -1,0 +1,1286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article version="5.0"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
+	xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<articleinfo>
+		<title>Informatie Vlaanderen Java Security Developer's Guide</title>
+		<subtitle>
+			Integrating the Informatie Vlaanderen SOAP web services in your Java applications.
+		</subtitle>
+		<subtitle>
+			Version &project.version;
+		</subtitle>
+		<copyright>
+			<year>2011-2017</year>
+			<holder>Informatie Vlaanderen</holder>
+		</copyright>
+		<releaseinfo>25 May 2013</releaseinfo>
+		<authorgroup>
+			<author>
+				<firstname>Frank</firstname>
+				<surname>Cornelis</surname>
+				<email>info@e-contract.be</email>
+			</author>
+			<author>
+				<firstname>Jaan</firstname>
+				<surname>Claeys</surname>
+				<email>jaan.claeys@kb.vlaanderen.be</email>
+			</author>
+		</authorgroup>
+		<abstract>
+			<para>
+				The Informatie Vlaanderen web services use Windows Communication Foundation to
+				setup the security constraints and requirements. Connecting to WCF
+				secured web services from within Java can be a challenge because the
+				support for WS-* within JAX-WS web service stacks has not yet been
+				standardized through the JCP. Most of the time it is also not so
+				trivial to switch to JAX-WS web service stack implementations that
+				do support WS-* (and that work) for connecting clients. Via the Informatie Vlaanderen
+				Java Security framework we provide an alternative solution to turn a
+				vanilla JAX-WS client into an Informatie Vlaanderen Security enabled client.
+			</para>
+		</abstract>
+	</articleinfo>
+
+	<section>
+		<title>Introduction</title>
+		<para>
+			The Informatie Vlaanderen security architecture is based on a quite modern
+			WS-Trust based system. This system allows for a very flexible IAM
+			solution. The architecture includes the following services:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					A WS-Trust based IP-STS service (IP = Identity Provider) that
+					issues security tokens based on username/password or certificate
+					credentials.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					A WS-Trust based R-STS service (R = Relaying/Resource) that
+					issues security tokens based on the IP-STS security tokens. The
+					R-STS security tokens always apply to a certain Informatie Vlaanderen web service.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Each Informatie Vlaanderen web service requires either the setup of a
+					WS-SecureConversation based secure conversation or directly use the
+					SAML token as retrieved from the R-STS.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<para>
+			The Informatie Vlaanderen web services are secured via WS-SecureConversation or
+			directly via a SAML token. The security policy is defined via
+			WS-Policy and WS-SecurityPolicy and can be found within the WSDLs of
+			the different web services. For using such secured web services from
+			within a Java application different options are available:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					One can simply use the WS-* features of your WS-* enabled web
+					service stack. This requires a proprietary configuration that is
+					specific to the used web service stack. It is important to
+					understand that this developer's guide does not describe how to
+					configure each and every WS-* enabled web service stack.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					One can disable the WS-* features of your WS-* enabled web
+					service stack and use the Informatie Vlaanderen Security framework. Not all web
+					service stacks allow you to disable the WS-* functionality. Most
+					will automatically kick in the WS-* features once a WS-Policy
+					enabled binding is found in the WSDL.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Use a vanilla web service stack that has no notion of WS-* and
+					use the Informatie Vlaanderen Security framework.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Remove the WS-Policy entries from the WSDL and use the Informatie Vlaanderen
+					Security framework. This is probably the easiest solution and works
+					for all JAX-WS web service stacks.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+
+	<section>
+		<title>JAX-WS runtime</title>
+		<para>
+			The Informatie Vlaanderen Security framework does not use WS-* functionality of any
+			JAX-WS runtime. The Informatie Vlaanderen Security framework also does not require a
+			specific JAX-WS runtime to be available. The Informatie Vlaanderen Security framework
+			strictly uses the plain vanilla JAX-WS API to be able to run on as
+			many JAX-WS runtimes as possible. The
+			<xref linkend="table-jaxws-runtimes" />
+			summarizes the JAX-WS runtimes and their versions on which the Informatie Vlaanderen
+			Security framework has been tested.
+		</para>
+		<table id="table-jaxws-runtimes">
+			<title>Tested JAX-WS runtimes</title>
+			<tgroup cols="4">
+				<colspec />
+				<colspec colname="javaBegin" />
+				<colspec />
+				<colspec colname="javaEnd" />
+				<thead>
+					<row>
+						<entry morerows="1" valign="middle">JAX-WS runtime</entry>
+						<entry namest="javaBegin" nameend="javaEnd" align="center">
+							Java
+							runtime
+						</entry>
+					</row>
+					<row>
+						<entry>Java 1.5.0_22</entry>
+						<entry>Java 1.6.0_45</entry>
+						<entry>Java 1.7.0_21</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Default JAX-WS</entry>
+						<entry>
+							<footnote>
+								<para>
+									Not applicable.
+								</para>
+							</footnote>
+						</entry>
+						<entry>&or;
+						</entry>
+						<entry>&or;
+						</entry>
+					</row>
+					<row>
+						<entry>JAX-WS RI</entry>
+						<entry>
+							2.1.7, 2.1.9, 2.2.5
+							<footnote>
+								<para>
+									JAX-WS RI versions 2.2.6, 2.2.6-2, 2.2.6-3, 2.2.7 no
+									longer run on Java 1.5.
+								</para>
+							</footnote>
+						</entry>
+						<entry>2.1.7, 2.1.9, 2.2.6, 2.2.6-2, 2.2.7</entry>
+						<entry>2.1.7, 2.1.9, 2.2.6, 2.2.6-2, 2.2.7</entry>
+					</row>
+					<row>
+						<entry>
+							Apache CXF
+							<footnote>
+								<para>
+									Need to use WSDLs without WS-Policy or disable WS-Policy
+									feature. Disabling WS-Policy feature does not work for version
+									2.6.0+. Version 2.6.0+ also requires removal of the
+									<code>&lt;wsp:Policy&gt;</code>
+									elements, else the WS-Policy parser kicks in.
+									https://issues.apache.org/jira/browse/CXF-4258
+								</para>
+							</footnote>
+						</entry>
+						<entry>
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10, 2.5.2,
+							2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10, 2.6.0,
+							2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.6.7, 2.6.8
+							<footnote>
+								<para>
+									Apache CXF 2.7 no longer runs on Java 1.5.
+								</para>
+							</footnote>
+						</entry>
+						<entry>
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10,
+							2.5.2, 2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10,
+							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.6.7, 2.6.8,
+							2.7.0, 2.7.1, 2.7.2, 2.7.3, 2.7.4, 2.7.5
+						</entry>
+						<entry>
+							2.3.9, 2.3.10, 2.3.11, 2.4.6, 2.4.7, 2.4.8, 2.4.9, 2.4.10,
+							2.5.2, 2.5.3, 2.5.4, 2.5.5, 2.5.6, 2.5.7, 2.5.8, 2.5.9, 2.5.10,
+							2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.6.4, 2.6.5, 2.6.6, 2.6.7, 2.6.8,
+							2.7.0, 2.7.1, 2.7.2, 2.7.3, 2.7.4, 2.7.5
+						</entry>
+					</row>
+					<row>
+						<entry>Axis2</entry>
+						<entry>1.6.1, 1.6.2</entry>
+						<entry>
+							<footnote>
+								<para>
+									Conflicts with the default JAX-WS 2.1 API if you use the
+									JAX-WS WS-Addressing feature.
+								</para>
+							</footnote>
+						</entry>
+						<entry>1.6.1, 1.6.2</entry>
+					</row>
+					<row>
+						<entry>
+							Metro
+							<footnote>
+								<para>
+									Need to use WSDLs without WS-Policy.
+								</para>
+							</footnote>
+						</entry>
+						<entry>
+							2.1.1
+							<footnote>
+								<para>
+									Metro versions 2.2, 2.2.0-1, 2.2.0-2, 2.2.1, 2.2.1-1 do
+									not run on Java 1.5.
+								</para>
+							</footnote>
+						</entry>
+						<entry>
+							2.1.1, 2.2, 2.2.0-1, 2.2.0-2, 2.2.1, 2.2.1-1
+						</entry>
+						<entry>
+							2.1.1, 2.2, 2.2.0-1, 2.2.0-2, 2.2.1, 2.2.1-1
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+
+	<section>
+		<title>Usage</title>
+		<para>
+			First of all you need to generate JAX-WS stubs out of the WSDL of the
+			service that you want to use. To make sure that your JAX-WS web
+			service stack does not start to interpret the WS-Policy section of
+			the WSDL, you can simply remove the
+			<code>&lt;wsp:PolicyReference&gt;</code>
+			element from the
+			<code>&lt;wsdl:Binding&gt;</code>
+			element(s) within the WSDL. As some JAX-WS stacks even start to
+			interpret the WS-Policy section after removal of the
+			<code>&lt;wsp:PolicyReference&gt;</code>
+			elements, it might be required to even remove the
+			<code>&lt;wsp:Policy&gt;</code>
+			elements altogether.
+		</para>
+		<para>
+			Basically you decorate a vanilla JAX-WS stub to enable the Informatie Vlaanderen
+			security on it.
+		</para>
+		<programlisting language="java"><![CDATA[import javax.xml.ws.soap.AddressingFeature;
+import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
+import javax.xml.ws.BindingProvider;
+
+// create your JAX-WS stub (generated out of a WSDL)
+YourService yourJaxWsClientStub = ...;
+YourServicePort yourJaxWsClientPort = yourJaxWsClientStub.getYourPort(
+	new AddressingFeature());
+
+// create an Informatie Vlaanderen security component
+InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
+	"https://the.location.of.the.informatievlaanderen.ipsts.service",
+	"https://the.location.of.the.informatievlaanderen.rsts.service",
+	"realm",
+	"yourUsername", "yourPassword");
+
+// enabled the Informatie Vlaanderen security framework on your JAX-WS stub
+BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
+informatieVlaanderenSecurity.enable(bindingProvider, 
+	"https://the.location.of.the.informatievlaanderen.service",
+	"serviceRealm");
+
+// ready for usage
+yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
+		<para>
+			Make sure to enable the JAX-WS WS-Addressing feature and to use the
+			SOAP 1.2 binding. The SOAP 1.2 binding can be enabled by compiling
+			the WSDL via
+			<code>wsimport</code>
+			with the
+			<code>extension</code>
+			attribute set to
+			<code>true</code>
+			.
+		</para>
+		<section>
+			<title>Informatie Vlaanderen STS Locations and Realms</title>
+			<para>
+				The location of the Informatie Vlaanderen Beta IP-STS service for
+				username/password credentials is:
+			</para>
+			<para>
+				<code>
+					https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13
+				</code>
+			</para>
+			<para>
+				The location of the Informatie Vlaanderen Beta IP-STS service for certificate
+				credentials is:
+			</para>
+			<para>
+				<code>
+					https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage
+				</code>
+			</para>
+			<para>
+				The location of the Informatie Vlaanderen Beta R-STS service is:
+			</para>
+			<para>
+				<code>
+					https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13
+				</code>
+			</para>
+			<para>
+				The Informatie Vlaanderen Beta R-STS realm is
+			</para>
+			<para>
+				<code>urn:informatievlaanderen.be/sts/beta</code>
+			</para>
+			<para>
+				You can use the
+				<code>InformatieVlaanderenSecurity.BETA_REALM</code>
+				constant for this.
+			</para>
+			<para>
+				The Informatie Vlaanderen production R-STS realm is
+			</para>
+			<para>
+				<code>urn:informatievlaanderen.be/sts/prod</code>
+			</para>
+			<para>
+				You can use the
+				<code>InformatieVlaanderenSecurity.PRODUCTION_REALM</code>
+				constant for this.
+			</para>
+		</section>
+		<section>
+			<title>Service Locations and Realms</title>
+			<para>
+				The
+				<xref linkend="table-services" />
+				lists the locations and realms for the different Informatie Vlaanderen services.
+				<table id="table-services">
+					<title>Informatie Vlaanderen Service Locations and Realms</title>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Gipod Service
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry role="rowhead">
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://service.beta.gipod.vlaanderen.be/soap/GipodService.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:informatievlaanderen.be/gipod/serivce/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://service.gipod.vlaanderen.be/soap/GipodService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:informatievlaanderen.be/gipod/service/prod</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									RVV service
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.beta.agiv.be/WebService/RVVService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.agiv.be/WebService/RVVService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									RVV Upload
+									service
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.beta.agiv.be/WebService/uploadService.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://rvv.agiv.be/WebService/uploadService.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/rvv</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab WST
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/WST/CRAB_WST.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/WST/CRAB_WST.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab Read
+									service
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/read/crabreadservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/read/crabreadservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab Edit
+									service
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/edit/crabeditservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/edit/crabeditservice.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab Melding
+									service
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/melding/crabmeldingservice.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/melding/crabmeldingservice.svc
+									</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+					<tgroup cols="2">
+						<colspec colname="first" colwidth="1*" />
+						<colspec colname="last" colwidth="3*" />
+						<thead>
+							<row>
+								<entry namest="first" nameend="last" align="center">
+									Crab OGC
+									service
+								</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>
+									Beta Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.beta.agiv.be/ogc/service.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Beta Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab/beta</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Endpoint
+								</entry>
+								<entry>
+									<code>https://crab.agiv.be/ogc/service.svc</code>
+								</entry>
+							</row>
+							<row>
+								<entry>
+									Production Realm
+								</entry>
+								<entry>
+									<code>urn:agiv.be/crab</code>
+								</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+		</section>
+		<section>
+			<title>Dependencies</title>
+			<para>
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component can be found within the
+				<code>informatievlaanderen-security-client</code>
+				JAR artifact. Also make sure to include all required dependencies,
+				which are located under the
+				<code>lib/</code>
+				directory within the SDK package.
+			</para>
+			<para>
+				In case you use Maven as build system, you can add the
+				following dependency to your project:
+			</para>
+			<programlisting language="XML"><![CDATA[<dependency>
+	<groupId>be.vlaanderen.informatievlaanderen.security</groupId>
+	<artifactId>informatievlaanderen-security-client</artifactId>
+	<version>]]>&project.version;<![CDATA[</version>
+</dependency>]]></programlisting>
+			<para>
+				The Informatie Vlaanderen Java Security framework artifacts are available in the
+				public e-contract.be Maven repository. Add the folowing repository
+				configuration to the
+				<code>repositories</code>
+				element of your
+				<code>pom.xml</code>
+				Maven POM file:
+			</para>
+			<programlisting language="XML"><![CDATA[<repository>
+	<id>e-contract.be</id>
+	<url>http://www.e-contract.be/maven2/</url>
+	<releases>
+		<enabled>true</enabled>
+	</releases>
+</repository>]]></programlisting>
+		</section>
+		<section>
+			<title>WS-SecureConversation</title>
+			<para>
+				Per default the
+				<code>InformatieVlaanderenSecurity</code>
+				component will not use WS-SecureConversation on the JAX-WS stubs.
+				For Informatie Vlaanderen web services that support WS-SecureConversation you can
+				enable the usage of WS-SecureConversation on the JAX-WS stubs by
+				using the different variants of the
+				<code>enable</code>
+				method.
+			</para>
+			<programlisting language="java"><![CDATA[BindingProvider bindingProvider = (BindingProvider) yourJaxWsClientPort;
+boolean useWsSecureConversation = true;
+informatieVlaanderenSecurity.enable(bindingProvider, 
+	"https://the.location.of.the.informatievlaanderen.service",
+	useWsSecureConversation, "serviceRealm");]]></programlisting>
+		</section>
+		<section>
+			<title>Certificate credential</title>
+			<para>
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component also supports X509 certificates as user credential. The
+				X509 certificate and corresponding private key are most likely
+				stored within a PKCS#12 keystore.
+				Under
+				<xref linkend="manage-certs" />
+				we describe how to load certificate credentials from software key
+				stores or from your eID card.
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component can load the key material from the keystore file as
+				follows:
+			</para>
+			<programlisting language="java"><![CDATA[import java.io.File;
+import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
+
+File pkcs12File = new File("/the/location/of/the/pkcs12/keystore");
+InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
+	"https://the.location.of.the.informatievlaanderen.ipsts.service",
+	"https://the.location.of.the.informatievlaanderen.rsts.service",
+	"realm",
+	pkcs12File, "pkcs12Password");]]></programlisting>
+			<para>
+				In case that the X509 certificate and corresponding private key
+				is stored on some other medium (like for example an HSM or a smart
+				card) you can use the following constructor.
+			</para>
+			<programlisting language="java"><![CDATA[import java.security.cert.X509Certificate;
+import java.security.PrivateKey;
+import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
+
+X509Certificate certificate = ...;
+PrivateKey privateKey = ...;
+InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
+	"https://the.location.of.the.informatievlaanderen.ipsts.service",
+	"https://the.location.of.the.informatievlaanderen.rsts.service",
+	"realm",
+	certificate, privateKey);]]></programlisting>
+			<para>
+				Java comes with different security providers for loading key
+				material like for example the
+				<code>SunPKCS11</code>
+				security provider for loading key material via native PKCS#11
+				modules.
+			</para>
+		</section>
+		<section>
+			<title>Token caching</title>
+			<para>
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component will cache the different security tokens from the IP-STS,
+				R-STS, and (if applicable) the secure conversation tokens. When the
+				security tokens are about to expire, the
+				<code>InformatieVlaanderenSecurity</code>
+				component will automatically retrieve new security tokens.
+			</para>
+			<para>
+				Although JAX-WS stubs themselves are not multi-threaded, the
+				<code>InformatieVlaanderenSecurity</code>
+				component can be shared between multiple threads. Doing so all
+				JAX-WS stubs will use the same security tokens when accessing the
+				Informatie Vlaanderen web services.
+			</para>
+			<para>
+				To improve user experience you can let the
+				<code>InformatieVlaanderenSecurity</code>
+				component prefetch the required security tokens for a certain Informatie Vlaanderen
+				web service via:
+			</para>
+			<programlisting language="java"><![CDATA[informatieVlaanderenSecurity.prefetchTokens("https://the.location.of.the.informatievlaanderen.service",
+	"serviceRealm");]]></programlisting>
+			<para>
+				To reduce the load on the Informatie Vlaanderen web services you can cancel the
+				secure conversation tokens after usage via:
+			</para>
+			<programlisting language="java"><![CDATA[informatieVlaanderenSecurity.cancelSecureConversationTokens();]]></programlisting>
+		</section>
+		<section>
+			<title>Web Proxies</title>
+			<para>
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component supports both HTTP and SOCKS based web proxies. The proxy
+				settings can be configured as follows:
+			</para>
+			<programlisting language="java"><![CDATA[import java.net.Proxy.Type;
+
+informatieVlaanderenSecurity.setProxy("localhost", 3128, Type.SOCKS);]]></programlisting>
+			<para>
+				The proxy settings apply to both the different WS-Trust clients
+				that are internally used, as well as to the Informatie Vlaanderen Security enabled
+				JAX-WS stubs.
+			</para>
+		</section>
+		<section>
+			<title>External IP-STS</title>
+			<para>
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component also offers support for external IP-STS services that do
+				not behave exactly like the Informatie Vlaanderen IP-STS service. The
+				<code>InformatieVlaanderenSecurity</code>
+				component can be configured to use an external IP-STS client as
+				follows:
+			</para>
+			<programlisting language="java"><![CDATA[import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
+
+InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
+	externalIpStsClient, "https://the.location.of.the.informatievlaanderen.rsts.service");]]></programlisting>
+			<para>
+				Where
+				<code>externalIpStsClient</code>
+				is your own custom IP-STS client object that implements the
+				<code>ExternalIPSTSClient</code>
+				interface. The external IP-STS client should be thread-safe.
+			</para>
+		</section>
+		<section>
+			<title>Activity listener</title>
+			<para>
+				When the
+				<code>InformatieVlaanderenSecurity</code>
+				cache is empty, or the cached tokens are about to expire, it can
+				take a
+				while to acquire new tokens due to the number of STS calls and
+				cryptographic operations that need to be performed. Especially when
+				using the
+				<code>InformatieVlaanderenSecurity</code>
+				component within a desktop Java (Swing) application this could
+				impact the end user experience dramatically.
+			</para>
+			<para>
+				To be able to give the end user an indication of what is taking so
+				long, the application can register an
+				<code>STSListener</code>
+				on the
+				<code>InformatieVlaanderenSecurity</code>
+				component. Via the registered
+				<code>STSListener</code>
+				the application will receive a callback whenever the
+				<code>InformatieVlaanderenSecurity</code>
+				component in requesting a new token.
+			</para>
+		</section>
+		<section>
+			<title>Javadoc</title>
+			<para>
+				The javadoc API documentation can be found within the
+				<code>informatievlaanderen-security-client-javadoc</code>
+				directory within the SDK package.
+			</para>
+		</section>
+	</section>
+
+	<section id="manage-certs">
+		<title>Managing Certificate Credentials</title>
+		<para>
+			In this chapter we describe how to manage either software
+			certificate credentials
+			or eID based certificate credentials.
+		</para>
+		<section>
+			<title>Software Certificates</title>
+			<section>
+				<title>Creating a key store</title>
+				<para>
+					In this section we describe how to create a PKCS#12 key store
+					containing a self-signed certificate using OpenSSL (on Linux).
+				</para>
+				<para>
+					Create a 1024 bit RSA key pair with default public exponent via:
+					<programlisting><![CDATA[openssl genrsa -out key.pem -F4 1024]]></programlisting>
+					From this RSA key pair we next create a new self-signed certificate
+					via:
+					<programlisting><![CDATA[openssl req -config openssl.conf -new -x509 -key key.pem -out cert.pem -verbose -days 365]]></programlisting>
+					with the configuration file
+					<code>openssl.conf</code>
+					containing:
+					<programlisting><![CDATA[[req]
+distinguished_name = req_distinguished_name
+prompt = no
+x509_extensions = req_x509_extensions
+
+[req_distinguished_name]
+commonName=JavaTestAccount
+
+[req_x509_extensions]]]></programlisting>
+					You can view the content of this new certificate via:
+					<programlisting><![CDATA[openssl x509 -noout -text -in cert.pem]]></programlisting>
+					Finally you can create a PKCS#12 key store containing both the
+					certificate and the corresponding private key via:
+					<programlisting><![CDATA[openssl pkcs12 -export -out keystore.p12 -inkey key.pem -in cert.pem]]></programlisting>
+					View the content of the PKCS#12 key store via:
+					<programlisting><![CDATA[openssl pkcs12 -info -in keystore.p12]]></programlisting>
+					When sending over your certificate to the Informatie Vlaanderen Security Team, you
+					will most likely have to deliver your certificate in DER format.
+					Convert a certificate from PEM to DER via:
+					<programlisting><![CDATA[openssl x509 -in cert.pem -out cert.der -outform DER]]></programlisting>
+				</para>
+			</section>
+			<section>
+				<title>Loading a key store</title>
+				<para>
+					A PKCS#12 key store can be loaded as follows:
+					<programlisting language="java"><![CDATA[import java.io.InputStream;
+import java.io.FileInputStream;
+import java.security.KeyStore;
+import java.util.Enumeration;
+import java.security.cert.X509Certificate;
+import java.security.PrivateKey;
+
+InputStream pkcs12InputStream =
+	new FileInputStream("/path/to/your/keystore.p12");
+KeyStore keyStore = KeyStore.getInstance("PKCS12", "SunJSSE");
+keyStore.load(pkcs12InputStream, "your_password".toCharArray());
+
+Enumeration<String> aliases = keyStore.aliases();
+String alias = aliases.nextElement();
+
+X509Certificate certificate = (X509Certificate) keyStore.getCertificate(alias);
+PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
+	"your_password".toCharArray());]]></programlisting>
+				</para>
+			</section>
+		</section>
+		<section>
+			<title>eID Certificates</title>
+			<para>
+				The Informatie Vlaanderen IP-STS also supports eID certificate credentials for
+				testing purposes against the BETA IP-STS.
+				This way you don't have to
+				buy a certificate for testing the Informatie Vlaanderen web services.
+				Loading
+				your eID
+				authentication certificate and corresponding private key
+				can be done
+				using
+				<ulink url="http://code.google.com/p/commons-eid/">Commons eID</ulink>
+				.
+			</para>
+			<para>
+				First add the following dependency to your
+				<code>pom.xml</code>
+				under
+				<code>&lt;dependencies&gt;</code>
+				:
+				<programlisting language="xml"><![CDATA[<dependency>
+	<groupId>be.fedict.commons-eid</groupId>
+	<artifactId>commons-eid-jca</artifactId>
+	<version>0.4.0</version>
+</dependency>]]></programlisting>
+			</para>
+			<para>
+				The following example demonstrates how to load your eID
+				authentication certificate and corresponding private key:
+			</para>
+			<programlisting language="java"><![CDATA[import java.security.Security;
+import be.fedict.commons.eid.jca.BeIDProvider;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
+
+Security.addProvider(new BeIDProvider());
+KeyStore keyStore = KeyStore.getInstance("BeID");
+keyStore.load(null);
+PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication", null);
+X509Certificate certificate = (X509Certificate) keyStore
+	.getCertificate("Authentication");]]></programlisting>
+		</section>
+	</section>
+
+	<section>
+		<title>Java EE 6</title>
+		<para>
+			Enabling the Informatie Vlaanderen Java Security framework within a full-blown Java EE
+			6 application server can be a challenge. Not only because JAX-WS is
+			part of Java EE 6, but also because the embedded JAX-WS runtime stack
+			comes with its own WS-* capabilities. The trick here is to have a
+			<emphasis>perfect alignment</emphasis>
+			of the WSS4J bundled within your enterprise application against the
+			version of WSS4J provided by the application server. Hence it might
+			be required to override the version of WSS4J that the Informatie Vlaanderen Java
+			Security framework will be using at run-time.
+		</para>
+		<para>
+			For example, for the JBoss AS 7.1.1.Final application server you
+			have to change the WSS4J within your enterprise application to
+			version 1.6.5. This can easily be done in Maven as follows.
+		</para>
+		<programlisting language="XML"><![CDATA[<dependency>
+	<groupId>org.apache.ws.security</groupId>
+	<artifactId>wss4j</artifactId>
+	<version>1.6.5</version>
+</dependency>]]></programlisting>
+		<para>
+			Once you have the WSS4J run-time aligned with the one provided by the
+			Java EE 6 application server, you can use the
+			<code>@WebServiceRef</code>
+			annotation to have the generated JAX-WS service instances injected
+			into you EJB3 session beans.
+		</para>
+		<para>
+			Clients may experience delays because the framework needs to
+			reacquire security tokens that are about to expire. In order to
+			minimize these possible delays it is possible to explicity trigger
+			the refreshment of all security tokens via:
+		</para>
+		<programlisting language="java"><![CDATA[informatieVlaanderenSecurity.refreshSecurityTokens();]]></programlisting>
+		<para>
+			Where the
+			<code>InformatieVlaanderenSecurity</code>
+			instance is a
+			<code>@Singleton</code>
+			within the system. This could be done by some background process on a
+			regular basis. The
+			<code>refreshSecurityTokens</code>
+			method returns the date on which the next security token in line will
+			expire. This date can be used to program from example a Java EE 6
+			Timer Service.
+		</para>
+	</section>
+
+	<appendix>
+		<title>Informatie Vlaanderen Java Security Developer's Guide License</title>
+		<para>
+			<mediaobject>
+				<imageobject>
+					<imagedata format="PNG" fileref="cc-30-by-nc-nd.png"
+						scale="100" />
+				</imageobject>
+			</mediaobject>
+			This document has been released under the
+			<ulink url="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons 3.0</ulink>
+			license.
+		</para>
+	</appendix>
+
+	<appendix>
+		<title>Informatie Vlaanderen Java Security License</title>
+		<para>
+			The Informatie Vlaanderen Java Security source code has been released under the
+			GNU LGPL version 3.0.
+		</para>
+		<para>
+			<code>
+				This is free software; you can redistribute it and/or modify it
+				under the terms of the GNU Lesser General Public License version 3.0
+				as published by the Free Software Foundation.
+			</code>
+		</para>
+		<para>
+			<code>
+				This software is distributed in the hope that it will be
+				useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+				of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+				Lesser General Public License for more details.
+			</code>
+		</para>
+		<para>
+			<code>
+				You should have received a copy of the GNU Lesser General
+				Public License along with this software; if not, see
+				http://www.gnu.org/licenses/.
+			</code>
+		</para>
+	</appendix>
+
+	<appendix>
+		<title>Revision history</title>
+		<table>
+			<title>Revision history</title>
+			<tgroup cols="3">
+				<colspec colwidth="1*" />
+				<colspec colwidth="1*" />
+				<colspec colwidth="2*" />
+				<thead>
+					<row>
+						<entry>Date</entry>
+						<entry>Author</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>31 Dec 2011</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Initial version.</entry>
+					</row>
+					<row>
+						<entry>11 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>STSListener.</entry>
+					</row>
+					<row>
+						<entry>19 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>JAX-WS runtimes.</entry>
+					</row>
+					<row>
+						<entry>29 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>X509 credentials.</entry>
+					</row>
+					<row>
+						<entry>31 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Apache CXF 2.5.2.</entry>
+					</row>
+					<row>
+						<entry>3 Feb 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Realms.</entry>
+					</row>
+					<row>
+						<entry>24 Mar 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Optional WS-SecureConversation.</entry>
+					</row>
+					<row>
+						<entry>14 Apr 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Java EE 6.</entry>
+					</row>
+					<row>
+						<entry>21 Apr 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Tested new Apache CXF releases.</entry>
+					</row>
+					<row>
+						<entry>30 Apr 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Tested new Java releases.</entry>
+					</row>
+					<row>
+						<entry>25 Aug 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>
+							Tested new Java releases, JAX-WS RI, Metro, Apache CXF,
+							Axis2.
+						</entry>
+					</row>
+					<row>
+						<entry>26 Aug 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>
+							Java EE 6 refreshing of security tokens.
+						</entry>
+					</row>
+					<row>
+						<entry>30 Apr 2013</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>
+							Tested new Java and JAX-WS runtime releases.
+							Added service
+							realms and locations.
+						</entry>
+					</row>
+					<row>
+						<entry>25 May 2013</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>
+							Tested new Apache CXF releases.
+							Manage certificate
+							credentials section.
+						</entry>
+					</row>
+					<row>
+						<entry>18 December 2017</entry>
+						<entry>Jaan Claeys</entry>
+						<entry>
+							New endpoints.
+							New realms
+							AGIV switched to Informatie Vlaanderen
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</appendix>
+</article>

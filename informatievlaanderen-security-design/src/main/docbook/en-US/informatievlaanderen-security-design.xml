@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article version="5.0"
+	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
+	xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<articleinfo>
+		<title>Informatie Vlaanderen Java Security Design</title>
+		<subtitle>
+			Highlights the architecture and design of the Informatie Vlaanderen Java
+			Security framework.
+		</subtitle>
+		<subtitle>
+			Version &project.version;
+		</subtitle>
+		<copyright>
+			<year>2011-2013</year>
+			<holder>Informatie Vlaanderen</holder>
+		</copyright>
+		<releaseinfo>28 April 2013</releaseinfo>
+		<authorgroup>
+			<author>
+				<firstname>Frank</firstname>
+				<surname>Cornelis</surname>
+				<email>info@e-contract.be</email>
+			</author>
+		</authorgroup>
+		<abstract>
+			<para>
+				In this document we describe the architectural choices behind
+				the Informatie Vlaanderen Java Security framework.
+			</para>
+		</abstract>
+	</articleinfo>
+
+	<section>
+		<title>Introduction</title>
+		<para>
+			The
+			<code>InformatieVlaanderenSecurity</code>
+			component plays a central role within the framework. An
+			<code>InformatieVlaanderenSecurity</code>
+			instance corresponds with a certain user credential (e.g.
+			username/password). This component basically decorates vanilla JAX-WS
+			stubs with different JAX-WS SOAP handlers to add the required Informatie Vlaanderen
+			security behavior. Each provided JAX-WS SOAP handler implements a
+			different part of a WS-* specification. The framework comes with
+			different clients for the IP-STS, R-STS and secure conversations that
+			are required by the
+			<code>InformatieVlaanderenSecurity</code>
+			component for acquiring the security tokens. The
+			<code>InformatieVlaanderenSecurity</code>
+			component can also handle HTTP/SOCKS network proxies.
+		</para>
+		<section>
+			<title>Dependencies</title>
+			<para>
+				During the Informatie Vlaanderen Java Security framework development we tried to
+				use as less dependencies as possible. This in order to avoid runtime
+				conflicts with the different web service stacks as much as possible.
+				We could have used for example the Apache CXF STSClient, but this
+				would have introduced Apache CXF as dependency. Basically we only
+				want to depend on the JAX-WS API. Of course certain operations, like
+				the creation of the different WS-Security XML signatures, require us
+				to include specific dependencies like Apache WSS4J. All used
+				dependencies also run on Java 5.
+			</para>
+			<para>
+				For logging we use Apache Commons Logging.
+			</para>
+			<para>
+				The Informatie Vlaanderen Java Security framework has been tested under Apache
+				WSS4J version 1.6.4, 1.6.5, 1.6.6, 1.6.7, 1.6.8, 1.6.9 and 1.6.10.
+				Apache WSS4J version 1.6.5 and higher is using Apache XML Security
+				1.5.1 which has a much stricter Id resolution policy. This might
+				conflict at run-time with other libraries that use Apache XML
+				Security to create/verify XML signatures. For this reason we bundle
+				the Informatie Vlaanderen Java Security framework with Apache WSS4J version 1.6.4.
+			</para>
+		</section>
+		<section>
+			<title>Token Caching</title>
+			<para>
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component takes care of the caching of the different tokens. A
+				security token is represented in Java using the
+				<code>SecurityToken</code>
+				class.
+			</para>
+			<para>
+				Each
+				<code>InformatieVlaanderenSecurity</code>
+				instance caches its IP-STS token.
+			</para>
+			<para>
+				Each
+				<code>InformatieVlaanderenSecurity</code>
+				instance caches the R-STS tokens on a per web service location
+				basis.
+			</para>
+			<para>
+				Each
+				<code>InformatieVlaanderenSecurity</code>
+				instance caches the secure conversation tokens (if applicable) on a
+				per web service location basis.
+			</para>
+			<para>
+				The
+				<code>InformatieVlaanderenSecurity</code>
+				component will reacquire a token at a certain time before it
+				expires. This time before expiration is configurable at the
+				<code>InformatieVlaanderenSecurity</code>
+				level.
+			</para>
+		</section>
+		<section>
+			<title>Multi-threading</title>
+			<para>
+				JAX-WS is inherently not multi-threaded by specification. However,
+				an
+				<code>InformatieVlaanderenSecurity</code>
+				component instance can be shared between different threads. The
+				multi-threaded support has been achieved without the usage of
+				synchronization monitors by using
+				<code>ConcurrentHashMap</code>
+				as much as possible for the implementation of the different token
+				caches.
+			</para>
+			<para>
+				The STS clients use JAX-WS themselves to request security tokens
+				from the different STS based services. As such the STS clients are
+				not thread-safe as per the JAX-WS specification. The
+				<code>InformatieVlaanderenSecurity</code>
+				component itself thus uses different STS client instances when
+				acquiring a certain security token.
+			</para>
+		</section>
+		<section>
+			<title>STS Clients</title>
+			<para>
+				There is an STS client for each STS service:
+			</para>
+			<itemizedlist>
+				<listitem>
+					<para>
+						IP-STS to acquire a security token based on user credentials.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						R-STS to acquire security tokens based on IP-STS security
+						tokens that apply to a certain Informatie Vlaanderen web service.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Secure conversation contexts that are required by
+						WS-SecureConversation enabled Informatie Vlaanderen web service.
+					</para>
+				</listitem>
+			</itemizedlist>
+			<para>
+				Although JAX-WS 2.1 comes with WS-Addressing support, the
+				different STS clients have their own WS-Addressing implementation.
+				This was done in order to avoid a runtime conflict when Apache Axis2
+				is used on a Java 6 JRE.
+			</para>
+			<para>
+				Each STS client is specifically tailored for its corresponding
+				Informatie Vlaanderen security policy. The STS clients do not interpret the WS-Policy
+				and WS-SecurityPolicy at runtime. As such the STS client
+				implementation is strongly linked with this Informatie Vlaanderen security policy.
+				Changes in the Informatie Vlaanderen security policy will most likely require changes
+				within the different STS clients.
+			</para>
+		</section>
+	</section>
+
+	<section>
+		<title>Informatie Vlaanderen Security Protocol</title>
+		<para>
+			In this section we analyze the Informatie Vlaanderen Security Protocol. The
+			analysis only highlights the most relevant cryptographic properties
+			of the protocol. As such protocol details that do not impact the
+			security properties are not mentioned.
+		</para>
+		<para>
+			We first define a simple formal protocol notation. The syntax is
+			similar to that of the BAN logic. We do not formalize the believes
+			and possessions of each party participating in a protocol run.
+		</para>
+		<para>
+			Principal A sends to principal B a message M:
+		</para>
+		<para>
+			A &#8594;
+			B : M
+		</para>
+		<para>
+			Principal A sends to principal B messages M
+			<subscript>1</subscript>
+			and M
+			<subscript>2</subscript>
+			:
+		</para>
+		<para>
+			A &#8594;
+			B : M
+			<subscript>1</subscript>
+			, M
+			<subscript>2</subscript>
+		</para>
+		<para>
+			Principal A sends to principal B a message M over an SSL secured
+			connection:
+		</para>
+		<para>
+			A &#8594;
+			<subscript>SSL</subscript>
+			B : M
+		</para>
+		<para>Message M is encrypted with symmetric key K:</para>
+		<para>
+			{M}
+			<subscript>K</subscript>
+		</para>
+		<para>
+			Message M is encrypted with public key K
+			<superscript>+</superscript>
+			of principal A
+			:
+		</para>
+		<para>
+			{M}
+			<subscript>
+				K
+				<superscript>+</superscript>
+				<subscript>A</subscript>
+			</subscript>
+		</para>
+		<para>
+			Message M is signed with symmetric key K:
+		</para>
+		<para>
+			sign
+			<subscript>K</subscript>
+			(M)
+		</para>
+		<para>
+			The algorithm for such symmetric key signatures is
+			HMAC-SHA1.
+		</para>
+		<para>
+			Message M is signed with the private key of principal A:
+		</para>
+		<para>
+			sign
+			<subscript>
+				K
+				<superscript>-</superscript>
+				<subscript>A</subscript>
+			</subscript>
+			(M)
+		</para>
+		<section id="section-ip-sts-username">
+			<title>IP-STS with Username/password credentials</title>
+			<para>
+				The relying party (RP) starts by sending a message to the
+				IP-STS. This message contains the credentials and some entropy
+				value.
+			</para>
+			<para>
+				RP &#8594;
+				<subscript>SSL</subscript>
+				IP-STS : username, password, Ent
+				<subscript>RP</subscript>
+				, AppliesTo
+				<subscript>R-STS</subscript>
+			</para>
+			<para>
+				The IP-STS answers with a token and some entropy value:
+			</para>
+			<para>
+				IP-STS &#8594;
+				<subscript>SSL</subscript>
+				RP : Ent
+				<subscript>IP-STS</subscript>
+				, Token
+				<subscript>IP-STS</subscript>
+			</para>
+			<para>
+				Where the token actually is:
+			</para>
+			<para>
+				Token
+				<subscript>IP-STS</subscript>
+				= {Token'}
+				<subscript>K</subscript>
+				, {K}
+				<subscript>
+					K
+					<superscript>+</superscript>
+					<subscript>R-STS</subscript>
+				</subscript>
+			</para>
+			<para>
+				With K a symmetric AES key and K
+				<superscript>+</superscript>
+				<subscript>R-STS</subscript>
+				the public RSA key of R-STS. So only the R-STS can read the value of
+				Token'. The relying party itself cannot read the content of Token'.
+			</para>
+			<para>
+				From the Ent
+				<subscript>RP</subscript>
+				and Ent
+				<subscript>IP-STS</subscript>
+				entropy values both parties calculate a secret.
+			</para>
+			<para>
+				K
+				<subscript>POP IP-STS</subscript>
+				= PSHA1(Ent
+				<subscript>RP</subscript>
+				, Ent
+				<subscript>IP-STS</subscript>
+				)
+			</para>
+			<para>
+				The PSHA1 algorithm is defined as part of the SSL
+				specifications. This secret is later on used as proof-of-possession
+				(POP) for the acquired IP-STS security token.
+			</para>
+		</section>
+		<section>
+			<title>R-STS</title>
+			<para>
+				The relying party sends the IP-STS security token together with
+				a proof-of-possession signature to the R-STS.
+			</para>
+			<para>
+				RP &#8594;
+				<subscript>SSL</subscript>
+				R-STS : Token
+				<subscript>IP-STS</subscript>
+				, T
+				<subscript>RP</subscript>
+				, sign
+				<subscript>
+					K
+					<subscript>POP IP-STS</subscript>
+				</subscript>
+				(T
+				<subscript>RP</subscript>
+				), AppliesTo
+				<subscript>SP</subscript>
+			</para>
+			<para>
+				The relying party indicates that the requested security token should
+				apply to a certain service provide (SP). The relying party is not
+				signing the IP-STS security token, but the timestamp T
+				<subscript>RP</subscript>
+				.
+				This allows the R-STS to believe that the relying party recently
+				said that it indeed wants to use the corresponding security token
+				for accessing a certain web service.
+			</para>
+			<para>
+				The R-STS can decrypt the security token because the token has
+				been encrypted with the private key of R-STS.
+			</para>
+			<para>
+				The R-STS answers with a new security token and a corresponding
+				proof key.
+			</para>
+			<para>
+				R-STS &#8594;
+				<subscript>SSL</subscript>
+				RP : Token
+				<subscript>R-STS</subscript>
+				, K
+				<subscript>R-STS</subscript>
+			</para>
+		</section>
+		<section>
+			<title>Secure Conversation</title>
+			<para>
+				For Informatie Vlaanderen web services that use WS-SecureConversation the
+				relying party needs to create a secure conversation before being
+				able to invoke a business web service.
+			</para>
+			<section>
+				<title>Acquiring a secure conversation token</title>
+				<para>
+					The relying party sends the following message to a service
+					provider SP:
+				</para>
+				<para>
+					RP &#8594;
+					<subscript>SSL</subscript>
+					SP :
+					Token
+					<subscript>R-STS</subscript>
+					, T
+					<subscript>RP</subscript>
+					, sign
+					<subscript>
+						K
+						<subscript>R-STS</subscript>
+					</subscript>
+					(T
+					<subscript>RP</subscript>
+					),
+					Ent
+					<subscript>RP</subscript>
+				</para>
+				<para>
+					Where Ent
+					<subscript>RP</subscript>
+					is a new entropy value generated by the relying party and T
+					<subscript>RP</subscript>
+					is also a new timestamp value generated by the relying party.
+				</para>
+				<para>
+					The service provider answers with:
+				</para>
+				<para>
+					SP &#8594;
+					<subscript>SSL</subscript>
+					RP :
+					Token
+					<subscript>SP</subscript>
+					, Ent
+					<subscript>SP</subscript>
+				</para>
+				<para>
+					Where Token
+					<subscript>SP</subscript>
+					is the secure conversation token.
+				</para>
+				<para>
+					Both relying party and service provider calculate a secret
+					out
+					of the entropy values:
+				</para>
+				<para>
+					K
+					<subscript>POP SP</subscript>
+					= PSHA1(Ent
+					<subscript>RP</subscript>
+					, Ent
+					<subscript>SP</subscript>
+					)
+				</para>
+				<para>
+					This secret is later used as proof-of-possession (POP) for the
+					acquired secure conversation token.
+				</para>
+			</section>
+			<section>
+				<title>Using a secure conversation token</title>
+				<para>
+					The relying party can invoke a business web service using the
+					secure conversation token.
+				</para>
+				<para>
+					RP &#8594;
+					<subscript>SSL</subscript>
+					SP : M,
+					Token
+					<subscript>SP</subscript>
+					,
+					T
+					<subscript>RP</subscript>
+					,
+					sign
+					<subscript>
+						K
+						<subscript>POP SP</subscript>
+					</subscript>
+					(T
+					<subscript>RP</subscript>
+					)
+				</para>
+				<para>
+					Where M is the payload for the business web service request and T
+					<subscript>RP</subscript>
+					is a new timestamp generated by the relying party.
+				</para>
+				<para>
+					The business web service answers with some response message
+					M'.
+				</para>
+				<para>
+					SP &#8594;
+					<subscript>SSL</subscript>
+					RP : M'
+				</para>
+			</section>
+			<section>
+				<title>Cancelling a secure conversation token</title>
+				<para>
+					After invoking the business web service the relying party can
+					cancel the secure conversation token.
+				</para>
+				<para>
+					RP &#8594;
+					<subscript>SSL</subscript>
+					SP :
+					Token
+					<subscript>SP</subscript>
+					, T
+					<subscript>RP</subscript>
+					,
+					sign
+					<subscript>
+						K
+						<subscript>POP SP</subscript>
+					</subscript>
+					(T
+					<subscript>RP</subscript>
+					)
+				</para>
+				<para>
+					Where T
+					<subscript>RP</subscript>
+					is a new timestamp generated by the relying party.
+				</para>
+				<para>
+					The service provider acknowledges the operation.
+				</para>
+				<para>
+					SP &#8594;
+					<subscript>SSL</subscript>
+					RP: ack
+				</para>
+			</section>
+		</section>
+		<section>
+			<title>SAML secured web services</title>
+			<para>
+				Not every Informatie Vlaanderen web service requires a WS-SecureConversation to
+				operate. In this case the web service simply requires the R-STS SAML
+				token for authentication/authorization.
+			</para>
+			<para>
+				The relying party sends the following message to a service
+				provider SP:
+			</para>
+			<para>
+				RP &#8594;
+				<subscript>SSL</subscript>
+				SP :
+				M, Token
+				<subscript>R-STS</subscript>
+				, T
+				<subscript>RP</subscript>
+				, sign
+				<subscript>
+					K
+					<subscript>R-STS</subscript>
+				</subscript>
+				(T
+				<subscript>RP</subscript>
+				)
+			</para>
+			<para>
+				Where M is the payload for the business web service request and T
+				<subscript>RP</subscript>
+				is a new timestamp value generated by the relying party.
+			</para>
+			<para>
+				The business web service answers with some response message
+				M'.
+			</para>
+			<para>
+				SP &#8594;
+				<subscript>SSL</subscript>
+				RP : M'
+			</para>
+		</section>
+		<section>
+			<title>WS-Addressing</title>
+			<para>
+				The WS-Addressing adds the following to each request message:
+			</para>
+			<para>
+				RP &#8594;
+				<subscript>SSL</subscript>
+				SP : N
+				<subscript>RP</subscript>
+				, A
+				<subscript>SP</subscript>
+				, L
+				<subscript>SP</subscript>
+				, ...
+			</para>
+			<para>
+				Where N
+				<subscript>RP</subscript>
+				is a nonce generated by the relying party, A
+				<subscript>SP</subscript>
+				is the action that the relying party wants to invoke on the service
+				provider, and L
+				<subscript>SP</subscript>
+				is the location of the service provider.
+			</para>
+			<para>
+				The service provider relates the response with the request by
+				echoing the nonce N
+				<subscript>RP</subscript>
+				in the response message.
+			</para>
+			<para>
+				SP &#8594;
+				<subscript>SSL</subscript>
+				RP: N
+				<subscript>RP</subscript>
+				, ...
+			</para>
+			<para>
+				This mechanism prevents replay attacks and ensures
+				recognizability of the messages towards the service provider.
+			</para>
+		</section>
+		<section>
+			<title>WS-Security timestamp</title>
+			<para>
+				The service provider adds a timestamp to each response message.
+			</para>
+			<para>
+				SP &#8594;
+				<subscript>SSL</subscript>
+				RP: T
+				<subscript>SP</subscript>
+				, ...
+			</para>
+			<para>
+				Besides message freshness, the yielded cryptographic properties
+				of this timestamp are less clear given the replay attack
+				countermeasure provided by the WS-Addressing and the fact that the
+				security tokens have a limited lifetime anyway.
+			</para>
+		</section>
+		<section>
+			<title>IP-STS with certificate credentials</title>
+			<para>
+				The IP-STS service also support X509 certificates as user
+				credential. The relying party (RP) starts by sending a message to
+				the IP-STS. This message contains the certificate and a signature
+				using the corresponding private key.
+			</para>
+			<para>
+				RP &#8594;
+				<subscript>SSL</subscript>
+				IP-STS : Cert
+				<subscript>RP</subscript>
+				, Ent
+				<subscript>RP</subscript>
+				, AppliesTo
+				<subscript>R-STS</subscript>
+				,
+				sign
+				<subscript>
+					K
+					<superscript>-</superscript>
+					<subscript>RP</subscript>
+				</subscript>
+				(L
+				<subscript>IP-STS</subscript>
+				, T
+				<subscript>RP</subscript>
+				)
+			</para>
+			<para>
+				The signature signs the location of the IP-STS service and a
+				timestamp generated by the relying party. The message also contains
+				some entropy value generated by the relying party.
+			</para>
+			<para>
+				The IP-STS answers with a token and some entropy value:
+			</para>
+			<para>
+				IP-STS &#8594;
+				<subscript>SSL</subscript>
+				RP : Ent
+				<subscript>IP-STS</subscript>
+				, Token
+				<subscript>IP-STS</subscript>
+			</para>
+			<para>
+				Further behaviour is already described under
+				<xref linkend="section-ip-sts-username" />
+				.
+			</para>
+		</section>
+	</section>
+
+	<appendix>
+		<title>Informatie Vlaanderen Java Security Design License</title>
+		<para>
+			<mediaobject>
+				<imageobject>
+					<imagedata format="PNG" fileref="cc-30-by-nc-nd.png"
+						scale="100" />
+				</imageobject>
+			</mediaobject>
+			This document has been released under the
+			<ulink url="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons 3.0</ulink>
+			license.
+		</para>
+	</appendix>
+
+	<appendix>
+		<title>Revision history</title>
+		<table>
+			<title>Revision history</title>
+			<tgroup cols="3">
+				<colspec colwidth="1*" />
+				<colspec colwidth="1*" />
+				<colspec colwidth="2*" />
+				<thead>
+					<row>
+						<entry>Date</entry>
+						<entry>Author</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>8 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Initial version.</entry>
+					</row>
+					<row>
+						<entry>29 Jan 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>X509 credentials.</entry>
+					</row>
+					<row>
+						<entry>24 Mar 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Optional WS-SecureConversation.</entry>
+					</row>
+					<row>
+						<entry>26 Aug 2012</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Apache WSS4J tests.</entry>
+					</row>
+					<row>
+						<entry>28 Apr 2013</entry>
+						<entry>Frank Cornelis</entry>
+						<entry>Apache WSS4J tests.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</appendix>
+</article>

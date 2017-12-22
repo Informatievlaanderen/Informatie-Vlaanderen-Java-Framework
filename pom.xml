@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>Informatie Vlaanderen Java Security Project</name>
-	<groupId>be.agiv</groupId>
-	<artifactId>agiv-security</artifactId>
+	<groupId>be.vlaanderen.informatievlaanderen</groupId>
+	<artifactId>informatievlaanderen-security</artifactId>
 	<version>1.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<inceptionYear>2011</inceptionYear>
@@ -35,7 +35,7 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:hg:https://code.google.com/p/agiv-security/</connection>
+		<connection>scm:hg:https://code.google.com/p/informatievlaanderen-security/</connection>
 		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>
@@ -46,19 +46,19 @@
 		</repository>
 	</distributionManagement>
 	<modules>
-		<module>agiv-security-client</module>
-		<module>agiv-security-cxf-tests</module>
-		<module>agiv-security-tests</module>
-		<module>agiv-security-demo</module>
-		<module>agiv-security-sdk</module>
-		<module>agiv-security-dev-guide</module>
-		<module>agiv-security-design</module>
-		<module>agiv-security-metro-tests</module>
-		<module>agiv-security-axis2-tests</module>
-		<module>agiv-security-crab-read</module>
-		<module>agiv-security-crab-edit</module>
-		<module>agiv-security-gipod</module>
-		<module>agiv-security-demo-webapp</module>
+		<module>informatievlaanderen-security-client</module>
+		<module>informatievlaanderen-security-cxf-tests</module>
+		<module>informatievlaanderen-security-tests</module>
+		<module>informatievlaanderen-security-demo</module>
+		<module>informatievlaanderen-security-sdk</module>
+		<module>informatievlaanderen-security-dev-guide</module>
+		<module>informatievlaanderen-security-design</module>
+		<module>informatievlaanderen-security-metro-tests</module>
+		<module>informatievlaanderen-security-crab-read</module>
+		<module>informatievlaanderen-security-crab-edit</module>
+		<module>informatievlaanderen-security-gipod</module>
+		<module>informatievlaanderen-security-demo-webapp</module>
+                <module>informatievlaanderen-security-axis2-tests</module>	 
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -148,7 +148,7 @@
 					<version>3.0.0</version>  
                                         <configuration>
                                             <additionalparam>-Xdoclint:none</additionalparam>
-                                            <excludePackageNames>agiv-security-crab-read:*.jaxb.*
+                                            <excludePackageNames>informatievlaanderen-security-crab-read:*.jaxb.*
                                                 :be.agiv.errorhandling._2010._04
                                                 :com.microsoft.*
                                                 :crabread.crabdecentraal.gisvl
