@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -133,6 +133,7 @@ public class SecurityToken {
 	 * messages.
 	 * 
 	 * @param attachedReference
+         *           the attached reference
 	 */
 	public void setAttachedReference(String attachedReference) {
 		this.attachedReference = attachedReference;
@@ -142,6 +143,7 @@ public class SecurityToken {
 	 * Gives back the security token identifier for attached references.
 	 * 
 	 * @return
+         *      the attached reference
 	 */
 	public String getAttachedReference() {
 		return this.attachedReference;
@@ -151,6 +153,7 @@ public class SecurityToken {
 	 * Sets the security token identifier for unattached references.
 	 * 
 	 * @param unattachedReference
+         *        the unattached reference
 	 */
 	public void setUnattachedReference(String unattachedReference) {
 		this.unattachedReference = unattachedReference;
@@ -160,6 +163,7 @@ public class SecurityToken {
 	 * Gives back the security token identifier for unattached references.
 	 * 
 	 * @return
+         *      the unattached reference
 	 */
 	public String getUnattachedReference() {
 		return this.unattachedReference;
@@ -169,6 +173,7 @@ public class SecurityToken {
 	 * Sets the realm of this security token.
 	 * 
 	 * @param realm
+         *        the realm
 	 */
 	public void setRealm(String realm) {
 		this.realm = realm;
@@ -179,6 +184,7 @@ public class SecurityToken {
 	 * acquire this token via its STS.
 	 * 
 	 * @return
+         *     the realm
 	 */
 	public String getRealm() {
 		return this.realm;
@@ -189,6 +195,7 @@ public class SecurityToken {
 	 * acquired.
 	 * 
 	 * @param stsLocation
+         *     uri location of the sts
 	 */
 	public void setStsLocation(String stsLocation) {
 		this.stsLocation = stsLocation;
@@ -199,6 +206,7 @@ public class SecurityToken {
 	 * acquired.
 	 * 
 	 * @return
+         *      the uri location of the sts
 	 */
 	public String getStsLocation() {
 		return this.stsLocation;
@@ -209,6 +217,7 @@ public class SecurityToken {
 	 * to acquire this security token.
 	 * 
 	 * @param parentSecurityToken
+         *     the parent security token
 	 */
 	public void setParentSecurityToken(SecurityToken parentSecurityToken) {
 		this.parentSecurityToken = parentSecurityToken;

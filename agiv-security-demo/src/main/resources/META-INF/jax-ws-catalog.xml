@@ -2,12 +2,12 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"
 	prefer="system">
 	<system
-		systemId="https://auth.beta.agiv.be/ClaimsAwareService/Service.svc?wsdl=wsdl0"
+		systemId="https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc?wsdl=wsdl0"
 		uri="../ClaimsAwareService.xml" />
 	<system
-		systemId="https://auth.beta.agiv.be/ClaimsAwareService/Service.svc?xsd=xsd0"
+		systemId="https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc?xsd=xsd0"
 		uri="../ClaimsAwareService0.xsd" />
 	<system
-		systemId="https://auth.beta.agiv.be/ClaimsAwareService/Service.svc?xsd=xsd1"
+		systemId="https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc?xsd=xsd1"
 		uri="../ClaimsAwareService1.xsd" />
 </catalog>

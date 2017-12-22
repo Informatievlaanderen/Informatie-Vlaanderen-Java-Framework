@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -30,12 +30,12 @@ import be.agiv.security.AGIVSecurity;
 
 public class CLIMain {
 
-	private static final String RSTS_LOCATION = "https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13";
-	private static final String IPSTS_LOCATION = "https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13";
-	private static final String SERVICE_LOCATION = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfed";
-	private static final String SC_SERVICE_LOCATION = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfedsc";
-	private static final String IPSTS_CERT_LOCATION = "https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage";
-	private static final String SERVICE_REALM = "https://auth.beta.agiv.be/ClaimsAwareService/Service.svc";
+	private static final String RSTS_LOCATION = "https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13";
+	private static final String IPSTS_LOCATION = "https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13";
+	private static final String SERVICE_LOCATION = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfed";
+	private static final String SC_SERVICE_LOCATION = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfedsc";
+	private static final String IPSTS_CERT_LOCATION = "https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage";
+	private static final String SERVICE_REALM = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc";
 
 	public static void main(String[] args) {
 		if (args.length != 4) {

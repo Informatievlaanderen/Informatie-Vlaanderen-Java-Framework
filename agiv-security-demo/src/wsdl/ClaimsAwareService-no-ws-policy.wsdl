@@ -12,7 +12,7 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
 	<!-- removed wsp:Policy elements -->
 	<wsdl:import namespace="http://www.agiv.be"
-		location="https://auth.beta.agiv.be/ClaimsAwareService/Service.svc?wsdl=wsdl0" />
+		location="https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc?wsdl=wsdl0" />
 	<wsdl:types />
 	<wsdl:binding name="WS2007FederationHttpBinding_IService"
 		type="i0:IService"><!--<wsp:PolicyReference URI="#WS2007FederationHttpBinding_IService_policy"/> -->
@@ -60,9 +60,9 @@
 		<wsdl:port name="WS2007FederationHttpBinding_IService"
 			binding="tns:WS2007FederationHttpBinding_IService">
 			<soap12:address
-				location="https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfedsc" />
+				location="https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfedsc" />
 			<wsa10:EndpointReference>
-				<wsa10:Address>https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfedsc
+				<wsa10:Address>https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfedsc
 				</wsa10:Address>
 				<Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
 					<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
@@ -77,9 +77,9 @@
 		<wsdl:port name="WS2007FederationHttpBinding_IService1"
 			binding="tns:WS2007FederationHttpBinding_IService1">
 			<soap12:address
-				location="https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfed" />
+				location="https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfed" />
 			<wsa10:EndpointReference>
-				<wsa10:Address>https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfed
+				<wsa10:Address>https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfed
 				</wsa10:Address>
 				<Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
 					<KeyInfo xmlns="http://www.w3.org/2000/09/xmldsig#">
@@ -93,7 +93,7 @@
 		</wsdl:port>
 		<wsdl:port name="BasicHttpBinding_IService" binding="tns:BasicHttpBinding_IService">
 			<soap:address
-				location="https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/basic" />
+				location="https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/basic" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

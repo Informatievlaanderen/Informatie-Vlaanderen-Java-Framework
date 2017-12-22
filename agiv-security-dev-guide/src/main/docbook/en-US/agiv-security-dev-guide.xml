@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
 	xmlns="http://docbook.org/ns/docbook" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<articleinfo>
-		<title>AGIV Java Security Developer's Guide</title>
+		<title>Informatie Vlaanderen Java Security Developer's Guide</title>
 		<subtitle>
-			Integrating the AGIV web services in your Java applications.
+			Integrating the Informatie Vlaanderen SOAP web services in your Java applications.
 		</subtitle>
 		<subtitle>
 			Version &project.version;
 		</subtitle>
 		<copyright>
-			<year>2011-2013</year>
-			<holder>AGIV</holder>
+			<year>2011-2017</year>
+			<holder>Informatie Vlaanderen</holder>
 		</copyright>
 		<releaseinfo>25 May 2013</releaseinfo>
 		<authorgroup>
@@ -21,18 +21,23 @@
 				<surname>Cornelis</surname>
 				<email>info@e-contract.be</email>
 			</author>
+			<author>
+				<firstname>Jaan</firstname>
+				<surname>Claeys</surname>
+				<email>jaan.claeys@kb.vlaanderen.be</email>
+			</author>
 		</authorgroup>
 		<abstract>
 			<para>
-				The AGIV web services use Windows Communication Foundation to
+				The Informatie Vlaanderen web services use Windows Communication Foundation to
 				setup the security constraints and requirements. Connecting to WCF
 				secured web services from within Java can be a challenge because the
 				support for WS-* within JAX-WS web service stacks has not yet been
 				standardized through the JCP. Most of the time it is also not so
 				trivial to switch to JAX-WS web service stack implementations that
-				do support WS-* (and that work) for connecting clients. Via the AGIV
+				do support WS-* (and that work) for connecting clients. Via the Informatie Vlaanderen
 				Java Security framework we provide an alternative solution to turn a
-				vanilla JAX-WS client into an AGIV Security enabled client.
+				vanilla JAX-WS client into an Informatie Vlaanderen Security enabled client.
 			</para>
 		</abstract>
 	</articleinfo>
@@ -40,7 +45,7 @@
 	<section>
 		<title>Introduction</title>
 		<para>
-			The AGIV security architecture is based on a quite modern
+			The Informatie Vlaanderen security architecture is based on a quite modern
 			WS-Trust based system. This system allows for a very flexible IAM
 			solution. The architecture includes the following services:
 		</para>
@@ -56,19 +61,19 @@
 				<para>
 					A WS-Trust based R-STS service (R = Relaying/Resource) that
 					issues security tokens based on the IP-STS security tokens. The
-					R-STS security tokens always apply to a certain AGIV web service.
+					R-STS security tokens always apply to a certain Informatie Vlaanderen web service.
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					Each AGIV web service requires either the setup of a
+					Each Informatie Vlaanderen web service requires either the setup of a
 					WS-SecureConversation based secure conversation or directly use the
 					SAML token as retrieved from the R-STS.
 				</para>
 			</listitem>
 		</itemizedlist>
 		<para>
-			The AGIV web services are secured via WS-SecureConversation or
+			The Informatie Vlaanderen web services are secured via WS-SecureConversation or
 			directly via a SAML token. The security policy is defined via
 			WS-Policy and WS-SecurityPolicy and can be found within the WSDLs of
 			the different web services. For using such secured web services from
@@ -87,7 +92,7 @@
 			<listitem>
 				<para>
 					One can disable the WS-* features of your WS-* enabled web
-					service stack and use the AGIV Security framework. Not all web
+					service stack and use the Informatie Vlaanderen Security framework. Not all web
 					service stacks allow you to disable the WS-* functionality. Most
 					will automatically kick in the WS-* features once a WS-Policy
 					enabled binding is found in the WSDL.
@@ -96,12 +101,12 @@
 			<listitem>
 				<para>
 					Use a vanilla web service stack that has no notion of WS-* and
-					use the AGIV Security framework.
+					use the Informatie Vlaanderen Security framework.
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					Remove the WS-Policy entries from the WSDL and use the AGIV
+					Remove the WS-Policy entries from the WSDL and use the Informatie Vlaanderen
 					Security framework. This is probably the easiest solution and works
 					for all JAX-WS web service stacks.
 				</para>
@@ -113,12 +118,12 @@
 		<title>JAX-WS runtime</title>
 		<para>
 			The AGIV Security framework does not use WS-* functionality of any
-			JAX-WS runtime. The AGIV Security framework also does not require a
-			specific JAX-WS runtime to be available. The AGIV Security framework
+			JAX-WS runtime. The Informatie Vlaanderen Security framework also does not require a
+			specific JAX-WS runtime to be available. The Informatie Vlaanderen Security framework
 			strictly uses the plain vanilla JAX-WS API to be able to run on as
 			many JAX-WS runtimes as possible. The
 			<xref linkend="table-jaxws-runtimes" />
-			summarizes the JAX-WS runtimes and their versions on which the AGIV
+			summarizes the JAX-WS runtimes and their versions on which the Informatie Vlaanderen
 			Security framework has been tested.
 		</para>
 		<table id="table-jaxws-runtimes">
@@ -269,7 +274,7 @@
 			elements altogether.
 		</para>
 		<para>
-			Basically you decorate a vanilla JAX-WS stub to enable the AGIV
+			Basically you decorate a vanilla JAX-WS stub to enable the Informatie Vlaanderen
 			security on it.
 		</para>
 		<programlisting language="java"><![CDATA[import javax.xml.ws.soap.AddressingFeature;
@@ -308,38 +313,38 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 			.
 		</para>
 		<section>
-			<title>AGIV STS Locations and Realms</title>
+			<title>Informatie Vlaanderen STS Locations and Realms</title>
 			<para>
-				The location of the AGIV Beta IP-STS service for
+				The location of the Informatie Vlaanderen Beta IP-STS service for
 				username/password credentials is:
 			</para>
 			<para>
 				<code>
-					https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13
+					https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13
 				</code>
 			</para>
 			<para>
-				The location of the AGIV Beta IP-STS service for certificate
+				The location of the Informatie Vlaanderen Beta IP-STS service for certificate
 				credentials is:
 			</para>
 			<para>
 				<code>
-					https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage
+					https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage
 				</code>
 			</para>
 			<para>
-				The location of the AGIV Beta R-STS service is:
+				The location of the Informatie Vlaanderen Beta R-STS service is:
 			</para>
 			<para>
 				<code>
-					https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13
+					https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13
 				</code>
 			</para>
 			<para>
-				The AGIV Beta R-STS realm is
+				The Informatie Vlaanderen Beta R-STS realm is
 			</para>
 			<para>
-				<code>urn:agiv.be/salvador</code>
+				<code>urn:informatievlaanderen.be/sts/beta</code>
 			</para>
 			<para>
 				You can use the
@@ -350,7 +355,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 				The AGIV production R-STS realm is
 			</para>
 			<para>
-				<code>urn:agiv.be/sts</code>
+				<code>urn:informatievlaanderen.be/sts/prod</code>
 			</para>
 			<para>
 				You can use the
@@ -363,9 +368,9 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 			<para>
 				The
 				<xref linkend="table-services" />
-				lists the locations and realms for the different AGIV services.
+				lists the locations and realms for the different Informatie Vlaanderen services.
 				<table id="table-services">
-					<title>AGIV Service Locations and Realms</title>
+					<title>Informatie Vlaanderen Service Locations and Realms</title>
 					<tgroup cols="2">
 						<colspec colname="first" colwidth="1*" />
 						<colspec colname="last" colwidth="3*" />
@@ -382,7 +387,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 									Beta Endpoint
 								</entry>
 								<entry>
-									<code>https://gipod.beta.agiv.be/WebService/GipodService.svc
+									<code>https://service.beta.gipod.vlaanderen.be/soap/GipodService.svc
 									</code>
 								</entry>
 							</row>
@@ -391,7 +396,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 									Beta Realm
 								</entry>
 								<entry>
-									<code>urn:agiv.be/gipodbeta</code>
+									<code>urn:informatievlaanderen.be/gipod/serivce/beta</code>
 								</entry>
 							</row>
 							<row>
@@ -399,7 +404,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 									Production Endpoint
 								</entry>
 								<entry>
-									<code>https://gipod.agiv.be/WebService/GipodService.svc</code>
+									<code>https://service.gipod.vlaanderen.be/soap/GipodService.svc</code>
 								</entry>
 							</row>
 							<row>
@@ -407,7 +412,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 									Production Realm
 								</entry>
 								<entry>
-									<code>urn:agiv.be/gipod</code>
+									<code>urn:informatievlaanderen.be/gipod/service/prod</code>
 								</entry>
 							</row>
 						</tbody>
@@ -760,7 +765,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 	<version>]]>&project.version;<![CDATA[</version>
 </dependency>]]></programlisting>
 			<para>
-				The AGIV Java Security framework artifacts are available in the
+				The Informatie Vlaanderen Java Security framework artifacts are available in the
 				public e-contract.be Maven repository. Add the folowing repository
 				configuration to the
 				<code>repositories</code>
@@ -782,7 +787,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 				Per default the
 				<code>AGIVSecurity</code>
 				component will not use WS-SecureConversation on the JAX-WS stubs.
-				For AGIV web services that support WS-SecureConversation you can
+				For Informatie Vlaanderen web services that support WS-SecureConversation you can
 				enable the usage of WS-SecureConversation on the JAX-WS stubs by
 				using the different variants of the
 				<code>enable</code>
@@ -860,18 +865,18 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 				<code>AGIVSecurity</code>
 				component can be shared between multiple threads. Doing so all
 				JAX-WS stubs will use the same security tokens when accessing the
-				AGIV web services.
+				Informatie Vlaanderen web services.
 			</para>
 			<para>
 				To improve user experience you can let the
 				<code>AGIVSecurity</code>
-				component prefetch the required security tokens for a certain AGIV
+				component prefetch the required security tokens for a certain Informatie Vlaanderen
 				web service via:
 			</para>
 			<programlisting language="java"><![CDATA[agivSecurity.prefetchTokens("https://the.location.of.the.agiv.service",
 	"serviceRealm");]]></programlisting>
 			<para>
-				To reduce the load on the AGIV web services you can cancel the
+				To reduce the load on the Informatie Vlaanderen web services you can cancel the
 				secure conversation tokens after usage via:
 			</para>
 			<programlisting language="java"><![CDATA[agivSecurity.cancelSecureConversationTokens();]]></programlisting>
@@ -889,7 +894,7 @@ AGIVSecurity agivSecurity = new AGIVSecurity(
 agivSecurity.setProxy("localhost", 3128, Type.SOCKS);]]></programlisting>
 			<para>
 				The proxy settings apply to both the different WS-Trust clients
-				that are internally used, as well as to the AGIV Security enabled
+				that are internally used, as well as to the Informatie Vlaanderen Security enabled
 				JAX-WS stubs.
 			</para>
 		</section>
@@ -899,7 +904,7 @@ agivSecurity.setProxy("localhost", 3128, Type.SOCKS);]]></programlisting>
 				The
 				<code>AGIVSecurity</code>
 				component also offers support for external IP-STS services that do
-				not behave exactly like the AGIV IP-STS service. The
+				not behave exactly like the Informatie Vlaanderen IP-STS service. The
 				<code>AGIVSecurity</code>
 				component can be configured to use an external IP-STS client as
 				follows:
@@ -993,7 +998,7 @@ commonName=JavaTestAccount
 					<programlisting><![CDATA[openssl pkcs12 -export -out keystore.p12 -inkey key.pem -in cert.pem]]></programlisting>
 					View the content of the PKCS#12 key store via:
 					<programlisting><![CDATA[openssl pkcs12 -info -in keystore.p12]]></programlisting>
-					When sending over your certificate to the AGIV Security Team, you
+					When sending over your certificate to the Informatie Vlaanderen Security Team, you
 					will most likely have to deliver your certificate in DER format.
 					Convert a certificate from PEM to DER via:
 					<programlisting><![CDATA[openssl x509 -in cert.pem -out cert.der -outform DER]]></programlisting>
@@ -1027,10 +1032,10 @@ PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
 		<section>
 			<title>eID Certificates</title>
 			<para>
-				The AGIV IP-STS also supports eID certificate credentials for
+				The Informatie Vlaanderen IP-STS also supports eID certificate credentials for
 				testing purposes against the BETA IP-STS.
 				This way you don't have to
-				buy a certificate for testing the AGIV web services.
+				buy a certificate for testing the Informatie Vlaanderen web services.
 				Loading
 				your eID
 				authentication certificate and corresponding private key
@@ -1073,14 +1078,14 @@ X509Certificate certificate = (X509Certificate) keyStore
 	<section>
 		<title>Java EE 6</title>
 		<para>
-			Enabling the AGIV Java Security framework within a full-blown Java EE
+			Enabling the Informatie Vlaanderen Java Security framework within a full-blown Java EE
 			6 application server can be a challenge. Not only because JAX-WS is
 			part of Java EE 6, but also because the embedded JAX-WS runtime stack
 			comes with its own WS-* capabilities. The trick here is to have a
 			<emphasis>perfect alignment</emphasis>
 			of the WSS4J bundled within your enterprise application against the
 			version of WSS4J provided by the application server. Hence it might
-			be required to override the version of WSS4J that the AGIV Java
+			be required to override the version of WSS4J that the Informatie Vlaanderen Java
 			Security framework will be using at run-time.
 		</para>
 		<para>
@@ -1122,7 +1127,7 @@ X509Certificate certificate = (X509Certificate) keyStore
 	</section>
 
 	<appendix>
-		<title>AGIV Java Security Developer's Guide License</title>
+		<title>Informatie Vlaanderen Java Security Developer's Guide License</title>
 		<para>
 			<mediaobject>
 				<imageobject>
@@ -1137,9 +1142,9 @@ X509Certificate certificate = (X509Certificate) keyStore
 	</appendix>
 
 	<appendix>
-		<title>AGIV Java Security License</title>
+		<title>Informatie Vlaanderen Java Security License</title>
 		<para>
-			The AGIV Java Security source code has been released under the
+			The Informatie Vlaanderen Java Security source code has been released under the
 			GNU LGPL version 3.0.
 		</para>
 		<para>
@@ -1263,6 +1268,15 @@ X509Certificate certificate = (X509Certificate) keyStore
 							Tested new Apache CXF releases.
 							Manage certificate
 							credentials section.
+						</entry>
+					</row>
+					<row>
+						<entry>18 December 2017</entry>
+						<entry>Jaan Claeys</entry>
+						<entry>
+							New endpoints.
+							New realms
+							AGIV switched to Informatie Vlaanderen
 						</entry>
 					</row>
 				</tbody>

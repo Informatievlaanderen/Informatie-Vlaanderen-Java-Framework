@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -75,7 +75,7 @@ import be.agiv.security.client.SecureConversationClient;
 
 /**
  * Demonstrator Swing application for the AGIV Security framework.
- * <p/>
+ * <p>
  * This demo should not require additional dependencies in order to keep the SDK
  * lib/ directory as clean as possible.
  * 
@@ -347,7 +347,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(urlLabel);
 
 		JTextField urlTextField = new JTextField(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);
@@ -504,7 +504,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		JOptionPane.showMessageDialog(
 				this,
 				"AGIV Java Security Demo " + getVersion() + "\n"
-						+ "Copyright (C) 2011-2013 AGIV.\n"
+						+ "Copyright (C) 2011-2017 Informatie Vlaanderen.\n"
 						+ "Licensed under GNU LGPL 3.0.\n\n" + "Java version: "
 						+ System.getProperty("java.version") + "\n"
 						+ "System: " + System.getProperty("os.name") + " "
@@ -529,7 +529,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(ipStsLabel);
 
 		final JTextField ipStsTextField = new JTextField(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(ipStsTextField, gridBagConstraints);
@@ -561,7 +561,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(rStsLabel);
 
 		final JTextField rStsTextField = new JTextField(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(rStsTextField, gridBagConstraints);
@@ -778,7 +778,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(urlLabel);
 
 		JTextField urlTextField = new JTextField(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);

@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -33,7 +33,7 @@ import be.agiv.security.SecurityToken;
 
 /**
  * A JAX-WS based WS-SecureConversation SOAP handler.
- * <p/>
+ * <p>
  * This JAX-WS handler adds a WS-Security SOAP header using a secure
  * conversation token that it retrieves from the AGIV Security component.
  * Basically this JAX-WS handler configures a downstream WS-Security JAX-WS

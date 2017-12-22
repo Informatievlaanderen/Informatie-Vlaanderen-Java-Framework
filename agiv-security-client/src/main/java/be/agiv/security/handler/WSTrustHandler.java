@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -41,7 +41,7 @@ import be.agiv.security.client.WSConstants;
 
 /**
  * A JAX-WS based SOAP handler that implements parts of WS-Trust.
- * <p/>
+ * <p>
  * This SOAP handler is basically used to retrieve WS-Trust tokens from incoming
  * STS response messages.
  * 

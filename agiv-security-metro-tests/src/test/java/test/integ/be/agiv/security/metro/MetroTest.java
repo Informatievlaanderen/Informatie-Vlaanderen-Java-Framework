@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -59,7 +59,7 @@ public class MetroTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
 		LOG.debug("calling getData");
 		iservice.getData(0);

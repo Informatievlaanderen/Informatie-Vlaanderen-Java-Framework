@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -20,7 +20,7 @@ package be.agiv.security;
 
 /**
  * Secure Token Service Listener interface.
- * <p/>
+ * <p>
  * Can be used to listen to AGIVSecurity STS activity related. Because the
  * initial security protocol run can take a while, it might be handy for some
  * applications to be able to receive some feedback on the progress.

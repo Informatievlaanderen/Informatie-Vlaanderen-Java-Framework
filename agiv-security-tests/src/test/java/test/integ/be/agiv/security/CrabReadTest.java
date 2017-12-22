@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2013 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -87,8 +87,8 @@ public class CrabReadTest {
 				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
 
@@ -123,8 +123,8 @@ public class CrabReadTest {
 				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, certificate, privateKey);
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
@@ -150,8 +150,8 @@ public class CrabReadTest {
 				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 
@@ -178,8 +178,8 @@ public class CrabReadTest {
 				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
 
@@ -227,7 +227,7 @@ public class CrabReadTest {
 				.getChildNodes();
 
 		IPSTSClient ipstsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				AGIVSecurity.BETA_REALM);
 		//
 		// urn:agiv.be/crab/beta
@@ -236,7 +236,7 @@ public class CrabReadTest {
 				this.config.getCertificate(), this.config.getPrivateKey());
 
 		RSTSClient rstsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		SecurityToken rStsSecurityToken = rstsClient.getSecurityToken(
 				ipStsSecurityToken, "urn:agiv.be/crab/beta");
 

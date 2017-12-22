@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -62,11 +62,11 @@ import be.agiv.security.handler.WSSecurityHandler;
 
 /**
  * The main AGIV security framework component.
- * <p/>
+ * <p>
  * Basically you use the {@link AGIVSecurity#enable(BindingProvider)} method (or
  * one of its variants) to enable the AGIV Security framework on the JAX-WS
  * stubs.
- * <p/>
+ * <p>
  * An AGIV security component holds all information to be able to connect to
  * AGIV secured web services. Although JAX-WS itself is not multi-threaded, this
  * component can be shared between different JAX-WS clients. Each AGIV security
@@ -86,12 +86,12 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	/**
 	 * R-STS Beta Realm.
 	 */
-	public static final String BETA_REALM = "urn:agiv.be/salvador";
+	public static final String BETA_REALM = "urn:informatievlaanderen.be/sts/beta";
 
 	/**
 	 * R-STS Production Realm.
 	 */
-	public static final String PRODUCTION_REALM = "urn:agiv.be/sts";
+	public static final String PRODUCTION_REALM = "urn:informatievlaanderen.be/sts/prod";
 
 	private final String ipStsLocation;
 
@@ -168,7 +168,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	 *            the X509 certificate credential.
 	 * @param privateKey
 	 *            the corresponding private RSA key.
-	 * @see AGIVSecurity#AGIVSecurity(String, String, File, String)
+	 * @see AGIVSecurity#AGIVSecurity(String, String, String, File, String)
 	 */
 	public AGIVSecurity(String ipStsLocation, String rStsLocation,
 			String rStsRealm, X509Certificate certificate, PrivateKey privateKey) {
@@ -191,9 +191,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	 * @param pkcs12Password
 	 *            the PKCS#12 keystore password.
 	 * @throws SecurityException
-	 *             gets thrown in case of a PKCS#12 keystore error.
-	 * @see AGIVSecurity#AGIVSecurity(String, String, X509Certificate,
-	 *      PrivateKey)
+	 *             gets thrown in case of a PKCS#12 keystore error.	 
 	 */
 	public AGIVSecurity(String ipStsLocation, String rStsLocation,
 			String rStsRealm, File pkcs12File, String pkcs12Password)
@@ -284,8 +282,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	}
 
 	/**
-	 * Sets the proxy configuration to be used by this AGIV Security component.
-	 * <p/>
+	 * Sets the proxy configuration to be used by this AGIV Security component.	 
 	 * Even the JAX-WS enabled stubs will use the proxy settings.
 	 * 
 	 * @param proxyHost
@@ -309,12 +306,12 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	/**
 	 * Enable the AGIV security on the given JAX-WS binding provider. Each
 	 * JAX-WS port can be casted to a JAX-WS binding provider.
-	 * <p/>
+	 * <p>
 	 * It is no problem to call the enable method multiple times for a certain
 	 * JAX-WS stub. This method will only decorate the AGIV Security framework
 	 * once on the given JAX-WS stub. If the JAX-WS stub is already decorated by
 	 * another AGIVSecurity instance a {@link SecurityException} will be thrown.
-	 * <p/>
+	 * <p>
 	 * JAX-WS stubs enabled via this method will not use WS-SecureConversation.
 	 * 
 	 * @param bindingProvider
@@ -334,7 +331,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	/**
 	 * Enable the AGIV security on the given JAX-WS binding provider. Each
 	 * JAX-WS port can be casted to a JAX-WS binding provider.
-	 * <p/>
+	 * <p>
 	 * It is no problem to call the enable method multiple times for a certain
 	 * JAX-WS stub. This method will only decorate the AGIV Security framework
 	 * once on the given JAX-WS stub. If the JAX-WS stub is already decorated by
@@ -383,7 +380,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 
 	/**
 	 * Disable the AGIV Security framework on the given JAX-WS port.
-	 * <p/>
+	 * <p>
 	 * Can be used when the JAX-WS stubs are managed by some container and the
 	 * container strategy is to pool JAX-WS stub instances.
 	 * 
@@ -436,7 +433,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	 * Enable the AGIV security on the given JAX-WS binding provider. Each
 	 * JAX-WS port can be casted to a JAX-WS binding provider. The JAX-WS port
 	 * will also be configured to use the service at the given service location.
-	 * <p/>
+	 * <p>
 	 * JAX-WS stubs enabled via this method will not use WS-SecureConversation.
 	 * 
 	 * @param bindingProvider
@@ -499,7 +496,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	/**
 	 * Gives back a map of secure conversation tokens, indexed via the location
 	 * of the web service for which the tokens apply.
-	 * <p/>
+	 * <p>
 	 * The map can be empty if no WS-SecureConversation is used.
 	 * 
 	 * @return a map of secure conversation tokens indexed per web service
@@ -516,7 +513,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	 * 
 	 * @param location
 	 *            the web service location for which to prefetch tokens.
-	 * @param the
+	 * @param serviceRealm
 	 *            service realm.
 	 * @param useWsSecureConversation
 	 *            set to <code>true</code> if the WS-SecureConversation token
@@ -612,7 +609,7 @@ public class AGIVSecurity implements SecurityTokenProvider {
 	 * @param location
 	 *            the location of the web service for which the token should
 	 *            apply.
-	 * @param the
+	 * @param serviceRealm
 	 *            service realm.
 	 * @return the secure conversation token
 	 */

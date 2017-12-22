@@ -23,7 +23,7 @@
         </trust:Lifetime>
         <wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
           <a:EndpointReference>
-            <a:Address>urn:agiv.be/salvador</a:Address>
+            <a:Address>urn:informatievlaanderen.be/sts/beta</a:Address>
           </a:EndpointReference>
         </wsp:AppliesTo>
         <trust:RequestedSecurityToken>

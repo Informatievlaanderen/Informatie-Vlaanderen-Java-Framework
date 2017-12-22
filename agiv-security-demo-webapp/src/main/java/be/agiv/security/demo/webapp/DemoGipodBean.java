@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2012 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -42,18 +42,18 @@ public class DemoGipodBean {
 	public List<Land> getLanden(DemoCredentials demoCredentials)
 			throws DemoGipodException {
 		IGipodService iGipodService = this.service
-				.getWS2007FederationHttpBindingIGipodService(new AddressingFeature());
+				.getGipodServiceWsfed(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, demoCredentials.getName(),
 				demoCredentials.getPassword());
 
 		BindingProvider bindingProvider = (BindingProvider) iGipodService;
 		agivSecurity.enable(bindingProvider,
-				"https://wsgipod.beta.agiv.be/SOAP/GipodService.svc",
-				"urn:agiv.be/gipodbeta");
+				"https://service.beta.gipod.vlaanderen.be/soap/GipodService.svc",
+				"urn:informatievlaanderen.be/gipod/serivce/beta");
 
 		GetListLandResponse listLandResponse;
 		try {

@@ -1,5 +1,5 @@
 /*
- * AGIV Java Security Project.
+ * Informatie Vlaanderen Java Security Project.
  * Copyright (C) 2013 AGIV.
  *
  * This is free software; you can redistribute it and/or modify it

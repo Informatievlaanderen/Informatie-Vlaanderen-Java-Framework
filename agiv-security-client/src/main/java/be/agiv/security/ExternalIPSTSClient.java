@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -20,7 +20,7 @@ package be.agiv.security;
 
 /**
  * Interface for external IP-STS service clients.
- * <p/>
+ * <p>
  * Can be used for external IP-STS services that do not behave like the AGIV
  * IP-STS.
  * 

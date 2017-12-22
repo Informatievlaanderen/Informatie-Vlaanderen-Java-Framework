@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -91,7 +91,7 @@ public class Axis2Test {
 	public void testIPSTSClient() throws Exception {
 		// setup
 		IPSTSClient ipstsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		// operate
@@ -107,11 +107,11 @@ public class Axis2Test {
 	public void testSecureConversation() throws Exception {
 		// setup
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 
 		// operate
 		LOG.debug("IP-STS...");
@@ -121,11 +121,11 @@ public class Axis2Test {
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
 				ipStsSecurityToken,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
 		LOG.debug("Secure Conversation...");
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 		SecurityToken secConvToken = secureConversationClient
 				.getSecureConversationToken(rStsSecurityToken);
 
@@ -164,18 +164,18 @@ public class Axis2Test {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider, false);
 		agivSecurity.enable(bindingProvider, false);
 
 		agivSecurity
-				.prefetchTokens("https://auth.beta.agiv.be/ClaimsAwareService/Service.svc", false);
+				.prefetchTokens("https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc", false);
 
 		LOG.debug("calling getData");
 		iservice.getData(0);
@@ -200,7 +200,7 @@ public class Axis2Test {
 	public void testIPSTSCertificate() throws Exception {
 		// setup
 		IPSTSClient client = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				AGIVSecurity.BETA_REALM);
 
 		// operate

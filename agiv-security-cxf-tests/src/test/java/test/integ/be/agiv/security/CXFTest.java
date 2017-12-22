@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -80,7 +80,7 @@ public class CXFTest {
 	@Test
 	public void testCXFWSSecurityPolicy() throws Exception {
 		URL wsdlLocation = new URL(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc?wsdl");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc?wsdl");
 		QName serviceName = new QName("http://tempuri.org/", "Service");
 		Service service = new Service(wsdlLocation, serviceName);
 		IService iservice = service
@@ -90,7 +90,7 @@ public class CXFTest {
 		bindingProvider
 				.getRequestContext()
 				.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-						"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/basic");
+						"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/basic");
 		bindingProvider.getRequestContext().put(
 				SecurityConstants.CALLBACK_HANDLER, new UTCallbackHandler());
 		bindingProvider.getRequestContext().put(SecurityConstants.USERNAME,
@@ -124,7 +124,7 @@ public class CXFTest {
 	@Test
 	public void testIPSTS() throws Exception {
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		ipStsClient.getSecurityToken(this.config.getUsername(),
@@ -135,11 +135,11 @@ public class CXFTest {
 	public void testSecureConversation() throws Exception {
 		// setup
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 
 		// operate
 		LOG.debug("IP-STS...");
@@ -149,11 +149,11 @@ public class CXFTest {
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
 				ipStsSecurityToken,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
 		LOG.debug("Secure Conversation...");
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/wsfedsc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfedsc");
 		SecurityToken secConvToken = secureConversationClient
 				.getSecureConversationToken(rStsSecurityToken);
 
@@ -193,11 +193,11 @@ public class CXFTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider, false);
@@ -245,11 +245,11 @@ public class CXFTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider, false);
@@ -299,11 +299,11 @@ public class CXFTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider, false);
@@ -365,7 +365,7 @@ public class CXFTest {
 
 		stsClient.setWsdlLocation("/ws-trust-1.3.wsdl");
 		stsClient
-				.setLocation("https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				.setLocation("https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		stsClient
 				.setServiceName("{http://docs.oasis-open.org/ws-sx/ws-trust/200512}SecurityTokenService");
 		stsClient.setEndpointQName(new QName(
@@ -378,6 +378,6 @@ public class CXFTest {
 				.setKeyType("http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey");
 
 		org.apache.cxf.ws.security.tokenstore.SecurityToken securityToken = stsClient
-				.requestSecurityToken("https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				.requestSecurityToken("https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13");
 	}
 }

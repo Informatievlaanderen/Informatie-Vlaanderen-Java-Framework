@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -68,11 +68,11 @@ public class GipodTest {
 		GipodService service = new GipodService();
 
 		IGipodService iGipodService = service
-				.getWS2007FederationHttpBindingIGipodService(new AddressingFeature());
+				.getGipodServiceWsfed(new AddressingFeature());
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 
@@ -114,34 +114,34 @@ public class GipodTest {
 				.getChildNodes();
 
 		IPSTSClient ipstsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, secondaryParametersNodeList);
 
 		SecurityToken ipStsSecurityToken = ipstsClient.getSecurityToken(
 				this.config.getUsername(), this.config.getPassword());
 
 		RSTSClient rstsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		SecurityToken rStsSecurityToken = rstsClient.getSecurityToken(
-				ipStsSecurityToken, "urn:agiv.be/gipodbeta");
+				ipStsSecurityToken, "urn:informatievlaanderen.be/gipod/serivce/beta");
 		// "https://wsgipod.beta.agiv.be/SOAP/GipodService.svc");
 
 		WSSecurityHandler wsSecurityHandler = new WSSecurityHandler();
 		TestSecurityTokenProvider securityTokenProvider = new TestSecurityTokenProvider();
 		securityTokenProvider.addSecurityToken(
-				"https://wsgipod.beta.agiv.be/SOAP/GipodService.svc",
+				"https://service.beta.gipod.vlaanderen.be/SOAP/GipodService.svc",
 				rStsSecurityToken);
 		AuthenticationHandler authenticationHandler = new AuthenticationHandler(
 				securityTokenProvider, wsSecurityHandler, null);
 
 		GipodService service = new GipodService();
 		IGipodService iGipodService = service
-				.getWS2007FederationHttpBindingIGipodService(new AddressingFeature());
+				.getGipodServiceWsfed(new AddressingFeature());
 
 		BindingProvider bindingProvider = (BindingProvider) iGipodService;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://wsgipod.beta.agiv.be/SOAP/GipodService.svc");
+				"https://service.beta.gipod.vlaanderen.be/SOAP/GipodService.svc");
 		Binding binding = bindingProvider.getBinding();
 		List<Handler> handlerChain = binding.getHandlerChain();
 		handlerChain.add(authenticationHandler);

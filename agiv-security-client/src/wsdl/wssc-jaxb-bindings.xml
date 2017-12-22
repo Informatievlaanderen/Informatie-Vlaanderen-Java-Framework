@@ -9,7 +9,7 @@
 		node="/xs:schema">
 		<jxb:schemaBindings>
 			<jxb:package name="be.agiv.security.jaxb.wssc">
-				<jxb:javadoc><![CDATA[<body>JAXB WS-SecureConversation</body>]]></jxb:javadoc>
+				<!-- <jxb:javadoc><![CDATA[<body>JAXB WS-SecureConversation</body>]]></jxb:javadoc> -->
 			</jxb:package>
 		</jxb:schemaBindings>
 

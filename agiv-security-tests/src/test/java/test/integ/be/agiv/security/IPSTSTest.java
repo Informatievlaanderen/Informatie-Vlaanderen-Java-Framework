@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2013 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -128,7 +128,7 @@ public class IPSTSTest {
 		// setup
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet httpget = new HttpGet(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc");
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc");
 
 		// operate
 		HttpResponse response = httpClient.execute(httpget);
@@ -172,11 +172,11 @@ public class IPSTSTest {
 	public void testRSTSGIPOD() throws Exception {
 		// setup
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 
 		// operate
 		LOG.debug("IP-STS...");
@@ -185,7 +185,7 @@ public class IPSTSTest {
 
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken, "urn:agiv.be/gipodbeta");
+				ipStsSecurityToken, "urn:informatievlaanderen.be/gipod/serivce/beta");
 
 		// verify
 		assertNotNull(rStsSecurityToken);
@@ -211,11 +211,11 @@ public class IPSTSTest {
 	public void testRSTS() throws Exception {
 		// setup
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 
 		// operate
 		LOG.debug("IP-STS...");
@@ -255,11 +255,11 @@ public class IPSTSTest {
 	public void testSecureConversation() throws Exception {
 		// setup
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 
 		// operate
 		LOG.debug("IP-STS...");
@@ -316,7 +316,7 @@ public class IPSTSTest {
 	public void testIPSTS() throws Exception {
 		// setup
 		IPSTSClient client = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		// operate
@@ -346,7 +346,7 @@ public class IPSTSTest {
 	public void testIPSTSCertificate() throws Exception {
 		// setup
 		IPSTSClient client = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				AGIVSecurity.BETA_REALM);
 
 		// operate
@@ -381,7 +381,7 @@ public class IPSTSTest {
 
 		// setup
 		IPSTSClient client = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				AGIVSecurity.BETA_REALM);
 
 		// operate
@@ -406,7 +406,7 @@ public class IPSTSTest {
 	public void testIPSTSCancelToken() throws Exception {
 		// setup
 		IPSTSClient client = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 
 		// operate
@@ -430,7 +430,7 @@ public class IPSTSTest {
 	public void testRSTS_BehavingAs_IPSTS() throws Exception {
 		// setup
 		IPSTSClient client = new IPSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/UserName",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/UserName",
 				AGIVSecurity.BETA_REALM);
 
 		// operate
@@ -562,7 +562,7 @@ public class IPSTSTest {
 			inputSecurityToken.setToken(tokenElement);
 
 			client.getSecurityToken(inputSecurityToken,
-					"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc");
+					"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 		} finally {
 			servletTester.stop();
 		}
@@ -637,7 +637,7 @@ public class IPSTSTest {
 				publicKey.getEncoded());
 		SubjectPublicKeyInfo info = new SubjectPublicKeyInfo(
 				(ASN1Sequence) new ASN1InputStream(bais).readObject());
-		return new SubjectKeyIdentifier(info);
+		return new SubjectKeyIdentifier(info.getEncoded());
 	}
 
 	private AuthorityKeyIdentifier createAuthorityKeyId(PublicKey publicKey)

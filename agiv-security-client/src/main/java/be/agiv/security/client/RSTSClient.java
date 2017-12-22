@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2012 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -58,7 +58,7 @@ import be.agiv.security.jaxws.wstrust.SecurityTokenService_Service;
  * JAX-WS based AGIV R-STS WS-Trust client. Via this client one can retrieve
  * security tokens from the R-STS WS-Trust web service using an IP-STS security
  * token.
- * <p/>
+ * <p>
  * Keep in mind that this R-STS client is specifically designed to work with the
  * AGIV R-STS and thus will most likely not work for other R-STS configurations.
  * 

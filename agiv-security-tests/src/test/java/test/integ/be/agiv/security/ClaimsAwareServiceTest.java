@@ -1,6 +1,6 @@
 /*
- * AGIV Java Security Project.
- * Copyright (C) 2011-2013 AGIV.
+ * Informatie Vlaanderen Java Security Project.
+ * Copyright (C) 2011-2017 Informatie Vlaanderen.
  *
  * This is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License version
@@ -87,7 +87,7 @@ public class ClaimsAwareServiceTest {
 		bindingProvider
 				.getRequestContext()
 				.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-						"https://auth.beta.agiv.be/ClaimsAwareService/Service.svc/basic");
+						"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/basic");
 
 		try {
 			iservice.getData(0);
@@ -109,13 +109,13 @@ public class ClaimsAwareServiceTest {
 				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM);
 		SecurityToken ipStsSecurityToken = ipStsClient.getSecurityToken(
 				this.config.getUsername(), this.config.getPassword());
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
 				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
 
@@ -181,13 +181,13 @@ public class ClaimsAwareServiceTest {
 				.getChildNodes();
 
 		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, secondaryParametersNodeList);
 		SecurityToken ipStsSecurityToken = ipStsClient.getSecurityToken(
 				this.config.getUsername(), this.config.getPassword());
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
 				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
 
@@ -231,8 +231,8 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider,
@@ -285,8 +285,8 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider,
@@ -338,8 +338,8 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider,
@@ -373,8 +373,8 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getCertificate(),
 				this.config.getPrivateKey());
 		agivSecurity.enable(bindingProvider,
@@ -412,8 +412,8 @@ public class ClaimsAwareServiceTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, certificate, privateKey);
 		agivSecurity.enable(bindingProvider,
 				ClaimsAwareServiceFactory.SERVICE_LOCATION,
@@ -485,8 +485,8 @@ public class ClaimsAwareServiceTest {
 				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.enable(bindingProvider, false,
@@ -540,7 +540,7 @@ public class ClaimsAwareServiceTest {
 			LOG.debug("using external IP-STS service client");
 			this.called = true;
 			IPSTSClient ipStsClient = new IPSTSClient(
-					"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+					"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
 					AGIVSecurity.BETA_REALM);
 			return ipStsClient.getSecurityToken(
 					ClaimsAwareServiceTest.this.config.getUsername(),
@@ -563,7 +563,7 @@ public class ClaimsAwareServiceTest {
 		ExternalTestIPSTSClient externalIpStsClient = new ExternalTestIPSTSClient();
 		AGIVSecurity agivSecurity = new AGIVSecurity(
 				externalIpStsClient,
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
 		agivSecurity.enable(bindingProvider, false,
 				ClaimsAwareServiceFactory.SERVICE_REALM);
 
@@ -586,8 +586,8 @@ public class ClaimsAwareServiceTest {
 				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
 		AGIVSecurity agivSecurity = new AGIVSecurity(
-				"https://auth.beta.agiv.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://auth.beta.agiv.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
 				AGIVSecurity.BETA_REALM, this.config.getUsername(), this.config
 						.getPassword());
 		agivSecurity.setProxy("localhost", 3128, Type.SOCKS);
