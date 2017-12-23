@@ -59,7 +59,7 @@ public class MetroTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
+				"urn:informatievlaanderen.be/claimsawareservice/beta");
 
 		LOG.debug("calling getData");
 		iservice.getData(0);

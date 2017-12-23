@@ -47,7 +47,6 @@ import be.agiv.gipod._2010._06.service.GipodService;
 import be.agiv.gipod._2010._06.service.IGipodService;
 import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 import be.vlaanderen.informatievlaanderen.security.SecurityToken;
-import be.vlaanderen.informatievlaanderen.security.client.IPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.RSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.WSConstants;
 import be.vlaanderen.informatievlaanderen.security.handler.AuthenticationHandler;
@@ -71,11 +70,9 @@ public class GipodTest {
 		IGipodService iGipodService = service
 				.getGipodServiceWsfed(new AddressingFeature());
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 
 		BindingProvider bindingProvider = (BindingProvider) iGipodService;
 		informatieVlaanderenSecurity.enable(bindingProvider,
@@ -89,66 +86,5 @@ public class GipodTest {
 		for (Land land : landList) {
 			LOG.debug("land: " + land.getCode() + " " + land.getNaam());
 		}
-	}
-
-	@Test
-	public void testGipodManualSecurity() throws Exception {
-		InputStream wsdlInputStream = CrabReadTest.class
-				.getResourceAsStream("/GipodService.wsdl");
-		assertNotNull(wsdlInputStream);
-
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-				.newInstance();
-		documentBuilderFactory.setNamespaceAware(true);
-		DocumentBuilder documentBuilder = documentBuilderFactory
-				.newDocumentBuilder();
-		Document wsdlDocument = documentBuilder.parse(wsdlInputStream);
-
-		NodeList requestSecurityTokenTemplateNodeList = wsdlDocument
-				.getElementsByTagNameNS(
-						WSConstants.WS_SECURITY_POLICY_NAMESPACE,
-						"RequestSecurityTokenTemplate");
-		assertEquals(1, requestSecurityTokenTemplateNodeList.getLength());
-		Element requestSecurityTokenTemplateElement = (Element) requestSecurityTokenTemplateNodeList
-				.item(0);
-		NodeList secondaryParametersNodeList = requestSecurityTokenTemplateElement
-				.getChildNodes();
-
-		IPSTSClient ipstsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, secondaryParametersNodeList);
-
-		SecurityToken ipStsSecurityToken = ipstsClient.getSecurityToken(
-				this.config.getUsername(), this.config.getPassword());
-
-		RSTSClient rstsClient = new RSTSClient(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
-		SecurityToken rStsSecurityToken = rstsClient.getSecurityToken(
-				ipStsSecurityToken, "urn:informatievlaanderen.be/gipod/serivce/beta");
-		// "https://wsgipod.beta.agiv.be/SOAP/GipodService.svc");
-
-		WSSecurityHandler wsSecurityHandler = new WSSecurityHandler();
-		TestSecurityTokenProvider securityTokenProvider = new TestSecurityTokenProvider();
-		securityTokenProvider.addSecurityToken(
-				"https://service.beta.gipod.vlaanderen.be/SOAP/GipodService.svc",
-				rStsSecurityToken);
-		AuthenticationHandler authenticationHandler = new AuthenticationHandler(
-				securityTokenProvider, wsSecurityHandler, null);
-
-		GipodService service = new GipodService();
-		IGipodService iGipodService = service
-				.getGipodServiceWsfed(new AddressingFeature());
-
-		BindingProvider bindingProvider = (BindingProvider) iGipodService;
-		bindingProvider.getRequestContext().put(
-				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://service.beta.gipod.vlaanderen.be/SOAP/GipodService.svc");
-		Binding binding = bindingProvider.getBinding();
-		List<Handler> handlerChain = binding.getHandlerChain();
-		handlerChain.add(authenticationHandler);
-		handlerChain.add(wsSecurityHandler);
-		binding.setHandlerChain(handlerChain);
-
-		iGipodService.getListLand();
-	}
+	}	
 }

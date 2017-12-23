@@ -69,7 +69,6 @@ import be.agiv.ClaimInfo;
 import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 import be.vlaanderen.informatievlaanderen.security.STSListener;
 import be.vlaanderen.informatievlaanderen.security.SecurityToken;
-import be.vlaanderen.informatievlaanderen.security.client.IPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.RSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.SecureConversationClient;
 
@@ -89,12 +88,6 @@ public class Main extends JFrame implements ActionListener, STSListener {
 	private static final Log LOG = LogFactory.getLog(Main.class);
 
 	private JMenuItem exitMenuItem;
-
-	private JMenuItem ipStsIssueMenuItem;
-
-	private JMenuItem ipStsViewMenuItem;
-
-	private SecurityToken ipStsSecurityToken;
 
 	private JMenuItem rStsIssueMenuItem;
 
@@ -155,24 +148,14 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		fileMenu.addSeparator();
 		this.exitMenuItem = new JMenuItem("Exit");
 		fileMenu.add(this.exitMenuItem);
-		this.exitMenuItem.addActionListener(this);
-
-		JMenu ipStsMenu = new JMenu("IP-STS");
-		menuBar.add(ipStsMenu);
-		this.ipStsIssueMenuItem = new JMenuItem("Issue token");
-		ipStsMenu.add(this.ipStsIssueMenuItem);
-		this.ipStsIssueMenuItem.addActionListener(this);
-		this.ipStsViewMenuItem = new JMenuItem("View token");
-		ipStsMenu.add(this.ipStsViewMenuItem);
-		this.ipStsViewMenuItem.addActionListener(this);
-		this.ipStsViewMenuItem.setEnabled(false);
+		this.exitMenuItem.addActionListener(this);		
 
 		JMenu rStsMenu = new JMenu("R-STS");
 		menuBar.add(rStsMenu);
 		this.rStsIssueMenuItem = new JMenuItem("Issue token");
 		rStsMenu.add(this.rStsIssueMenuItem);
 		this.rStsIssueMenuItem.addActionListener(this);
-		this.rStsIssueMenuItem.setEnabled(false);
+		this.rStsIssueMenuItem.setEnabled(true);
 		this.rStsViewMenuItem = new JMenuItem("View token");
 		rStsMenu.add(this.rStsViewMenuItem);
 		this.rStsViewMenuItem.addActionListener(this);
@@ -212,16 +195,12 @@ public class Main extends JFrame implements ActionListener, STSListener {
 			dispose();
 			System.exit(0);
 		}
-		if (e.getSource() == this.ipStsIssueMenuItem) {
-			ipStsIssueToken();
-		} else if (e.getSource() == this.claimsAwareServiceMenuItem) {
+		if (e.getSource() == this.claimsAwareServiceMenuItem) {
 			invokeClaimsAwareService();
 		} else if (e.getSource() == this.aboutMenuItem) {
 			showAbout();
 		} else if (e.getSource() == this.preferencesMenuItem) {
 			showPreferences();
-		} else if (e.getSource() == this.ipStsViewMenuItem) {
-			ipStsViewToken();
 		} else if (e.getSource() == this.rStsIssueMenuItem) {
 			rStsIssueToken();
 		} else if (e.getSource() == this.rStsViewMenuItem) {
@@ -347,7 +326,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(urlLabel);
 
 		JTextField urlTextField = new JTextField(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);
@@ -363,32 +342,47 @@ public class Main extends JFrame implements ActionListener, STSListener {
 				ClaimsAwareServiceFactory.SERVICE_REALM, 60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(appliesToTextField, gridBagConstraints);
-		contentPanel.add(appliesToTextField);
-
-		int result = JOptionPane.showConfirmDialog(this, contentPanel,
+		contentPanel.add(appliesToTextField);				
+                
+                CredentialPanel credentialPanel = new CredentialPanel();
+		gridBagConstraints.gridx = 0;
+		gridBagConstraints.gridy++;
+		gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		gridBagLayout.setConstraints(credentialPanel, gridBagConstraints);
+		contentPanel.add(credentialPanel);		
+                
+                int result = JOptionPane.showConfirmDialog(this, contentPanel,
 				"R-STS Issue Token", JOptionPane.OK_CANCEL_OPTION);
 		if (result == JOptionPane.CANCEL_OPTION) {
 			return;
 		}
-
-		String location = urlTextField.getText();
+                
+                String location = urlTextField.getText();
 		String appliesTo = appliesToTextField.getText();
+                
+                File pkcs12File = credentialPanel.getPKCS12File();
+                String password = credentialPanel.getPassword();
 
-		RSTSClient rStsClient = new RSTSClient(location);
+                RSTSClient rStsClient = new RSTSClient(location);
+                
 		try {
-			this.rStsSecurityToken = rStsClient.getSecurityToken(
-					this.ipStsSecurityToken, appliesTo);
-			this.rStsViewMenuItem.setEnabled(true);
-			this.secConvIssueMenuItem.setEnabled(true);
-			rStsViewToken();
+                    KeyStore keyStore = KeyStore.getInstance("PKCS12");
+                    keyStore.load(new FileInputStream(pkcs12File),
+                            password.toCharArray());
+                    String alias = keyStore.aliases().nextElement();
+                    X509Certificate certificate = (X509Certificate) keyStore
+                            .getCertificate(alias);
+                    PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
+                            password.toCharArray());
+                    this.rStsSecurityToken = rStsClient.getSecurityToken(
+                            certificate,privateKey, appliesTo);
+                    this.rStsViewMenuItem.setEnabled(true);
+                    this.secConvIssueMenuItem.setEnabled(true);
+                    rStsViewToken();
 		} catch (Exception e) {
 			showException(e);
 		}
-	}
-
-	private void ipStsViewToken() {
-		showToken(this.ipStsSecurityToken, "IP-STS");
-	}
+	}	
 
 	private void rStsViewToken() {
 		showToken(this.rStsSecurityToken, "R-STS");
@@ -520,21 +514,12 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();
 		JPanel contentPanel = new JPanel(gridBagLayout);
 
-		final JLabel ipStsLabel = new JLabel("IP-STS:");
+		
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 0;
 		gridBagConstraints.anchor = GridBagConstraints.WEST;
 		gridBagConstraints.ipadx = 5;
-		gridBagLayout.setConstraints(ipStsLabel, gridBagConstraints);
-		contentPanel.add(ipStsLabel);
-
-		final JTextField ipStsTextField = new JTextField(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				60);
-		gridBagConstraints.gridx++;
-		gridBagLayout.setConstraints(ipStsTextField, gridBagConstraints);
-		contentPanel.add(ipStsTextField);
-
+		
 		JLabel realmLabel = new JLabel("Realm:");
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy++;
@@ -561,7 +546,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		contentPanel.add(rStsLabel);
 
 		final JTextField rStsTextField = new JTextField(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
 				60);
 		gridBagConstraints.gridx++;
 		gridBagLayout.setConstraints(rStsTextField, gridBagConstraints);
@@ -619,9 +604,7 @@ public class Main extends JFrame implements ActionListener, STSListener {
 			public void actionPerformed(ActionEvent e) {
 				LOG.debug("use previous security: "
 						+ usePreviousSecurityCheckBox.isSelected());
-				boolean newSecurity = !usePreviousSecurityCheckBox.isSelected();
-				ipStsLabel.setEnabled(newSecurity);
-				ipStsTextField.setEditable(newSecurity);
+				boolean newSecurity = !usePreviousSecurityCheckBox.isSelected();				
 				credentialPanel.setEnabled(newSecurity);
 				rStsLabel.setEnabled(newSecurity);
 				rStsTextField.setEnabled(newSecurity);
@@ -675,10 +658,8 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		}
 
 		final String location = urlTextField.getText();
-		final String serviceRealm = serviceRealmTextField.getText();
-		final String ipStsLocation = ipStsTextField.getText();
-		final String rStsLocation = rStsTextField.getText();
-		final String username = credentialPanel.getUsername();
+		final String serviceRealm = serviceRealmTextField.getText();		
+		final String rStsLocation = rStsTextField.getText();		
 		final String password = credentialPanel.getPassword();
 		final File pkcs12File = credentialPanel.getPKCS12File();
 		final String realm = realmTextField.getText();
@@ -700,15 +681,9 @@ public class Main extends JFrame implements ActionListener, STSListener {
 						BindingProvider bindingProvider = (BindingProvider) iservice;
 
 						if (false == usePreviousSecurityCheckBox.isSelected()) {
-							if (null != username) {
-								Main.this.informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-										ipStsLocation, rStsLocation, realm,
-										username, password);
-							} else {
-								Main.this.informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-										ipStsLocation, rStsLocation, realm,
-										pkcs12File, password);
-							}
+							Main.this.informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
+										rStsLocation, pkcs12File, password);
+							
 							Main.this.informatieVlaanderenSecurity.addSTSListener(Main.this);
 							if (Main.this.proxyEnable) {
 								informatieVlaanderenSecurity.setProxy(Main.this.proxyHost,
@@ -764,80 +739,75 @@ public class Main extends JFrame implements ActionListener, STSListener {
 		executor.execute(futureTask);
 	}
 
-	private void ipStsIssueToken() {
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		JPanel contentPanel = new JPanel(gridBagLayout);
-
-		JLabel urlLabel = new JLabel("URL:");
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy = 0;
-		gridBagConstraints.anchor = GridBagConstraints.WEST;
-		gridBagConstraints.ipadx = 5;
-		gridBagLayout.setConstraints(urlLabel, gridBagConstraints);
-		contentPanel.add(urlLabel);
-
-		JTextField urlTextField = new JTextField(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				60);
-		gridBagConstraints.gridx++;
-		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);
-		contentPanel.add(urlTextField);
-
-		JLabel realmLabel = new JLabel("Realm:");
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy++;
-		gridBagLayout.setConstraints(realmLabel, gridBagConstraints);
-		contentPanel.add(realmLabel);
-
-		JTextField realmTextField = new JTextField(InformatieVlaanderenSecurity.BETA_REALM, 30);
-		gridBagConstraints.gridx++;
-		gridBagLayout.setConstraints(realmTextField, gridBagConstraints);
-		contentPanel.add(realmTextField);
-
-		CredentialPanel credentialPanel = new CredentialPanel();
-		gridBagConstraints.gridx = 0;
-		gridBagConstraints.gridy++;
-		gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
-		gridBagLayout.setConstraints(credentialPanel, gridBagConstraints);
-		contentPanel.add(credentialPanel);
-
-		int result = JOptionPane.showConfirmDialog(this, contentPanel,
-				"IP-STS Issue Token", JOptionPane.OK_CANCEL_OPTION);
-		if (result == JOptionPane.CANCEL_OPTION) {
-			return;
-		}
-
-		String location = urlTextField.getText();
-		String username = credentialPanel.getUsername();
-		String password = credentialPanel.getPassword();
-		File pkcs12File = credentialPanel.getPKCS12File();
-		String realm = realmTextField.getText();
-
-		IPSTSClient ipStsClient = new IPSTSClient(location, realm);
-		try {
-			if (null != username) {
-				this.ipStsSecurityToken = ipStsClient.getSecurityToken(
-						username, password);
-			} else {
-				KeyStore keyStore = KeyStore.getInstance("PKCS12");
-				keyStore.load(new FileInputStream(pkcs12File),
-						password.toCharArray());
-				String alias = keyStore.aliases().nextElement();
-				X509Certificate certificate = (X509Certificate) keyStore
-						.getCertificate(alias);
-				PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
-						password.toCharArray());
-				this.ipStsSecurityToken = ipStsClient.getSecuritytoken(
-						certificate, privateKey);
-			}
-			this.ipStsViewMenuItem.setEnabled(true);
-			this.rStsIssueMenuItem.setEnabled(true);
-			ipStsViewToken();
-		} catch (Exception e) {
-			showException(e);
-		}
-	}
+//	private void ipStsIssueToken() {
+//		GridBagLayout gridBagLayout = new GridBagLayout();
+//		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+//		JPanel contentPanel = new JPanel(gridBagLayout);
+//
+//		JLabel urlLabel = new JLabel("URL:");
+//		gridBagConstraints.gridx = 0;
+//		gridBagConstraints.gridy = 0;
+//		gridBagConstraints.anchor = GridBagConstraints.WEST;
+//		gridBagConstraints.ipadx = 5;
+//		gridBagLayout.setConstraints(urlLabel, gridBagConstraints);
+//		contentPanel.add(urlLabel);
+//
+//		JTextField urlTextField = new JTextField(
+//				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+//				60);
+//		gridBagConstraints.gridx++;
+//		gridBagLayout.setConstraints(urlTextField, gridBagConstraints);
+//		contentPanel.add(urlTextField);
+//
+//		JLabel realmLabel = new JLabel("Realm:");
+//		gridBagConstraints.gridx = 0;
+//		gridBagConstraints.gridy++;
+//		gridBagLayout.setConstraints(realmLabel, gridBagConstraints);
+//		contentPanel.add(realmLabel);
+//
+//		JTextField realmTextField = new JTextField(InformatieVlaanderenSecurity.BETA_REALM, 30);
+//		gridBagConstraints.gridx++;
+//		gridBagLayout.setConstraints(realmTextField, gridBagConstraints);
+//		contentPanel.add(realmTextField);
+//
+//		CredentialPanel credentialPanel = new CredentialPanel();
+//		gridBagConstraints.gridx = 0;
+//		gridBagConstraints.gridy++;
+//		gridBagConstraints.gridwidth = GridBagConstraints.REMAINDER;
+//		gridBagLayout.setConstraints(credentialPanel, gridBagConstraints);
+//		contentPanel.add(credentialPanel);
+//
+//		int result = JOptionPane.showConfirmDialog(this, contentPanel,
+//				"IP-STS Issue Token", JOptionPane.OK_CANCEL_OPTION);
+//		if (result == JOptionPane.CANCEL_OPTION) {
+//			return;
+//		}
+//
+//		String location = urlTextField.getText();		
+//		File pkcs12File = credentialPanel.getPKCS12File();
+//                String password = credentialPanel.getPassword();
+//		String realm = realmTextField.getText();
+//
+//		try {
+//			
+//				KeyStore keyStore = KeyStore.getInstance("PKCS12");
+//				keyStore.load(new FileInputStream(pkcs12File),
+//						password.toCharArray());
+//				String alias = keyStore.aliases().nextElement();
+//				X509Certificate certificate = (X509Certificate) keyStore
+//						.getCertificate(alias);
+//				PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
+//						password.toCharArray());
+//				this.ipStsSecurityToken = ipStsClient.getSecuritytoken(
+//						certificate, privateKey);
+//			
+//			this.ipStsViewMenuItem.setEnabled(true);
+//			this.rStsIssueMenuItem.setEnabled(true);
+//			ipStsViewToken();
+//		} catch (Exception e) {
+//			showException(e);
+//		}
+//	}
 
 	private void showException(Exception e) {
 		StringBuffer stringBuffer = new StringBuffer();

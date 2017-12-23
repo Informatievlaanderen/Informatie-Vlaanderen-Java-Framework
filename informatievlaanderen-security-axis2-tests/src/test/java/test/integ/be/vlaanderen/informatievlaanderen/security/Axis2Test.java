@@ -56,7 +56,6 @@ import org.w3c.dom.Element;
 
 import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 import be.vlaanderen.informatievlaanderen.security.SecurityToken;
-import be.vlaanderen.informatievlaanderen.security.client.IPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.RSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.SecureConversationClient;
 import be.vlaanderen.informatievlaanderen.security.demo.ClaimsAwareServiceFactory;
@@ -85,47 +84,22 @@ public class Axis2Test {
 		LOG.debug("provider class: " + provider.getClass().getName());
 		assertEquals("org.apache.axis2.jaxws.spi.Provider", provider.getClass()
 				.getName());
-	}
-
-	@Test
-	public void testIPSTSClient() throws Exception {
-		// setup
-		IPSTSClient ipstsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM);
-
-		// operate
-		SecurityToken securityToken = ipstsClient.getSecurityToken(
-				this.config.getUsername(), this.config.getPassword());
-
-		// verify
-		assertNotNull(securityToken);
-		LOG.debug("created: " + securityToken.getCreated());
-	}
+	}	
 
 	@Test
 	public void testSecureConversation() throws Exception {
 		// setup
-		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM);
-
 		RSTSClient rStsClient = new RSTSClient(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
-
-		// operate
-		LOG.debug("IP-STS...");
-		SecurityToken ipStsSecurityToken = ipStsClient.getSecurityToken(
-				this.config.getUsername(), this.config.getPassword());
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage");
 
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken,
-				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
+				config.getCertificate(),config.getPrivateKey(),
+				"urn:informatievlaanderen.be/claimsawareservice/beta");
 
 		LOG.debug("Secure Conversation...");
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
-				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
+				"https://beta.auth.vlaanderen.be/Claimsawareservice/service.svc/wsfedsc");
 		SecurityToken secConvToken = secureConversationClient
 				.getSecureConversationToken(rStsSecurityToken);
 
@@ -166,16 +140,14 @@ public class Axis2Test {
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
 				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 
 		informatieVlaanderenSecurity
-				.prefetchTokens("https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc", false);
+				.prefetchTokens("https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfed","urn:informatievlaanderen.be/claimsawareservice/beta", false);
 
 		LOG.debug("calling getData");
 		iservice.getData(0);
@@ -194,32 +166,7 @@ public class Axis2Test {
 				.getSecureConversationTokens().values().iterator().next();
 		assertFalse(secureConversationToken.getAttachedReference().equals(
 				secureConversationToken2.getAttachedReference()));
-	}
-
-	@Test
-	public void testIPSTSCertificate() throws Exception {
-		// setup
-		IPSTSClient client = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				InformatieVlaanderenSecurity.BETA_REALM);
-
-		// operate
-		SecurityToken securityToken = client.getSecuritytoken(
-				this.config.getCertificate(), this.config.getPrivateKey());
-
-		// verify
-		assertNotNull(securityToken);
-		assertNotNull(securityToken.getKey());
-		assertEquals(256 / 8, securityToken.getKey().length);
-		LOG.debug("created: " + securityToken.getCreated());
-		LOG.debug("expired: " + securityToken.getExpires());
-		assertNotNull(securityToken.getCreated());
-		assertNotNull(securityToken.getExpires());
-		assertNotNull(securityToken.getToken());
-		assertEquals("EncryptedData", securityToken.getToken().getLocalName());
-		LOG.debug("token identifier: " + securityToken.getAttachedReference());
-		assertNotNull(securityToken.getAttachedReference());
-	}
+	}	
 
 	@Test
 	public void testWSSecurityHandler() throws Exception {

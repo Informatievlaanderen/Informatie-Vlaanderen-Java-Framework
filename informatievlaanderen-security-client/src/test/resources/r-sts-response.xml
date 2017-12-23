@@ -20,7 +20,7 @@
         </trust:Lifetime>
         <wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
           <a:EndpointReference>
-            <a:Address>https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc</a:Address>
+            <a:Address>urn:informatievlaanderen.be/claimsawareservice/beta</a:Address>
           </a:EndpointReference>
         </wsp:AppliesTo>
         <trust:RequestedSecurityToken>

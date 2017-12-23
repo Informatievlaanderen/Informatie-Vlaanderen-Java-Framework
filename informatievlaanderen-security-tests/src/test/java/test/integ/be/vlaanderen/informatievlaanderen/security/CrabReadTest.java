@@ -55,7 +55,6 @@ import org.w3c.dom.NodeList;
 
 import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 import be.vlaanderen.informatievlaanderen.security.SecurityToken;
-import be.vlaanderen.informatievlaanderen.security.client.IPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.RSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.SecureConversationClient;
 import be.vlaanderen.informatievlaanderen.security.client.WSConstants;
@@ -88,9 +87,8 @@ public class CrabReadTest {
 				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
 		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getCertificate(),
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(),
 				this.config.getPrivateKey());
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
@@ -106,70 +104,7 @@ public class CrabReadTest {
 		assertTrue(gemeenteList.contains("Vilvoorde"));
 
 		informatieVlaanderenSecurity.refreshSecurityTokens();
-	}
-
-	@Test
-	public void testServiceBeID() throws Exception {
-		Security.addProvider(new BeIDProvider());
-		KeyStore keyStore = KeyStore.getInstance("BeID");
-		keyStore.load(null);
-		PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication",
-				null);
-		X509Certificate certificate = (X509Certificate) keyStore
-				.getCertificate("Authentication");
-
-		CrabReadService crabReadService = new CrabReadService();
-
-		ICrabRead iCrabRead = crabReadService
-				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
-
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, certificate, privateKey);
-
-		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
-		informatieVlaanderenSecurity.enable(bindingProvider,
-				"https://crab.beta.agiv.be/read/crabreadservice.svc/wsfed",
-				false, "urn:agiv.be/crab/beta");
-
-		ArrayOfstring gemeentes = iCrabRead.listGemeente();
-		List<String> gemeenteList = gemeentes.getString();
-		for (String gemeente : gemeenteList) {
-			LOG.debug("gemeente: " + gemeente);
-		}
-		assertTrue(gemeenteList.contains("Vilvoorde"));
-
-		informatieVlaanderenSecurity.refreshSecurityTokens();
-	}
-
-	@Test
-	public void testServiceUsernamePassword() throws Exception {
-		CrabReadService crabReadService = new CrabReadService();
-
-		ICrabRead iCrabRead = crabReadService
-				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
-
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
-
-		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
-		informatieVlaanderenSecurity.enable(bindingProvider,
-				"https://crab.beta.agiv.be/read/crabreadservice.svc/wsfed",
-				false, "urn:agiv.be/crab/beta");
-
-		ArrayOfstring gemeentes = iCrabRead.listGemeente();
-		List<String> gemeenteList = gemeentes.getString();
-		for (String gemeente : gemeenteList) {
-			LOG.debug("gemeente: " + gemeente);
-		}
-		assertTrue(gemeenteList.contains("Vilvoorde"));
-
-		informatieVlaanderenSecurity.refreshSecurityTokens();
-	}
+	}	
 
 	@Test
 	public void testServiceSecureConversation() throws Exception {
@@ -178,17 +113,13 @@ public class CrabReadTest {
 		ICrabRead iCrabRead = crabReadService
 				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getCertificate(),
-				this.config.getPrivateKey());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
 
-		informatieVlaanderenSecurity.enable(bindingProvider,
-				"https://crab.beta.agiv.be/read/crabreadservice.svc/wsfedsc",
-				true, "urn:agiv.be/crab/beta");
+		informatieVlaanderenSecurity.enable(bindingProvider, "https://crab.beta.agiv.be/read/crabreadservice.svc/wsfedsc",true, "urn:agiv.be/crab/beta");
 
 		ArrayOfstring gemeentes = iCrabRead.listGemeente();
 		List<String> gemeenteList = gemeentes.getString();
@@ -200,76 +131,7 @@ public class CrabReadTest {
 		informatieVlaanderenSecurity.refreshSecurityTokens();
 
 		informatieVlaanderenSecurity.cancelSecureConversationTokens();
-	}
-
-	@Test
-	public void testIPSTS() throws Exception {
-		InputStream wsdlInputStream = CrabReadTest.class
-				.getResourceAsStream("/CrabReadService.wsdl");
-		assertNotNull(wsdlInputStream);
-
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-				.newInstance();
-		documentBuilderFactory.setNamespaceAware(true);
-		DocumentBuilder documentBuilder = documentBuilderFactory
-				.newDocumentBuilder();
-		Document wsdlDocument = documentBuilder.parse(wsdlInputStream);
-
-		NodeList requestSecurityTokenTemplateNodeList = wsdlDocument
-				.getElementsByTagNameNS(
-						WSConstants.WS_SECURITY_POLICY_NAMESPACE,
-						"RequestSecurityTokenTemplate");
-		assertEquals(1, requestSecurityTokenTemplateNodeList.getLength());
-		Element requestSecurityTokenTemplateElement = (Element) requestSecurityTokenTemplateNodeList
-				.item(0);
-		LOG.debug("RequestSecurityTokenTemplate: "
-				+ toString(requestSecurityTokenTemplateElement));
-		NodeList secondaryParametersNodeList = requestSecurityTokenTemplateElement
-				.getChildNodes();
-
-		IPSTSClient ipstsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				InformatieVlaanderenSecurity.BETA_REALM);
-		//
-		// urn:agiv.be/crab/beta
-
-		SecurityToken ipStsSecurityToken = ipstsClient.getSecuritytoken(
-				this.config.getCertificate(), this.config.getPrivateKey());
-
-		RSTSClient rstsClient = new RSTSClient(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
-		SecurityToken rStsSecurityToken = rstsClient.getSecurityToken(
-				ipStsSecurityToken, "urn:agiv.be/crab/beta");
-
-		LOG.debug("R-STS token received");
-
-		SecureConversationClient secureConversationClient = new SecureConversationClient(
-				"http://crab.beta.agiv.be/Read/CrabReadService.svc/wsfedsc");
-		SecurityToken secureConversationToken = secureConversationClient
-				.getSecureConversationToken(rStsSecurityToken);
-
-		CrabReadService crabReadService = new CrabReadService();
-		ICrabRead iCrabRead = crabReadService
-				.getWS2007FederationHttpBindingICrabRead(new AddressingFeature());
-
-		BindingProvider bindingProvider = (BindingProvider) iCrabRead;
-		bindingProvider.getRequestContext().put(
-				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"http://crab.beta.agiv.be/Read/CrabReadService.svc/wsfedsc");
-
-		Binding binding = bindingProvider.getBinding();
-		List<Handler> handlerChain = binding.getHandlerChain();
-
-		WSSecurityHandler wsSecurityHandler = new WSSecurityHandler();
-		SecureConversationTokenTestProvider secureConversationTokenProvider = new SecureConversationTokenTestProvider(
-				secureConversationToken);
-		handlerChain.add(new SecureConversationHandler(
-				secureConversationTokenProvider, wsSecurityHandler,
-				"urn:agiv.be/crab/beta"));
-		handlerChain.add(wsSecurityHandler);
-
-		iCrabRead.findStraat("Vilvoorde", "Blaesenbergstraat");
-	}
+	}	
 
 	private static class SecureConversationTokenTestProvider implements
 			SecurityTokenProvider {

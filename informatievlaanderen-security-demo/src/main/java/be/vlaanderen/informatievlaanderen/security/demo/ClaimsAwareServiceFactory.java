@@ -38,7 +38,7 @@ public class ClaimsAwareServiceFactory {
 
 	public static final String SERVICE_LOCATION = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfed";
 	public static final String SERVICE_SC_LOCATION = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfedsc";
-	public static final String SERVICE_REALM = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc";
+	public static final String SERVICE_REALM = "urn:informatievlaanderen.be/claimsawareservice/beta";
 
 	private ClaimsAwareServiceFactory() {
 		super();

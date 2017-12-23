@@ -302,6 +302,7 @@ public class SecureConversationClient {
 	 * enabled web service.
 	 * 
 	 * @param secureConversationToken
+         *        A secure conversation token
 	 */
 	public void cancelSecureConversationToken(
 			SecurityToken secureConversationToken) {

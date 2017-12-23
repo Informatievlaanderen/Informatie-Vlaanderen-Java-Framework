@@ -49,7 +49,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import be.vlaanderen.informatievlaanderen.security.client.ClientProxySelector;
-import be.vlaanderen.informatievlaanderen.security.client.IPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.RSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.SecureConversationClient;
 import be.vlaanderen.informatievlaanderen.security.handler.AuthenticationHandler;
@@ -91,26 +90,18 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	/**
 	 * R-STS Production Realm.
 	 */
-	public static final String PRODUCTION_REALM = "urn:informatievlaanderen.be/sts/prod";
-
-	private final String ipStsLocation;
+	public static final String PRODUCTION_REALM = "urn:informatievlaanderen.be/sts/prod";	
 
 	private final ExternalIPSTSClient externalIpStsClient;
 
-	private final String rStsLocation;
-
-	private final String username;
-
-	private final String password;
+	private final String rStsLocation;	
 
 	private final X509Certificate certificate;
 
 	private final PrivateKey privateKey;
 
 	// key = service location
-	private final Map<String, SecurityToken> secureConversationTokens;
-
-	private SecurityToken ipStsSecurityToken;
+	private final Map<String, SecurityToken> secureConversationTokens;	
 
 	// key = service realm
 	private final Map<String, SecurityToken> rStsSecurityTokens;
@@ -125,67 +116,34 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 
 	private final List<STSListener> stsListeners;
 
-	private final String rStsRealm;
-
 	static {
 		ProxySelector defaultProxySelector = ProxySelector.getDefault();
 		InformatieVlaanderenSecurity.clientProxySelector = new ClientProxySelector(
 				defaultProxySelector);
 		ProxySelector.setDefault(InformatieVlaanderenSecurity.clientProxySelector);
-	}
+	}	
 
 	/**
-	 * Main constructor. This constructor assumes the usage of username/password
-	 * credentials.
-	 * 
-	 * @param ipStsLocation
-	 *            the location of the IP-STS WS-Trust web service.
+	 * Main Constructor assumes X509 credentials.
+	 * 	 
 	 * @param rStsLocation
-	 *            the location of the R-STS WS-Trust web service.
-	 * @param rStsRealm
-	 *            the Informatie Vlaanderen R-STS realm.
-	 * @param username
-	 *            the username client credential
-	 * @param password
-	 *            the password client credential.
-	 */
-	public InformatieVlaanderenSecurity(String ipStsLocation, String rStsLocation,
-			String rStsRealm, String username, String password) {
-		this(ipStsLocation, rStsLocation, rStsRealm, username, password, null,
-				null, null);
-	}
-
-	/**
-	 * Constructor for X509 credentials.
-	 * 
-	 * @param ipStsLocation
-	 *            the location of the IP-STS WS-Trust web service.
-	 * @param rStsLocation
-	 *            the location of the R-STS WS-Trust web service.
-	 * @param rStsRealm
-	 *            the Informatie Vlaanderen R-STS realm.
+	 *            the location of the R-STS WS-Trust web service.	 
 	 * @param certificate
 	 *            the X509 certificate credential.
 	 * @param privateKey
 	 *            the corresponding private RSA key.
-	 * @see InformatieVlaanderenSecurity#InformatieVlaanderenSecurity(String, String, String, File, String)
+	 * @see InformatieVlaanderenSecurity#InformatieVlaanderenSecurity(String, ExternalIPSTSClient, X509Certificate, PrivateKey)
 	 */
-	public InformatieVlaanderenSecurity(String ipStsLocation, String rStsLocation,
-			String rStsRealm, X509Certificate certificate, PrivateKey privateKey) {
-		this(ipStsLocation, rStsLocation, rStsRealm, null, null, null,
-				certificate, privateKey);
+	public InformatieVlaanderenSecurity(String rStsLocation,X509Certificate certificate, PrivateKey privateKey) {
+		this(rStsLocation, null, certificate, privateKey);
 	}
 
 	/**
 	 * Constructor for X509 credentials. The certificate and corresponding
 	 * private key are loaded from a PKCS#12 keystore file.
 	 * 
-	 * @param ipStsLocation
-	 *            the location of the IP-STS WS-Trust web service.
 	 * @param rStsLocation
-	 *            the location of the R-STS WS-Trust web service.
-	 * @param rStsRealm
-	 *            the Informatie Vlaanderen R-STS realm.
+	 *            the location of the R-STS WS-Trust web service.	 
 	 * @param pkcs12File
 	 *            the PKCS#12 keystore file.
 	 * @param pkcs12Password
@@ -193,14 +151,9 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	 * @throws SecurityException
 	 *             gets thrown in case of a PKCS#12 keystore error.	 
 	 */
-	public InformatieVlaanderenSecurity(String ipStsLocation, String rStsLocation,
-			String rStsRealm, File pkcs12File, String pkcs12Password)
-			throws SecurityException {
-		this.ipStsLocation = ipStsLocation;
-		this.rStsLocation = rStsLocation;
-		this.rStsRealm = rStsRealm;
-		this.username = null;
-		this.password = null;
+	public InformatieVlaanderenSecurity(String rStsLocation, File pkcs12File, String pkcs12Password)
+			throws SecurityException {		
+		this.rStsLocation = rStsLocation;		
 
 		InputStream pkcs12InputStream;
 		try {
@@ -247,19 +200,14 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	 */
 	public InformatieVlaanderenSecurity(ExternalIPSTSClient externalIpStsClient,
 			String rStsLocation) {
-		this(null, rStsLocation, null, null, null, externalIpStsClient, null,
+		this(rStsLocation, externalIpStsClient, null,
 				null);
 	}
 
-	private InformatieVlaanderenSecurity(String ipStsLocation, String rStsLocation,
-			String rStsRealm, String username, String password,
+	private InformatieVlaanderenSecurity(String rStsLocation,
 			ExternalIPSTSClient externalIpStsClient,
-			X509Certificate certificate, PrivateKey privateKey) {
-		this.ipStsLocation = ipStsLocation;
-		this.rStsLocation = rStsLocation;
-		this.rStsRealm = rStsRealm;
-		this.username = username;
-		this.password = password;
+			X509Certificate certificate, PrivateKey privateKey) {		
+		this.rStsLocation = rStsLocation;		
 		this.certificate = certificate;
 		this.privateKey = privateKey;
 		this.externalIpStsClient = externalIpStsClient;
@@ -293,9 +241,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	 *            the type of the proxy.
 	 */
 	public synchronized void setProxy(String proxyHost, int proxyPort,
-			Proxy.Type proxyType) {
-		InformatieVlaanderenSecurity.clientProxySelector.setProxy(this.ipStsLocation,
-				proxyHost, proxyPort, proxyType);
+			Proxy.Type proxyType) {		
 		InformatieVlaanderenSecurity.clientProxySelector.setProxy(this.rStsLocation, proxyHost,
 				proxyPort, proxyType);
 		this.proxyHost = proxyHost;
@@ -451,16 +397,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	public void enable(BindingProvider bindingProvider, String serviceLocation,
 			String serviceRealm) {
 		enable(bindingProvider, serviceLocation, false, serviceRealm);
-	}
-
-	/**
-	 * Gives back the location of the IP-STS WS-Trust web service.
-	 * 
-	 * @return IP-STS location.
-	 */
-	public String getIpStsLocation() {
-		return this.ipStsLocation;
-	}
+	}	
 
 	/**
 	 * Gives back the location of the R-STS WS-Trust web service.
@@ -469,18 +406,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	 */
 	public String getRStsLocation() {
 		return this.rStsLocation;
-	}
-
-	/**
-	 * Gives back the username credential. Can be <code>null</code> in case of
-	 * an external IP-STS configuration, or on case of certificate based
-	 * credentials.
-	 * 
-	 * @return the username credential.
-	 */
-	public String getUsername() {
-		return this.username;
-	}
+	}	
 
 	/**
 	 * Gives back the X509 certificate credential. Can be <code>null</code> in
@@ -507,7 +433,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	}
 
 	/**
-	 * Prefetch all security tokens (IP-STS, R-STS and secure conversation
+	 * Prefetch all security tokens (R-STS and secure conversation
 	 * token) for the given web service location. This method could be used
 	 * within applications to improve the end user experience.
 	 * 
@@ -530,7 +456,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	}
 
 	/**
-	 * Prefetch all security tokens (IP-STS, R-STS) for the given web service
+	 * Prefetch all security tokens (R-STS) for the given web service
 	 * location. This method could be used within applications to improve the
 	 * end user experience.
 	 * 
@@ -545,7 +471,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	}
 
 	/**
-	 * Prefetch all security tokens (IP-STS, R-STS) for the given web service
+	 * Prefetch all security tokens (R-STS) for the given web service
 	 * location. The location will be used as service realm.
 	 * 
 	 * @param location
@@ -567,17 +493,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	 */
 	public void prefetchTokens(String location, boolean useWsSecureConversation) {
 		prefetchTokens(location, location, useWsSecureConversation);
-	}
-
-	private void notifyIPSTSListeners() {
-		for (STSListener stsListener : this.stsListeners) {
-			try {
-				stsListener.requestingIPSTSToken();
-			} catch (Exception e) {
-				LOG.error("error calling STS listener: " + e.getMessage(), e);
-			}
-		}
-	}
+	}	
 
 	private void notifyRSTSListeners() {
 		for (STSListener stsListener : this.stsListeners) {
@@ -602,8 +518,8 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	/**
 	 * Gives back the secure conversation token for the given web service
 	 * location. In case the token cache does not yet hold tokens for the given
-	 * web service location, this method will fetch new tokens from IP-STS,
-	 * R-STS, and the WS-SecureConversation enabled web service. This method
+	 * web service location, this method will fetch new tokens from 
+         * R-STS, and the WS-SecureConversation enabled web service. This method
 	 * might also notify the registered STS listeners in case of STS activity.
 	 * 
 	 * @param location
@@ -649,9 +565,7 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 		if (false == requireNewToken(rStsSecurityToken)) {
 			return rStsSecurityToken;
 		}
-		if (requireNewToken(this.ipStsSecurityToken)) {
-			refreshIPSTSSecurityToken();
-		}
+		
 		rStsSecurityToken = refreshRSTSSecurityToken(serviceRealm);
 		return rStsSecurityToken;
 	}
@@ -665,13 +579,9 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 	 * 
 	 * @return the expiry date of the token that expires next in line.
 	 */
-	public Date refreshSecurityTokens() {
-		refreshIPSTSSecurityToken();
-		Date expiryDate = this.ipStsSecurityToken.getExpires();
-		Set<String> serviceRealms = this.rStsSecurityTokens.keySet();
-		if (serviceRealms.isEmpty()) {
-			return expiryDate;
-		}
+	public Date refreshSecurityTokens() {		
+		Date expiryDate = new Date();
+		Set<String> serviceRealms = this.rStsSecurityTokens.keySet();		
 		for (String serviceRealm : serviceRealms) {
 			SecurityToken rStsSecurityToken = refreshRSTSSecurityToken(serviceRealm);
 			Date rStsExpiryDate = rStsSecurityToken.getExpires();
@@ -705,31 +615,10 @@ public class InformatieVlaanderenSecurity implements SecurityTokenProvider {
 		InformatieVlaanderenSecurity.clientProxySelector.setProxy(this.rStsLocation,
 				this.proxyHost, this.proxyPort, this.proxyType);
 		RSTSClient rStsClient = new RSTSClient(this.rStsLocation);
-		rStsSecurityToken = rStsClient.getSecurityToken(
-				this.ipStsSecurityToken, serviceRealm);
+		rStsSecurityToken = rStsClient.getSecurityToken(this.getCertificate(),this.privateKey,serviceRealm);
 		this.rStsSecurityTokens.put(serviceRealm, rStsSecurityToken);
 		return rStsSecurityToken;
-	}
-
-	private void refreshIPSTSSecurityToken() {
-		notifyIPSTSListeners();
-		if (null != this.externalIpStsClient) {
-			this.ipStsSecurityToken = this.externalIpStsClient
-					.getSecurityToken();
-		} else {
-			InformatieVlaanderenSecurity.clientProxySelector.setProxy(this.ipStsLocation,
-					this.proxyHost, this.proxyPort, this.proxyType);
-			IPSTSClient ipStsClient = new IPSTSClient(this.ipStsLocation,
-					this.rStsRealm);
-			if (null != this.certificate) {
-				this.ipStsSecurityToken = ipStsClient.getSecuritytoken(
-						this.certificate, this.privateKey);
-			} else {
-				this.ipStsSecurityToken = ipStsClient.getSecurityToken(
-						this.username, this.password);
-			}
-		}
-	}
+	}	
 
 	private boolean requireNewToken(SecurityToken securityToken) {
 		if (null == securityToken) {

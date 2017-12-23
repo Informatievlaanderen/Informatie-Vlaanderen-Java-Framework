@@ -44,16 +44,14 @@ public class DemoGipodBean {
 		IGipodService iGipodService = this.service
 				.getGipodServiceWsfed(new AddressingFeature());
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
 				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, demoCredentials.getName(),
-				demoCredentials.getPassword());
+				demoCredentials.getCertificate(),demoCredentials.getPrivateKey());
 
 		BindingProvider bindingProvider = (BindingProvider) iGipodService;
 		informatieVlaanderenSecurity.enable(bindingProvider,
 				"https://service.beta.gipod.vlaanderen.be/soap/GipodService.svc",
-				"urn:informatievlaanderen.be/gipod/serivce/beta");
+				"urn:informatievlaanderen.be/gipod/service/beta");
 
 		GetListLandResponse listLandResponse;
 		try {

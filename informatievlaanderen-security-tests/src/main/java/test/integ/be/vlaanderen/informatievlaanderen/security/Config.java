@@ -39,11 +39,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class Config {
 
-	private static final Log LOG = LogFactory.getLog(Config.class);
-
-	private final String username;
-
-	private final String password;
+	private static final Log LOG = LogFactory.getLog(Config.class);	
 
 	private final String pkcs12Path;
 
@@ -57,9 +53,7 @@ public class Config {
 			NoSuchAlgorithmException, CertificateException,
 			UnrecoverableKeyException, NoSuchProviderException {
 		Properties properties = new Properties();
-		properties.load(Config.class.getResourceAsStream("/agiv.properties"));
-		this.username = properties.getProperty("username");
-		this.password = properties.getProperty("password");
+		properties.load(Config.class.getResourceAsStream("/informatievlaanderen.properties"));		
 		this.pkcs12Path = properties.getProperty("pkcs12.path");
 		this.pkcs12Password = properties.getProperty("pkcs12.password");
 		Provider[] providers = Security.getProviders();
@@ -80,14 +74,7 @@ public class Config {
 			this.privateKey = null;
 		}
 	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
+	
 
 	public String getPKCS12Path() {
 		return this.pkcs12Path;

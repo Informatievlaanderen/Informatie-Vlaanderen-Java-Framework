@@ -396,7 +396,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 									Beta Realm
 								</entry>
 								<entry>
-									<code>urn:informatievlaanderen.be/gipod/serivce/beta</code>
+									<code>urn:informatievlaanderen.be/gipod/service/beta</code>
 								</entry>
 							</row>
 							<row>

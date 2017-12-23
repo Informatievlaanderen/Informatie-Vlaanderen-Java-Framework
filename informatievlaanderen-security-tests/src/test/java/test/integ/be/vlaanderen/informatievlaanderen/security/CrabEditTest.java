@@ -52,10 +52,9 @@ public class CrabEditTest {
 		ICrabEdit iCrabEdit = crabEditService
 				.getWS2007FederationHttpBindingICrabEdit1(new AddressingFeature());
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getCertificate(),
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(),
 				this.config.getPrivateKey());
 
 		BindingProvider bindingProvider = (BindingProvider) iCrabEdit;
@@ -70,31 +69,5 @@ public class CrabEditTest {
 		for (VerdachtGevalQueryType verdachtGeval : verdachtGevalList) {
 			LOG.debug("verdacht geval: " + verdachtGeval.getQueryId());
 		}
-	}
-
-	@Test
-	public void testWebServiceUsernamePassword() throws Exception {
-		CrabEditService crabEditService = new CrabEditService();
-		ICrabEdit iCrabEdit = crabEditService
-				.getWS2007FederationHttpBindingICrabEdit1(new AddressingFeature());
-
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
-
-		BindingProvider bindingProvider = (BindingProvider) iCrabEdit;
-		informatieVlaanderenSecurity.enable(bindingProvider,
-				"https://crab.beta.agiv.be/edit/crabeditservice.svc/wsfed",
-				false, "urn:agiv.be/crab/beta");
-
-		ArrayOfVerdachtGevalQueryType verdachteGevallenQuery = iCrabEdit
-				.listVerdachteGevallenQueries();
-		List<VerdachtGevalQueryType> verdachtGevalList = verdachteGevallenQuery
-				.getVerdachtGevalQuery();
-		for (VerdachtGevalQueryType verdachtGeval : verdachtGevalList) {
-			LOG.debug("verdacht geval: " + verdachtGeval.getQueryId());
-		}
-	}
+	}	
 }

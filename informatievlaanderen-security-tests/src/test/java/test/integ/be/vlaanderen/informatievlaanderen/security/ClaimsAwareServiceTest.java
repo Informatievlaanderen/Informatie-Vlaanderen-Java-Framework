@@ -58,7 +58,6 @@ import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 import be.vlaanderen.informatievlaanderen.security.ExternalIPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.STSListener;
 import be.vlaanderen.informatievlaanderen.security.SecurityToken;
-import be.vlaanderen.informatievlaanderen.security.client.IPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.RSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.WSConstants;
 import be.vlaanderen.informatievlaanderen.security.demo.ClaimsAwareServiceFactory;
@@ -109,16 +108,11 @@ public class ClaimsAwareServiceTest {
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
 				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
-		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM);
-		SecurityToken ipStsSecurityToken = ipStsClient.getSecurityToken(
-				this.config.getUsername(), this.config.getPassword());
 
 		RSTSClient rStsClient = new RSTSClient(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
+				config.getCertificate(),config.getPrivateKey(), ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		Binding binding = bindingProvider.getBinding();
 		List<Handler> handlerChain = binding.getHandlerChain();
@@ -143,7 +137,7 @@ public class ClaimsAwareServiceTest {
 		for (ClaimInfo claim : claims) {
 			LOG.debug(claim.getName() + " = "
 					+ claim.getValue());
-			if (this.config.getUsername().equals(claim.getValue())) {
+			if (claim.getValue() != null) {
 				myName = true;
 			}
 		}
@@ -175,22 +169,16 @@ public class ClaimsAwareServiceTest {
 				.getElementsByTagNameNS(
 						WSConstants.WS_SECURITY_POLICY_NAMESPACE,
 						"RequestSecurityTokenTemplate");
-		assertEquals(1, requestSecurityTokenTemplateNodeList.getLength());
+		assertEquals(2, requestSecurityTokenTemplateNodeList.getLength());
 		Element requestSecurityTokenTemplateElement = (Element) requestSecurityTokenTemplateNodeList
 				.item(0);
 		NodeList secondaryParametersNodeList = requestSecurityTokenTemplateElement
 				.getChildNodes();
 
-		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, secondaryParametersNodeList);
-		SecurityToken ipStsSecurityToken = ipStsClient.getSecurityToken(
-				this.config.getUsername(), this.config.getPassword());
-
 		RSTSClient rStsClient = new RSTSClient(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken, ClaimsAwareServiceFactory.SERVICE_REALM);
+				config.getCertificate(),config.getPrivateKey(), ClaimsAwareServiceFactory.SERVICE_REALM);
 
 		Binding binding = bindingProvider.getBinding();
 		List<Handler> handlerChain = binding.getHandlerChain();
@@ -215,7 +203,7 @@ public class ClaimsAwareServiceTest {
 		for (ClaimInfo claim : claims) {
 			LOG.debug(claim.getName() + " = "
 					+ claim.getValue());
-			if (this.config.getUsername().equals(claim.getValue())) {
+			if (claim.getValue() != null) {
 				myName = true;
 			}
 		}
@@ -231,11 +219,9 @@ public class ClaimsAwareServiceTest {
 
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider,
 				ClaimsAwareServiceFactory.SERVICE_LOCATION, false,
 				ClaimsAwareServiceFactory.SERVICE_REALM);
@@ -269,65 +255,12 @@ public class ClaimsAwareServiceTest {
 		for (ClaimInfo claim : claims) {
 			LOG.debug(claim.getName() + " = "
 					+ claim.getValue());
-			if (this.config.getUsername().equals(claim.getValue())) {
+			if (claim.getValue() != null ) {
 				myName = true;
 			}
 		}
 		assertTrue(myName);
-	}
-
-	@Test
-	public void testSecureConversation() {
-		Service service = ClaimsAwareServiceFactory.getInstance();
-		// WS-Addressing via JAX-WS
-		IService iservice = service
-				.getWS2007FederationHttpBindingIService(new AddressingFeature());
-
-		BindingProvider bindingProvider = (BindingProvider) iservice;
-
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
-		informatieVlaanderenSecurity.enable(bindingProvider,
-				ClaimsAwareServiceFactory.SERVICE_SC_LOCATION, true,
-				ClaimsAwareServiceFactory.SERVICE_REALM);
-		STSTestListener testListener = new STSTestListener();
-		informatieVlaanderenSecurity.addSTSListener(testListener);
-
-		LOG.debug("calling getData");
-		iservice.getData(0);
-
-		assertTrue(testListener.isCalledIpSts());
-		assertTrue(testListener.isCalledRSts());
-		assertTrue(testListener.isCalledSCT());
-
-		informatieVlaanderenSecurity.cancelSecureConversationTokens();
-
-		testListener.reset();
-		iservice.getData(0);
-		assertFalse(testListener.isCalledIpSts());
-		assertFalse(testListener.isCalledRSts());
-		assertTrue(testListener.isCalledSCT());
-
-		testListener.reset();
-		Date expiryDate = informatieVlaanderenSecurity.refreshSecurityTokens();
-		assertTrue(testListener.isCalledIpSts());
-		assertTrue(testListener.isCalledRSts());
-		assertTrue(testListener.isCalledSCT());
-
-		testListener.reset();
-		iservice.getData(0);
-		assertFalse(testListener.isCalledIpSts());
-		assertFalse(testListener.isCalledRSts());
-		assertFalse(testListener.isCalledSCT());
-
-		informatieVlaanderenSecurity.cancelSecureConversationTokens();
-
-		assertNotNull(expiryDate);
-		LOG.debug("expiry date: " + expiryDate);
-	}
+	}	
 
 	@Test
 	public void testEnableDisableEnable() {
@@ -338,11 +271,9 @@ public class ClaimsAwareServiceTest {
 
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider,
 				ClaimsAwareServiceFactory.SERVICE_LOCATION, false,
 				ClaimsAwareServiceFactory.SERVICE_REALM);
@@ -373,10 +304,9 @@ public class ClaimsAwareServiceTest {
 
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getCertificate(),
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(),
 				this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider,
 				ClaimsAwareServiceFactory.SERVICE_LOCATION,
@@ -391,45 +321,7 @@ public class ClaimsAwareServiceTest {
 		}
 
 		informatieVlaanderenSecurity.cancelSecureConversationTokens();
-	}
-
-	@Test
-	public void testSecurityFrameworkBeIDCertificate() throws Exception {
-		Security.addProvider(new BeIDProvider());
-		KeyStore keyStore = KeyStore.getInstance("BeID");
-		keyStore.load(null);
-		PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication",
-				null);
-		X509Certificate certificate = (X509Certificate) keyStore
-				.getCertificate("Authentication");
-		assertNotNull(privateKey);
-		assertNotNull(certificate);
-
-		Service service = ClaimsAwareServiceFactory.getInstance();
-		// WS-Addressing via JAX-WS
-		IService iservice = service
-				.getWS2007FederationHttpBindingIService(new AddressingFeature());
-
-		BindingProvider bindingProvider = (BindingProvider) iservice;
-
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, certificate, privateKey);
-		informatieVlaanderenSecurity.enable(bindingProvider,
-				ClaimsAwareServiceFactory.SERVICE_LOCATION,
-				ClaimsAwareServiceFactory.SERVICE_REALM);
-
-		ArrayOfClaimInfo result = iservice.getData(0);
-
-		List<ClaimInfo> claims = result.getClaimInfo();
-		for (ClaimInfo claim : claims) {
-			LOG.debug(claim.getName() + " = "
-					+ claim.getValue());
-		}
-
-		informatieVlaanderenSecurity.cancelSecureConversationTokens();
-	}
+	}	
 
 	private static class STSTestListener implements STSListener {
 
@@ -485,11 +377,9 @@ public class ClaimsAwareServiceTest {
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
 				ClaimsAwareServiceFactory.SERVICE_LOCATION);
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider, false,
 				ClaimsAwareServiceFactory.SERVICE_REALM);
 
@@ -500,7 +390,6 @@ public class ClaimsAwareServiceTest {
 		iservice.getData(0);
 
 		// verify
-		assertTrue(testListener.isCalledIpSts());
 		assertTrue(testListener.isCalledRSts());
 		assertFalse(testListener.isCalledSCT());
 
@@ -510,8 +399,7 @@ public class ClaimsAwareServiceTest {
 		// operate
 		iservice.getData(0);
 
-		// verify
-		assertFalse(testListener.isCalledIpSts());
+		// verify		
 		assertFalse(testListener.isCalledRSts());
 		assertFalse(testListener.isCalledSCT());
 
@@ -522,82 +410,8 @@ public class ClaimsAwareServiceTest {
 		// operate
 		iservice.getData(0);
 
-		// verify
-		assertFalse(testListener.isCalledIpSts());
+		// verify		
 		assertFalse(testListener.isCalledRSts());
 		assertFalse(testListener.isCalledSCT());
-	}
-
-	private final class ExternalTestIPSTSClient implements ExternalIPSTSClient {
-
-		private boolean called;
-
-		public boolean isCalled() {
-			return this.called;
-		}
-
-		@Override
-		public SecurityToken getSecurityToken() {
-			LOG.debug("using external IP-STS service client");
-			this.called = true;
-			IPSTSClient ipStsClient = new IPSTSClient(
-					"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-					InformatieVlaanderenSecurity.BETA_REALM);
-			return ipStsClient.getSecurityToken(
-					ClaimsAwareServiceTest.this.config.getUsername(),
-					ClaimsAwareServiceTest.this.config.getPassword());
-		}
-	}
-
-	@Test
-	public void testSecurityFrameworkExternalIPSTS() {
-		Service service = ClaimsAwareServiceFactory.getInstance();
-		// WS-Addressing via JAX-WS
-		IService iservice = service
-				.getWS2007FederationHttpBindingIService(new AddressingFeature());
-
-		BindingProvider bindingProvider = (BindingProvider) iservice;
-		bindingProvider.getRequestContext().put(
-				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				ClaimsAwareServiceFactory.SERVICE_LOCATION);
-
-		ExternalTestIPSTSClient externalIpStsClient = new ExternalTestIPSTSClient();
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				externalIpStsClient,
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
-		informatieVlaanderenSecurity.enable(bindingProvider, false,
-				ClaimsAwareServiceFactory.SERVICE_REALM);
-
-		iservice.getData(0);
-
-		// verify
-		assertTrue(externalIpStsClient.isCalled());
-	}
-
-	@Test
-	public void testSecurityFrameworkViaProxy() {
-		Service service = ClaimsAwareServiceFactory.getInstance();
-		// WS-Addressing via JAX-WS
-		IService iservice = service
-				.getWS2007FederationHttpBindingIService(new AddressingFeature());
-
-		BindingProvider bindingProvider = (BindingProvider) iservice;
-		bindingProvider.getRequestContext().put(
-				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				ClaimsAwareServiceFactory.SERVICE_LOCATION);
-
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
-		informatieVlaanderenSecurity.setProxy("localhost", 3128, Type.SOCKS);
-		informatieVlaanderenSecurity.enable(bindingProvider, false,
-				ClaimsAwareServiceFactory.SERVICE_REALM);
-
-		LOG.debug("calling getData");
-		iservice.getData(0);
-
-		informatieVlaanderenSecurity.cancelSecureConversationTokens();
-	}
+	}			
 }

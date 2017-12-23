@@ -41,7 +41,7 @@
     <trust:RequestSecurityToken xmlns:trust="http://docs.oasis-open.org/ws-sx/ws-trust/200512">
       <wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
         <a:EndpointReference>
-          <a:Address>https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc</a:Address>
+          <a:Address>urn:informatievlaanderen.be/claimsawareservice/beta</a:Address>
         </a:EndpointReference>
       </wsp:AppliesTo>
       <trust:RequestType>http://docs.oasis-open.org/ws-sx/ws-trust/200512/Issue</trust:RequestType>

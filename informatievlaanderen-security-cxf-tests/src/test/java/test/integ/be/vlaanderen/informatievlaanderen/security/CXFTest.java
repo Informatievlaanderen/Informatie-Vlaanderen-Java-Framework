@@ -60,7 +60,6 @@ import org.tempuri.Service;
 
 import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 import be.vlaanderen.informatievlaanderen.security.SecurityToken;
-import be.vlaanderen.informatievlaanderen.security.client.IPSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.RSTSClient;
 import be.vlaanderen.informatievlaanderen.security.client.SecureConversationClient;
 import be.vlaanderen.informatievlaanderen.security.demo.ClaimsAwareServiceFactory;
@@ -93,8 +92,7 @@ public class CXFTest {
 						"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/basic");
 		bindingProvider.getRequestContext().put(
 				SecurityConstants.CALLBACK_HANDLER, new UTCallbackHandler());
-		bindingProvider.getRequestContext().put(SecurityConstants.USERNAME,
-				this.config.getUsername());
+		bindingProvider.getRequestContext().put(SecurityConstants.USERNAME, "SomeName");
 		List<Handler> handlerChain = bindingProvider.getBinding()
 				.getHandlerChain();
 		handlerChain.add(new LoggingHandler());
@@ -119,37 +117,19 @@ public class CXFTest {
 			URL resourceUrl = resources.nextElement();
 			LOG.debug("resource: " + resourceUrl);
 		}
-	}
-
-	@Test
-	public void testIPSTS() throws Exception {
-		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM);
-
-		ipStsClient.getSecurityToken(this.config.getUsername(),
-				this.config.getPassword());
-	}
+	}	
 
 	@Test
 	public void testSecureConversation() throws Exception {
 		// setup
-		IPSTSClient ipStsClient = new IPSTSClient(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM);
-
 		RSTSClient rStsClient = new RSTSClient(
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage");
 
 		// operate
-		LOG.debug("IP-STS...");
-		SecurityToken ipStsSecurityToken = ipStsClient.getSecurityToken(
-				this.config.getUsername(), this.config.getPassword());
-
 		LOG.debug("R-STS...");
 		SecurityToken rStsSecurityToken = rStsClient.getSecurityToken(
-				ipStsSecurityToken,
-				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
+				config.getCertificate(),config.getPrivateKey(),
+				"urn:informatievlaanderen.be/claimsawareservice/beta");
 
 		LOG.debug("Secure Conversation...");
 		SecureConversationClient secureConversationClient = new SecureConversationClient(
@@ -193,13 +173,11 @@ public class CXFTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
+				"urn:informatievlaanderen.be/claimsawareservice/beta");
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 
@@ -245,13 +223,11 @@ public class CXFTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
+				"urn:informatievlaanderen.be/claimsawareservice/beta");
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
+				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage",
+				this.config.getCertificate(), this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 
@@ -299,13 +275,11 @@ public class CXFTest {
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		bindingProvider.getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-				"https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc");
+				"urn:informatievlaanderen.be/claimsawareservice/beta");
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-				"https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13",
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(				
 				"https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13",
-				InformatieVlaanderenSecurity.BETA_REALM, this.config.getUsername(), this.config
-						.getPassword());
+				this.config.getCertificate(), this.config.getPrivateKey());
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 		informatieVlaanderenSecurity.enable(bindingProvider, false);
 
@@ -339,10 +313,10 @@ public class CXFTest {
 				if (callback instanceof WSPasswordCallback) {
 					WSPasswordCallback wsPasswordCallback = (WSPasswordCallback) callback;
 					if (wsPasswordCallback.getIdentifier().equals(
-							CXFTest.this.config.getUsername())) {
+							CXFTest.this.config.getCertificate())) {
 						LOG.debug("setting password");
 						wsPasswordCallback.setPassword(CXFTest.this.config
-								.getPassword());
+								.getPKCS12Password());
 					}
 				}
 			}
@@ -357,15 +331,15 @@ public class CXFTest {
 		stsClient
 				.setAddressingNamespace("http://www.w3.org/2005/08/addressing");
 		Map<String, Object> properties = new HashMap<String, Object>();
-		properties.put(SecurityConstants.STS_TOKEN_USERNAME,
-				this.config.getUsername());
+		properties.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO,
+				this.config.getCertificate());
 		properties.put(SecurityConstants.CALLBACK_HANDLER,
 				UTCallbackHandler.class.getName());
 		stsClient.setProperties(properties);
 
 		stsClient.setWsdlLocation("/ws-trust-1.3.wsdl");
 		stsClient
-				.setLocation("https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				.setLocation("https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage");
 		stsClient
 				.setServiceName("{http://docs.oasis-open.org/ws-sx/ws-trust/200512}SecurityTokenService");
 		stsClient.setEndpointQName(new QName(
@@ -378,6 +352,6 @@ public class CXFTest {
 				.setKeyType("http://docs.oasis-open.org/ws-sx/ws-trust/200512/SymmetricKey");
 
 		org.apache.cxf.ws.security.tokenstore.SecurityToken securityToken = stsClient
-				.requestSecurityToken("https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13");
+				.requestSecurityToken("https://beta.auth.vlaanderen.be/sts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage");
 	}
 }

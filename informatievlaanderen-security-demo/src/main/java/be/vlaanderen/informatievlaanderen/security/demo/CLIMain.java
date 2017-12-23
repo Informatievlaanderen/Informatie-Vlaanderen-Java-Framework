@@ -30,28 +30,23 @@ import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 
 public class CLIMain {
 
-	private static final String RSTS_LOCATION = "https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13";
-	private static final String IPSTS_LOCATION = "https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13";
+	private static final String RSTS_LOCATION = "https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage";	
 	private static final String SERVICE_LOCATION = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfed";
-	private static final String SC_SERVICE_LOCATION = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfedsc";
-	private static final String IPSTS_CERT_LOCATION = "https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage";
-	private static final String SERVICE_REALM = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc";
+	private static final String SC_SERVICE_LOCATION = "https://beta.auth.vlaanderen.be/ClaimsAwareService/Service.svc/wsfedsc";        
+	private static final String SERVICE_REALM = "urn:informatievlaanderen.be/claimsawareservice/beta";
 
 	public static void main(String[] args) {
-		if (args.length != 4) {
+		if (args.length != 2) {
 			throw new IllegalArgumentException();
-		}
-		String username = args[0];
-		String password = args[1];
-		File pkcs12File = new File(args[2]);
-		String pkcs12Password = args[3];
+		}		
+		File pkcs12File = new File(args[0]);
+		String pkcs12Password = args[1];
 
 		Service service = ClaimsAwareServiceFactory.getInstanceNoWSPolicy();
 		IService iservice = service
 				.getWS2007FederationHttpBindingIService(new AddressingFeature());
 
-		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(IPSTS_LOCATION,
-				RSTS_LOCATION, InformatieVlaanderenSecurity.BETA_REALM, username, password);
+		InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(RSTS_LOCATION, pkcs12File, pkcs12Password);
 		BindingProvider bindingProvider = (BindingProvider) iservice;
 		informatieVlaanderenSecurity.enable(bindingProvider, SERVICE_LOCATION, SERVICE_REALM);
 
@@ -62,18 +57,6 @@ public class CLIMain {
 		informatieVlaanderenSecurity.enable(bindingProvider, SC_SERVICE_LOCATION, true,
 				SERVICE_REALM);
 
-		iservice.getData(0);
-
-		// the number of WS-SecureConversation tokens is limited
-		informatieVlaanderenSecurity.cancelSecureConversationTokens();
-
-		informatieVlaanderenSecurity.disable(bindingProvider);
-
-		informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(IPSTS_CERT_LOCATION, RSTS_LOCATION,
-				InformatieVlaanderenSecurity.BETA_REALM, pkcs12File, pkcs12Password);
-
-		informatieVlaanderenSecurity.enable(bindingProvider, SERVICE_LOCATION, SERVICE_REALM);
-
-		iservice.getData(0);
+		iservice.getData(0);		
 	}
 }

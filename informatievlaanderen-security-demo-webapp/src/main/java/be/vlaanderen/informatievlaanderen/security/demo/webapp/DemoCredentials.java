@@ -19,6 +19,8 @@
 package be.vlaanderen.informatievlaanderen.security.demo.webapp;
 
 import java.io.Serializable;
+import java.security.PrivateKey;
+import java.security.cert.X509Certificate;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
@@ -29,23 +31,23 @@ public class DemoCredentials implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
+	private X509Certificate certificate;
 
-	private String password;
+	private PrivateKey privatekey;
 
-	public String getName() {
-		return this.name;
+	public X509Certificate getCertificate() {
+		return this.certificate;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCertificate(X509Certificate certificate) {
+		this.certificate = certificate;
 	}
 
-	public String getPassword() {
-		return this.password;
+	public PrivateKey getPrivateKey() {
+		return this.privatekey;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword(PrivateKey privateKey) {
+		this.privatekey = privateKey;
 	}
 }
