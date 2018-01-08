@@ -76,8 +76,8 @@ public class GipodTest {
 
 		BindingProvider bindingProvider = (BindingProvider) iGipodService;
 		informatieVlaanderenSecurity.enable(bindingProvider,
-				"https://gipod.beta.agiv.be/webservice/GIPODService.svc/wsfed",
-				"urn:agiv.be/gipodbeta");
+				"https://service.beta.gipod.vlaanderen.be/soap/GipodService.svc/wsfed",
+				"urn:informatievlaanderen.be/gipod/serivce/beta");
 
 		LOG.debug("calling GIPOD service");
 		GetListLandResponse listLandResponse = iGipodService.getListLand();
