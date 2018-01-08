@@ -1,5 +1,5 @@
 README for Informatie Vlaanderen Java Security Framework Project
-===============================================
+================================================================
 
 === 1. Introduction
 
@@ -10,8 +10,8 @@ The source code is hosted at: https://github.com/Informatievlaanderen/GeoSecure-
 === 2. Requirements
 
 The following is required for compiling the Informatie Vlaanderen Java Security Framework.
-* Oracle Java 1.7.0_45
-* Apache Maven 3.1.1
+* Oracle Java 1.8.0_151
+* Apache Maven 3.5.2
 
 
 === 3. Compilation
