@@ -8,10 +8,10 @@
 			Integrating the Informatie Vlaanderen SOAP web services in your Java applications.
 		</subtitle>
 		<subtitle>
-			Version &project.version;
+			Version 1.0.2;
 		</subtitle>
 		<copyright>
-			<year>2011-2017</year>
+			<year>2011-2018</year>
 			<holder>Informatie Vlaanderen</holder>
 		</copyright>
 		<releaseinfo>25 May 2013</releaseinfo>
@@ -45,22 +45,15 @@
 	<section>
 		<title>Introduction</title>
 		<para>
-			The Informatie Vlaanderen security architecture is based on a quite modern
+			The Informatie Vlaanderen security architecture is based on a
 			WS-Trust based system. This system allows for a very flexible IAM
 			solution. The architecture includes the following services:
 		</para>
-		<itemizedlist>
-			<listitem>
-				<para>
-					A WS-Trust based IP-STS service (IP = Identity Provider) that
-					issues security tokens based on username/password or certificate
-					credentials.
-				</para>
-			</listitem>
+		<itemizedlist>			
 			<listitem>
 				<para>
 					A WS-Trust based R-STS service (R = Relaying/Resource) that
-					issues security tokens based on the IP-STS security tokens. The
+					issues security tokens based on certificates. The
 					R-STS security tokens always apply to a certain Informatie Vlaanderen web service.
 				</para>
 			</listitem>
@@ -156,11 +149,7 @@
 									Not applicable.
 								</para>
 							</footnote>
-						</entry>
-						<entry>&or;
-						</entry>
-						<entry>&or;
-						</entry>
+						</entry>						
 					</row>
 					<row>
 						<entry>JAX-WS RI</entry>
@@ -313,33 +302,15 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 			.
 		</para>
 		<section>
-			<title>Informatie Vlaanderen STS Locations and Realms</title>
-			<para>
-				The location of the Informatie Vlaanderen Beta IP-STS service for
-				username/password credentials is:
-			</para>
-			<para>
-				<code>
-					https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/IWSTrust13
-				</code>
-			</para>
-			<para>
-				The location of the Informatie Vlaanderen Beta IP-STS service for certificate
-				credentials is:
-			</para>
-			<para>
-				<code>
-					https://beta.auth.vlaanderen.be/ipsts/Services/DaliSecurityTokenServiceConfiguration.svc/CertificateMessage
-				</code>
-			</para>
+			<title>Informatie Vlaanderen STS Locations and Realms</title>			
 			<para>
 				The location of the Informatie Vlaanderen Beta R-STS service is:
 			</para>
 			<para>
 				<code>
-					https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/IWSTrust13
+					https://beta.auth.vlaanderen.be/sts/Services/SalvadorSecurityTokenServiceConfiguration.svc/CertificateMessage
 				</code>
-			</para>
+			</para>			
 			<para>
 				The Informatie Vlaanderen Beta R-STS realm is
 			</para>
@@ -762,7 +733,7 @@ yourJaxWsClientPort.invokeBusinessMethod(...);]]></programlisting>
 			<programlisting language="XML"><![CDATA[<dependency>
 	<groupId>be.vlaanderen.informatievlaanderen.security</groupId>
 	<artifactId>informatievlaanderen-security-client</artifactId>
-	<version>]]>&project.version;<![CDATA[</version>
+	<version>]]>1.0.2<![CDATA[</version>
 </dependency>]]></programlisting>
 			<para>
 				The Informatie Vlaanderen Java Security framework artifacts are available in the
@@ -804,13 +775,13 @@ informatieVlaanderenSecurity.enable(bindingProvider,
 			<para>
 				The
 				<code>InformatieVlaanderenSecurity</code>
-				component also supports X509 certificates as user credential. The
+				component uses X509 certificates as user credential. The
 				X509 certificate and corresponding private key are most likely
 				stored within a PKCS#12 keystore.
 				Under
 				<xref linkend="manage-certs" />
 				we describe how to load certificate credentials from software key
-				stores or from your eID card.
+				stores.
 				The
 				<code>InformatieVlaanderenSecurity</code>
 				component can load the key material from the keystore file as
@@ -820,8 +791,7 @@ informatieVlaanderenSecurity.enable(bindingProvider,
 import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 
 File pkcs12File = new File("/the/location/of/the/pkcs12/keystore");
-InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-	"https://the.location.of.the.informatievlaanderen.ipsts.service",
+InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(	
 	"https://the.location.of.the.informatievlaanderen.rsts.service",
 	"realm",
 	pkcs12File, "pkcs12Password");]]></programlisting>
@@ -836,8 +806,7 @@ import be.vlaanderen.informatievlaanderen.security.InformatieVlaanderenSecurity;
 
 X509Certificate certificate = ...;
 PrivateKey privateKey = ...;
-InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(
-	"https://the.location.of.the.informatievlaanderen.ipsts.service",
+InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaanderenSecurity(	
 	"https://the.location.of.the.informatievlaanderen.rsts.service",
 	"realm",
 	certificate, privateKey);]]></programlisting>
@@ -854,7 +823,7 @@ InformatieVlaanderenSecurity informatieVlaanderenSecurity = new InformatieVlaand
 			<para>
 				The
 				<code>InformatieVlaanderenSecurity</code>
-				component will cache the different security tokens from the IP-STS,
+				component will cache the different security tokens from the
 				R-STS, and (if applicable) the secure conversation tokens. When the
 				security tokens are about to expire, the
 				<code>InformatieVlaanderenSecurity</code>
@@ -1028,51 +997,7 @@ PrivateKey privateKey = (PrivateKey) keyStore.getKey(alias,
 	"your_password".toCharArray());]]></programlisting>
 				</para>
 			</section>
-		</section>
-		<section>
-			<title>eID Certificates</title>
-			<para>
-				The Informatie Vlaanderen IP-STS also supports eID certificate credentials for
-				testing purposes against the BETA IP-STS.
-				This way you don't have to
-				buy a certificate for testing the Informatie Vlaanderen web services.
-				Loading
-				your eID
-				authentication certificate and corresponding private key
-				can be done
-				using
-				<ulink url="http://code.google.com/p/commons-eid/">Commons eID</ulink>
-				.
-			</para>
-			<para>
-				First add the following dependency to your
-				<code>pom.xml</code>
-				under
-				<code>&lt;dependencies&gt;</code>
-				:
-				<programlisting language="xml"><![CDATA[<dependency>
-	<groupId>be.fedict.commons-eid</groupId>
-	<artifactId>commons-eid-jca</artifactId>
-	<version>0.4.0</version>
-</dependency>]]></programlisting>
-			</para>
-			<para>
-				The following example demonstrates how to load your eID
-				authentication certificate and corresponding private key:
-			</para>
-			<programlisting language="java"><![CDATA[import java.security.Security;
-import be.fedict.commons.eid.jca.BeIDProvider;
-import java.security.KeyStore;
-import java.security.PrivateKey;
-import java.security.cert.X509Certificate;
-
-Security.addProvider(new BeIDProvider());
-KeyStore keyStore = KeyStore.getInstance("BeID");
-keyStore.load(null);
-PrivateKey privateKey = (PrivateKey) keyStore.getKey("Authentication", null);
-X509Certificate certificate = (X509Certificate) keyStore
-	.getCertificate("Authentication");]]></programlisting>
-		</section>
+		</section>		
 	</section>
 
 	<section>
